@@ -1,7 +1,8 @@
 const fs = require('fs')
+const moment = require("moment")
 
 function log(level, message) {
-    const output = `${level} ${message}`
+    const output = `${level} ${moment().format("MMMM Do YYYY, hh:mm:ss")} ${message}`
     const ws= fs.createWriteStream("./server.log", {flags:'a'})
     ws.write(output + "\n")
     console.log("Successfully Written to File.")
