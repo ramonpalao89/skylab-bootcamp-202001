@@ -1,7 +1,7 @@
 'use strict';
-const users = require('../utils/data')
+const users = require('../data/users')
 
-function authenticate(username, password) {
+module.exports = function (username, password) {
     if (typeof username !== 'string') throw new TypeError('username ' + username + ' is not a string');
     if (typeof password !== 'string') throw new TypeError('password ' + password + ' is not a string');
 
@@ -9,5 +9,3 @@ function authenticate(username, password) {
 
     if (!user || user.password !== password) throw new Error('Wrong credentials');
 }
-
-module.exports = authenticate

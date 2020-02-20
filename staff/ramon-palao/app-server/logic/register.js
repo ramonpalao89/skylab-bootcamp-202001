@@ -1,8 +1,8 @@
 'use strict';
 
-const users = require('../utils/data')
+const users = require('../data/users')
 
-function register(name, surname, username, password) {
+module.exports = function (name, surname, username, password) {
     if (typeof name !== 'string') throw new TypeError('name ' + name + ' is not a string');
     if (!name.trim()) throw new Error('name is empty');
     if (typeof surname !== 'string') throw new TypeError('surname ' + surname + ' is not a string');
@@ -19,7 +19,4 @@ function register(name, surname, username, password) {
     user = { name: name, surname: surname, username: username, password: password };
 
     users.push(user);
-    console.log(users)
 }
-
-module.exports = register
