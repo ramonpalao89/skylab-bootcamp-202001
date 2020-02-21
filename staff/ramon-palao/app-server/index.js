@@ -1,10 +1,9 @@
 const express = require('express')
-const logger = require('./utils/logger')
-const loggerMidWare = require('./utils/logger-mid-ware')
+const {logger, loggerMidWare, cookieParserMidWare} = require('./utils')
 const bodyParser = require('body-parser')
 const { retrieveUser, register, authenticate } = require('./logic')
 const path = require('path')
-const { Login, App, Home, Register, Landing } = require('./components')
+const { Login, App, Home, Register, Landing, Cookies } = require('./components')
 const {sessions} = require('./data')
 
 const urlencodedBodyParser = bodyParser.urlencoded({ extended: false })
@@ -19,28 +18,40 @@ logger.debug('setting up server')
 const app = express()
 
 app.use(loggerMidWare)
+app.use(cookieParserMidWare)
 
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', (req, res) => {
-    res.send(App({ title: 'My App', body: Landing() }))
+    const {cookies: {cookieConsent}} = req
+    res.send(App({ title: 'My App', body: Landing(), cookies: Cookies() }))
 })
 
 app.get('/login', (req, res) => {
-    // if (!loggedIn) {
-    res.send(App({ title: 'Login', body: Login() }))
-    // } else res.redirect(`/home/${loggedIn}`)
+    const {cookies: {username, cookieConsent} } = req
+
+    if (sessions.includes(username)) return res.redirect(`/home/${username}`)
+    res.send(App({ title: 'Login', body: Login(), cookies: Cookies() }))
 })
 
 app.use(urlencodedBodyParser)
 
+app.post('/accept-cookies', (req, res) =>{
+     res.setHeader('set-cookies', 'cookieConsent=true')
+     res.redirect(req.get('referer'))
+})
+
 app.get('/home/:username', (req, res) => {
-    const { params: { username } } = req
+    const { cookies: {cookieConsent}, params: { username } } = req
 
     if (sessions.includes(username)) {
         const { name } = retrieveUser(username)
 
-        res.send(App({ title: 'Home', body: Home({ name, username }) }))
+        const {cookies: {username: _username}} = req
+
+        username !== _username && res.setHeader(`set-cookie', 'username=${username}`)
+
+        res.send(App({ title: 'Home', body: Home({ name, username }), cookies: Cookies() }))
 
     } else res.redirect('/login')
 })
@@ -51,6 +62,8 @@ app.post('/logout', (req, res) => {
     const index = sessions.indexOf(username)
 
     sessions.splice(index, 1)
+
+    res.clearCookie('username')
 
     res.redirect('/login')
 })
@@ -69,7 +82,10 @@ app.post('/register', (req, res) => {
 })
 
 app.get('/register', (req, res) => {
-    res.send(App({title: 'Register', body: Register()}))
+    const {cookies: {username, cookieConsent}} = req
+
+    if (sessions.includes(username)) return res.redirect(`/home/${username}`)
+    res.send(App({title: 'Register', body: Register(), cookies: Cookies()}))
 })
 
 app.post('/login', (req, res) => {
@@ -79,13 +95,16 @@ app.post('/login', (req, res) => {
 
         sessions.push(username)
 
+        const {cookies: {username: _username}} = req
+
+        username !== _username && res.setHeader('set-cookie', `username=${username}` )
+
         res.redirect(`/home/${username}`)
 
     } catch ({ message }) {
         res.send(App({ title: 'Login', body: Login({ error: message }) }))
     }
 })
-
 
 app.listen(port, () => logger.info(`server up and running on port ${port}`))
 
