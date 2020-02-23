@@ -14,7 +14,6 @@ logger.level = logger.DEBUG
 logger.path = path.join(__dirname, 'server.log')
 
 logger.debug('setting up server')
-
 const app = express()
 
 app.use(loggerMidWare)
