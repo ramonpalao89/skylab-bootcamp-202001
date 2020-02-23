@@ -1,10 +1,10 @@
 const express = require('express')
-const {logger, loggerMidWare, cookieParserMidWare} = require('./utils')
+const { logger, loggerMidWare } = require('./utils')
 const bodyParser = require('body-parser')
 const { retrieveUser, register, authenticate } = require('./logic')
 const path = require('path')
-const { Login, App, Home, Register, Landing, Cookies } = require('./components')
-const {sessions} = require('./data')
+const { Login, App, Home, Register, Landing } = require('./components')
+const session = require('express-session')
 
 const urlencodedBodyParser = bodyParser.urlencoded({ extended: false })
 
@@ -14,95 +14,113 @@ logger.level = logger.DEBUG
 logger.path = path.join(__dirname, 'server.log')
 
 logger.debug('setting up server')
+
 const app = express()
 
 app.use(loggerMidWare)
-app.use(cookieParserMidWare)
+app.use(express.static(path.join(__dirname, 'public')))
+app.use('/components', express.static(path.join(__dirname, 'components'))) // NOTE to see sass files in browser
+app.use(session({ secret: 'keyboard cat', cookie: { maxAge: 60000 }, resave: false, saveUninitialized: true }))
 
-app.use(express.static(path.join(__dirname, 'public')));
-
-app.get('/', (req, res) => {
-    const {cookies: {cookieConsent}} = req
-    res.send(App({ title: 'My App', body: Landing(), cookies: Cookies() }))
+app.get('/', ({ session: { acceptCookies } }, res) => {
+    res.send(App({ title: 'My App', body: Landing(), acceptCookies }))
 })
 
 app.get('/login', (req, res) => {
-    const {cookies: {username, cookieConsent} } = req
+    const { session: { username } } = req
 
-    if (sessions.includes(username)) return res.redirect(`/home/${username}`)
-    res.send(App({ title: 'Login', body: Login(), cookies: Cookies() }))
+    if (username) return res.redirect(`/home/${username}`)
+
+    const { session: { acceptCookies } } = req
+
+    res.send(App({ title: 'Login', body: Login(), acceptCookies }))
 })
 
-app.use(urlencodedBodyParser)
+app.post('/login', urlencodedBodyParser, (req, res) => {
+    const { body: { username, password }, session } = req
 
-app.post('/accept-cookies', (req, res) =>{
-     res.setHeader('set-cookies', 'cookieConsent=true')
-     res.redirect(req.get('referer'))
+    try {
+        authenticate(username, password, (error, token) => {
+            if (error) {
+                const { message } = error
+                const { session: { acceptCookies } } = req
+
+                return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+            }
+
+            retrieveUser(token, (error, user) => {
+                if (error) {
+                    const { message } = error
+                    const { session: { acceptCookies } } = req
+
+                    return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+                }
+
+                session.token = token
+
+                const { username } = user
+
+                res.redirect(`/home/${username}`)
+            })
+        })
+    } catch ({ message }) {
+        const { session: { acceptCookies } } = req
+
+        res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+    }
 })
 
 app.get('/home/:username', (req, res) => {
-    const { cookies: {cookieConsent}, params: { username } } = req
+    const { params: { username }, session: { token } } = req
 
-    if (sessions.includes(username)) {
-        const { name } = retrieveUser(username)
+    retrieveUser(token, (error, user) => {
+        if (error) {
+            const { message } = error
+            const { session: { acceptCookies } } = req
 
-        const {cookies: {username: _username}} = req
+            return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+        }
 
-        username !== _username && res.setHeader(`set-cookie', 'username=${username}`)
+        const { username: _username } = user
 
-        res.send(App({ title: 'Home', body: Home({ name, username }), cookies: Cookies() }))
+        if (username === _username) {
+            const { name } = user
 
-    } else res.redirect('/login')
+            const { session: { acceptCookies } } = req
+
+            res.send(App({ title: 'Home', body: Home({ name, username }), acceptCookies }))
+        } else res.redirect('/login')
+    })
 })
 
-app.post('/logout', (req, res) => {
-    const { body: { username } } = req
-
-    const index = sessions.indexOf(username)
-
-    sessions.splice(index, 1)
-
-    res.clearCookie('username')
-
-    res.redirect('/login')
+app.post('/logout', urlencodedBodyParser, ({ session }, res) => {
+    session.destroy(() => res.redirect('/login'))
 })
 
-app.post('/register', (req, res) => {
+app.post('/register', urlencodedBodyParser, (req, res) => {
+    const { body: { name, surname, username, password } } = req
 
-    const {name, surname, username, password} = req.body
     try {
-        register(name, surname, username, password)
+        register(name, surname, username, password) // TODO WARN! this is SYNC!
 
         res.redirect('/login')
-    } catch ({message}) {
-
-        res.send(App({title: 'Register', body: Register({error: message})}))
-    }
-})
-
-app.get('/register', (req, res) => {
-    const {cookies: {username, cookieConsent}} = req
-
-    if (sessions.includes(username)) return res.redirect(`/home/${username}`)
-    res.send(App({title: 'Register', body: Register(), cookies: Cookies()}))
-})
-
-app.post('/login', (req, res) => {
-    const { username, password } = req.body
-    try {
-        authenticate(username, password)
-
-        sessions.push(username)
-
-        const {cookies: {username: _username}} = req
-
-        username !== _username && res.setHeader('set-cookie', `username=${username}` )
-
-        res.redirect(`/home/${username}`)
-
     } catch ({ message }) {
-        res.send(App({ title: 'Login', body: Login({ error: message }) }))
+        const { session: { acceptCookies } } = req
+
+        res.send(App({ title: 'Register', body: Register({ error: message }), acceptCookies }))
     }
+})
+
+app.get('/register', ({ session: { acceptCookies } }, res) => {
+    res.send(App({ title: 'Register', body: Register(), acceptCookies }))
+})
+
+app.post('/accept-cookies', (req, res) => {
+    const { session } = req
+
+    session.acceptCookies = true
+
+    res.redirect(req.get('referer'))
 })
 
 app.listen(port, () => logger.info(`server up and running on port ${port}`))
