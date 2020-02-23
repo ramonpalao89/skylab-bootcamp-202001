@@ -135,20 +135,24 @@ app.get('/search', (req, res) => {
 
 app.get('/detail/:id', (req, res) => {
     const { session: { token, acceptCookies }, params: { id } } = req
-
-    try{
+    try {
         retrieveVehicle(token, id, (error, detail) => {
             if (error)
                 res.redirect(req.get('referer'))
             if (detail)
-                res.send(App({ title: `${detail.name}`, body: Detail({ detail }, acceptCookies) }))
+                res.send(App({ title: `${detail.name}`, body: Detail({ detail }), acceptCookies }))
         })
-    } catch ({message}){
+    } catch ({ message }) {
         const { session: { acceptCookies } } = req
 
         return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
     }
-    
+
+})
+
+app.get('/back', (req, res) => {
+    const { session: { query } } = req
+    res.redirect(`/search?query=${query.query}`)
 })
 
 app.post('/logout', urlencodedBodyParser, ({ session }, res) => {
