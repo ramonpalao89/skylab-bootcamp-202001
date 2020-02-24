@@ -1,9 +1,9 @@
 const express = require('express')
 const { logger, loggerMidWare } = require('./utils')
 const bodyParser = require('body-parser')
-const { retrieveUser, register, authenticate, searchVehicles, retrieveVehicle, toogleFavVehicle } = require('./logic')
+const { retrieveUser, register, authenticate, searchVehicles, retrieveVehicle, toogleFavVehicle, retrieveFavVehicles } = require('./logic')
 const path = require('path')
-const { Login, App, Home, Register, Landing, Search, Item, Results, Detail } = require('./components')
+const { Login, App, Home, Register, Landing, Search, Results, Detail, Favs } = require('./components')
 const session = require('express-session')
 
 const urlencodedBodyParser = bodyParser.urlencoded({ extended: false })
@@ -122,7 +122,7 @@ app.get('/search', (req, res) => {
                     return res.send(App({ title: 'Search', body: Search({ error: message }), acceptCookies }))
                 }
 
-                return res.send(App({ title: 'Search', body: Results({ name, vehicles }), acceptCookies }))
+                return res.send(App({ title: "Search", body: Search({ name, vehicles }), results: Results({ name, vehicles }), acceptCookies }))
             })
         })
 
@@ -148,6 +148,43 @@ app.get('/detail/:id', (req, res) => {
         return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
     }
 
+})
+
+app.post('/fav/:id', (req, res) => {
+    const { session: { token, acceptCookies }, params: { id } } = req
+
+    try {
+        toogleFavVehicle(token, id, error => {
+            if (error) {
+                const { session: { acceptCookies } } = req
+                return res.send(App({ title: 'Search', body: Search({ error: message }), acceptCookies }))
+
+            } else {
+                res.redirect(req.get("referer"))
+            }
+        })
+    } catch ({ message }) {
+        const { session: { acceptCookies } } = req
+        return res.send(App({ title: 'Search', body: Search({ error: message }), acceptCookies }))
+    }
+})
+
+app.get('/favslist/', (req, res) => {
+    const { session: { token, acceptCookies } } = req
+
+    try {
+        retrieveFavVehicles(token, (error, favs) => {
+            if (error) {
+                const { session: { acceptCookies } } = req
+                return res.send(App({ title: 'Search', body: Search({ error: message }), acceptCookies }))
+            } else {
+                res.send(App({ title: `Favorites`, body: Favs({ favs }), acceptCookies }))
+            }
+        })
+    } catch (error) {
+        const { session: { acceptCookies } } = req
+        return res.send(App({ title: 'Search', body: Search({ error: message }), acceptCookies }))
+    }
 })
 
 app.get('/back', (req, res) => {

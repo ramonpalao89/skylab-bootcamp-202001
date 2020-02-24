@@ -7,5 +7,6 @@ module.exports = {
     Search: require('./search'),
     Results: require('./results'),
     Item: require('./item'),
-    Detail: require('./detail')
+    Detail: require('./detail'),
+    Favs: require('./favs')
 }
