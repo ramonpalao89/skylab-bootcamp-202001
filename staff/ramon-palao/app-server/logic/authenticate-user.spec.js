@@ -1,5 +1,6 @@
 const authenticateUser = require('./authenticate-user')
-const { call } = require('../utils')
+const { fetch } = require('../utils')
+require('../specs/specs-helper')
 
 describe('authenticateUser', () => {
     let name, surname, username, password
@@ -12,49 +13,41 @@ describe('authenticateUser', () => {
     })
 
     describe('when user already exists', () => {
-        beforeEach(done =>
-            call(`https://skylabcoders.herokuapp.com/api/v2/users`, {
+        beforeEach(() =>
+            fetch(`https://skylabcoders.herokuapp.com/api/v2/users`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, surname, username, password })
-            }, (error, response) => {
-                if (error) return done(error)
-
-                if (response.content) {
-                    const { error } = JSON.parse(response.content)
-
-                    if (error) return done(new Error(error))
-                }
-
-                done()
             })
+                .then(response => {
+                    if (response.content) {
+                        const { error } = JSON.parse(response.content)
+
+                        if (error) throw new Error(error)
+                    }
+                })
         )
 
-        it('should succeed on correct credentials', done =>
-            authenticateUser(username, password, (error, token) => {
-                expect(error).toBeUndefined()
+        it('should succeed on correct credentials', () =>
+            authenticateUser(username, password)
+                .then(token => {
+                    expect(token).toBeA('string')
 
-                expect(token).toBeA('string')
-
-                const [header, payload, signature] = token.split('.')
-                expect(header.length).toBeGreaterThan(0)
-                expect(payload.length).toBeGreaterThan(0)
-                expect(signature.length).toBeGreaterThan(0)
-
-                done()
-            })
+                    const [header, payload, signature] = token.split('.')
+                    expect(header.length).toBeGreaterThan(0)
+                    expect(payload.length).toBeGreaterThan(0)
+                    expect(signature.length).toBeGreaterThan(0)
+                })
         )
 
-        it('should fail on incorrect password', done => {
-            authenticateUser(username, `${password}-wrong`, (error, token) => {
-                expect(error).toBeInstanceOf(Error)
-                expect(error.message).toBe('username and/or password wrong')
-
-                expect(token).toBeUndefined()
-
-                done()
-            })
-        })
+        it('should fail on incorrect password', () => 
+            authenticateUser(username, `${password}-wrong`)
+                .then(() => {throw new Error('should not reach this point')})
+                .catch(error => {
+                    expect(error).toBeInstanceOf(Error)
+                    expect(error.message).toBe('username and/or password wrong')
+                })
+        )
 
         it('should fail on incorrect username', done => {
             authenticateUser(`${username}-wrong`, password, (error, token) => {
