@@ -1,8 +1,9 @@
 const Item = require('./item')
 
 module.exports = function (props={}) {
-    const {vehicles} = props
+    const {results} = props
+    //debugger
     return `<ul className="results">
-        ${vehicles.map(item => Item({item})).join('')}
+        ${results.map(item => Item({item})).join('')}
     </ul>`
 }

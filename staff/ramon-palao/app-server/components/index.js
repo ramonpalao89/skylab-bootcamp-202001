@@ -1,12 +1,11 @@
 module.exports = {
     Login: require('./login'),
     App: require('./app'),
-    Home: require('./home'),
+    User: require('./user'),
     Register: require('./register'),
     Landing: require('./landing'),
+    Detail: require('./detail'),
     Search: require('./search'),
     Results: require('./results'),
-    Item: require('./item'),
-    Detail: require('./detail'),
     Favs: require('./favs')
 }

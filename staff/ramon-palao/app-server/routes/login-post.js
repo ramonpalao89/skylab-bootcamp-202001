@@ -1,0 +1,37 @@
+const { authenticate } = require('../logic')
+const { Login, App } = require('../components')
+const { logger } = require('../utils')
+
+module.exports = (req, res) => {
+    const { body: { username, password }, session } = req
+
+    try {
+        authenticate(username, password, (error, token) => {
+            if (error) {
+                logger.warn(error)
+
+                const { message } = error
+                const { session: { acceptCookies } } = req
+
+                return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+            }
+
+            session.token = token
+
+            const { fav } = session
+
+            if (fav) return res.redirect(307, `/fav/${fav}`)
+
+            res.redirect('/')
+        })
+
+    } catch (error) {
+
+        logger.error(error)
+
+        const { message } = error
+        const { session: { acceptCookies } } = req
+
+        res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+    }
+}
