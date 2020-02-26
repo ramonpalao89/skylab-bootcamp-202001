@@ -7,33 +7,32 @@ module.exports = (req, res) => {
     // req.session.query = query
     if (token) {
         try {
-            retrieveUser(token, (error, user) => {
-                if (error) {
+            retrieveUser(token)
+                .then(user => {
+                    const { name, username } = user
+                    try {
+                        searchVehicles(token, query)
+                            .then(vehicles => {
+                                const { session: { acceptCookies } } = req
+
+                                res.send(App({ title: "Search", body: Landing({ name, username, query, results: vehicles }), acceptCookies }))
+                            })
+                            .catch(error => {
+
+                                logger.error(error)
+                                res.redirect('/error')
+
+                            })
+                    } catch (error) {
+                        logger.error(error)
+                        res.redirect('/error')
+                    }
+                })
+                .catch(error => {
                     logger.error(error)
 
                     res.redirect('/error')
-                }
-
-                const { name, username } = user
-                // const _query = query.query
-
-                try {
-                    searchVehicles(token, query, (error, vehicles) => {
-                        const { session: { acceptCookies } } = req
-
-                        if (error) {
-
-                            logger.error(error)
-                            res.redirect('/error')
-                        }
-
-                        res.send(App({ title: "Search", body: Landing({ name, username, query, results: vehicles }), acceptCookies }))
-                    })
-                } catch (error) {
-                    logger.error(error)
-                    res.redirect('/error')
-                }
-            })
+                })
         } catch (error) {
             logger.error(error)
 
@@ -41,17 +40,18 @@ module.exports = (req, res) => {
         }
     } else
         try {
-            searchVehicles(undefined, query, (error, vehicles) => {
-                const { session: { acceptCookies } } = req
+            searchVehicles(undefined, query)
+                .then(vehicles => {
+                    const { session: { acceptCookies } } = req
+                    res.send(App({ title: 'Search', body: Landing({ query, results: vehicles }), acceptCookies }))
+                })
+                .catch(error => {
 
-                if (error) {
                     logger.error(error)
 
                     res.redirect('/error')
-                }
 
-                res.send(App({ title: 'Search', body: Landing({ query, results: vehicles }), acceptCookies }))
-            })
+                })
         } catch (error) {
             logger.error(error)
 

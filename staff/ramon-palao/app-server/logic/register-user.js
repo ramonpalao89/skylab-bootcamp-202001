@@ -10,7 +10,7 @@ module.exports = function (name, surname, username, password) {
     if (typeof password !== 'string') throw new TypeError(`password ${password} is not a string`)
     if (!password.trim()) throw new Error('password is empty')
 
-    fetch(`https://skylabcoders.herokuapp.com/api/v2/users`, {
+    return fetch(`https://skylabcoders.herokuapp.com/api/v2/users`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, surname, username, password })

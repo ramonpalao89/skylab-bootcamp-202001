@@ -6,24 +6,25 @@ module.exports = (req, res) => {
     const { body: { username, password }, session } = req
 
     try {
-        authenticate(username, password, (error, token) => {
-            if (error) {
+        authenticate(username, password)
+            .then(token => {
+                session.token = token
+
+                const { fav } = session
+
+                if (fav) return res.redirect(307, `/fav/${fav}`)
+
+                res.redirect('/')
+            })
+            .catch(error => {
+
                 logger.warn(error)
 
                 const { message } = error
                 const { session: { acceptCookies } } = req
 
-                return res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
-            }
-
-            session.token = token
-
-            const { fav } = session
-
-            if (fav) return res.redirect(307, `/fav/${fav}`)
-
-            res.redirect('/')
-        })
+                res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+            })
 
     } catch (error) {
 

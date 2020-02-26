@@ -1,7 +1,7 @@
 const registerUser = require('./register-user')
 const { fetch } = require('../utils')
 
-fdescribe('registerUser', () => {
+describe('registerUser', () => {
     let name, surname, username, password
 
     beforeEach(() => {
@@ -14,7 +14,6 @@ fdescribe('registerUser', () => {
     it('should succeed on new user', () =>
         registerUser(name, surname, username, password)
             .then(response => {
-                expect(error).toBeUndefined()
                 expect(response).toBeUndefined()
             })
     )
@@ -25,8 +24,8 @@ fdescribe('registerUser', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, surname, username, password })
-            }
-            ))
+            })
+        )
 
         it('should fail on already existing user', () =>
             registerUser(name, surname, username, password)

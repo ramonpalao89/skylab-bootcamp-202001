@@ -7,6 +7,7 @@ module.exports = function(props = {}){
 
     return `${name ? User({ name, username }) : `<section><a href="/register">Register</a> or <a href="/login">Login</a></section>`}
     ${Search({ query })}
+    ${username ? `<a href="/favslist/">Go to favorites</a>` : ''}
     ${results? Results({ results }) : ''}`
 
 }

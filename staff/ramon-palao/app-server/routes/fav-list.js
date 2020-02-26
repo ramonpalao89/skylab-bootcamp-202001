@@ -1,20 +1,19 @@
-const {retrieveFavVehicles} = require('../logic')
-const {App, Favs} = require('../components')
-const {logger} = require('../utils')
+const { retrieveFavVehicles } = require('../logic')
+const { App, Favs, Search } = require('../components')
+const { logger } = require('../utils')
 
 module.exports = (req, res) => {
     const { session: { token, acceptCookies } } = req
 
     try {
-        retrieveFavVehicles(token, (error, favs) => {
-            if (error) {
+        retrieveFavVehicles(token)
+            .then(favs => {
+                const backUrl = req.get('referer') || '/search'
+                res.send(App({ title: `Favorites`, body: Favs({ favs, backUrl }), acceptCookies }))
+            }).catch(error => {
                 logger.error(error)
                 res.redirect('/error')
-
-            } else {
-                res.send(App({ title: `Favorites`, body: Favs({ favs }), acceptCookies }))
-            }
-        })
+            })
     } catch (error) {
         logger.error(error)
         res.redirect('/error')
