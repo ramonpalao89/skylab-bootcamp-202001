@@ -1,5 +1,6 @@
 const { validate } = require('../utils')
 const { users } = require('../data')
+const {NotAllowedError} = require('../errors')
 
 const fs = require('fs').promises
 const path = require('path')
@@ -11,7 +12,7 @@ module.exports = (email, password) => {
 
     const user = users.find(user => user.email === email && user.password === password)
 
-    if (!user) throw new Error(`wrong credentials`)
+    if (!user) throw new NotAllowedError(`wrong credentials`)
 
     user.authenticated = new Date
 
