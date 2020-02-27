@@ -23,7 +23,9 @@ module.exports = (req, res) => {
                 const { message } = error
                 const { session: { acceptCookies } } = req
 
-                res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+                res.render('login', {error: message, acceptCookies})
+
+                // res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
             })
 
     } catch (error) {
@@ -33,6 +35,8 @@ module.exports = (req, res) => {
         const { message } = error
         const { session: { acceptCookies } } = req
 
-        res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
+        res.render('login', {error: message, acceptCookies})
+
+        // res.send(App({ title: 'Login', body: Login({ error: message }), acceptCookies }))
     }
 }

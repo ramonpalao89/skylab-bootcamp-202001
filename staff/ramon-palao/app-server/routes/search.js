@@ -15,7 +15,9 @@ module.exports = (req, res) => {
                             .then(vehicles => {
                                 const { session: { acceptCookies } } = req
 
-                                res.send(App({ title: "Search", body: Landing({ name, username, query, results: vehicles }), acceptCookies }))
+                                res.render('landing', {name, username, query, results: vehicles, acceptCookies})
+
+                                // res.send(App({ title: "Search", body: Landing({ name, username, query, results: vehicles }), acceptCookies }))
                             })
                             .catch(error => {
 
@@ -43,7 +45,8 @@ module.exports = (req, res) => {
             searchVehicles(undefined, query)
                 .then(vehicles => {
                     const { session: { acceptCookies } } = req
-                    res.send(App({ title: 'Search', body: Landing({ query, results: vehicles }), acceptCookies }))
+                    res.render('landing', {query, results: vehicles, acceptCookies})
+                    // res.send(App({ title: 'Search', body: Landing({ query, results: vehicles }), acceptCookies }))
                 })
                 .catch(error => {
 

@@ -1,0 +1,11 @@
+mixin detail(id, name, year, price, image, color, maker, collection, description, url, backUrl)
+    section
+        h3=`${name} ${year}`
+        img(src=image)
+        span=`${price} €`
+        p= color
+        p= maker
+        p= collection
+        p= description
+        a(href=url) #{url}
+        a(href=backUrl) GO BACK

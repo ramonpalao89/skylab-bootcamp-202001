@@ -9,7 +9,8 @@ module.exports = (req, res) => {
         retrieveFavVehicles(token)
             .then(favs => {
                 const backUrl = req.get('referer') || '/search'
-                res.send(App({ title: `Favorites`, body: Favs({ favs, backUrl }), acceptCookies }))
+                res.render('favslist', {favs, backUrl, acceptCookies})
+                // res.send(App({ title: `Favorites`, body: Favs({ favs, backUrl }), acceptCookies }))
             }).catch(error => {
                 logger.error(error)
                 res.redirect('/error')

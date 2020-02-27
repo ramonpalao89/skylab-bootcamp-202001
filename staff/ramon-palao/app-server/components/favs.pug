@@ -1,0 +1,7 @@
+include item
+
+mixin favs(favs)
+    ul.favs
+        each fav in favs
+            -const {id, name, isFav, thumbnail, price} = fav
+            +item(id, name, isFav, thumbnail, price)

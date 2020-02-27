@@ -9,7 +9,8 @@ module.exports = (req, res) => {
             .then(detail => {
                 
                 const backUrl = req.get('referer') || '/search'
-                res.send(App({ title: `${detail.name}`, body: Detail({ detail, backUrl }), acceptCookies }))
+                res.render(`detail`, {detail, backUrl, acceptCookies})
+                // res.send(App({ title: `${detail.name}`, body: Detail({ detail, backUrl }), acceptCookies }))
             }).catch(error => {
                 logger.error(error)
                 res.redirect('/error')

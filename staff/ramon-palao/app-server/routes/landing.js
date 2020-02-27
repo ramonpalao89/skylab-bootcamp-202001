@@ -9,7 +9,9 @@ module.exports = ({ session: { token, acceptCookies } }, res) => {
                 .then(user => {
                     const { name, username } = user
 
-                    res.send(App({ title: 'My App', body: Landing({ name, username }), acceptCookies }))
+                    res.render('landing', {name, username, acceptCookies})
+
+                    // res.send(App({ title: 'My App', body: Landing({ name, username }), acceptCookies }))
                 })
                 .catch(error => {
                     logger.error(error)
@@ -20,5 +22,6 @@ module.exports = ({ session: { token, acceptCookies } }, res) => {
             logger.error(error)
             res.redirect('/error')
         }
-    } else res.send(App({ title: 'My App', body: Landing(), acceptCookies }))
+    } else res.render('landing', {acceptCookies})
+    // res.send(App({ title: 'My App', body: Landing(), acceptCookies }))
 }
