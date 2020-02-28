@@ -84,6 +84,16 @@ client.connect()
                 return users.findOne({ _id: id })
             })
             .then(user => console.log(user))
+        
+        users.insertOne({name: 'Ramon', surname: 'Palao', email: 'mmmm@email.com', password: '123'})
+            .then(result => {
+                const {insertedId: id} = result
+
+                return users.findOne({_id: id})
+            })
+            .then(user => console.log(user))
+        
+        users.findOne(ObjectId('5e58e1286fc9bf1e005dcd86')).then(user => console.log(`Hola ${user}`))
 
         // UPDATE?
 

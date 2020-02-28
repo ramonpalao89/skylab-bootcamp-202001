@@ -29,10 +29,23 @@ describe('Register User', () => {
 
         it('should fail on existing email', () => {
             expect(() => {
-                return registerUser(`${name}-, ${surname}-, ${email}, ${password}-`)
+                return registerUser(`${name}-`, `${surname}-`, `${email}`, `${password}-`)
                 .then(() => {throw new Error('should not reach this point')})
-                .to.throw(NotAllowedError)
+                .to.throw(NotAllowedError, `user with email ${email} already exists`)
             })
+        })
+    
+    describe('when user not exists', () => {
+        beforeEach(() => {
+            
+        })
+    })
+
+        it('should not fail even if name user is already registered', () => {
+            return registerUser(`${name}`, `${surname}-`, `--${email}`, `${password}`).then(response => {
+                expect(response).to.be.undefined
+            })
+            
         })
 
     })
