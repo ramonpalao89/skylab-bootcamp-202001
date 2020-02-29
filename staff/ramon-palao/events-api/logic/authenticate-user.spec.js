@@ -32,9 +32,9 @@ describe('authenticateUser', () => {
             return authenticateUser(email, password).then(userId => {
                 expect(userId).to.be.a('string')
 
-                id = userId
+                // id = userId
 
-                return id
+                // return id
             })
         })
 

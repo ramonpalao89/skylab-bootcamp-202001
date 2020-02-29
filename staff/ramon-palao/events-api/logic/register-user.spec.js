@@ -1,52 +1,48 @@
-const { expect } = require('chai')
-// require('mocha')
-// const {validate} = require('./utils')
-const { users } = require('../data')
-const fs = require('fs').promises
-const path = require('path')
-const uuid = require('uuid/v4')
-const { registerUser } = require('../logic')
-const jwt = require('jsonwebtoken')
-const { NotAllowedError } = require('../errors')
+require('dotenv').config()
 
-describe('Register User', () => {
-    let name, surname, email, password, id
+const { expect } = require('chai')
+const { ObjectId } = require('mongodb')
+const { random } = Math
+const { database } = require('../data')
+const { registerUser } = require('../logic')
+
+const { env: { MONGODB_URL }} = process
+
+describe.only('registerUser', () => {
+    let name, surname, email, password, users
+
+    before(() => 
+        database.connect(MONGODB_URL)
+            .then(() => users = database.collection('users'))
+    )
 
     beforeEach(() => {
-        name = 'name' + Math.random()
-        surname = 'surname' + Math.random()
-        email = Math.random() + 'email@mail.com'
-        password = '123'
-        id = uuid()
+        name = `name-${random()}`
+        surname = `surname-${random()}`
+        email = `email-${random()}@mail.com`
+        password = `password-${random()}`
     })
 
-    describe('when email already exists', () => {
-        beforeEach(() => {
-            const user = {name, surname, email, password, id, registered: new Date}
-            users.push(user)
-            return fs.writeFile(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 4))
-        })
+    it('should succeed on correct user data', () =>
+        registerUser(name, surname, email, password)
+            .then(result => {
+                expect(result).not.to.exist
+                expect(result).to.be.undefined
 
-        it('should fail on existing email', () => {
-            expect(() => {
-                return registerUser(`${name}-`, `${surname}-`, `${email}`, `${password}-`)
-                .then(() => {throw new Error('should not reach this point')})
-                .to.throw(NotAllowedError, `user with email ${email} already exists`)
+                return users.findOne({ email })
             })
-        })
-    
-    describe('when user not exists', () => {
-        beforeEach(() => {
-            
-        })
-    })
-
-        it('should not fail even if name user is already registered', () => {
-            return registerUser(`${name}`, `${surname}-`, `--${email}`, `${password}`).then(response => {
-                expect(response).to.be.undefined
+            .then(user => {
+                expect(user).to.exist
+                expect(user._id).to.be.instanceOf(ObjectId)
+                expect(user.name).to.equal(name)
+                expect(user.surname).to.equal(surname)
+                expect(user.email).to.equal(email)
+                expect(user.password).to.equal(password) // TODO encrypt this field!
+                expect(user.created).to.be.instanceOf(Date)
             })
-            
-        })
+    )
 
-    })
+    // TODO unhappy paths and other happies if exist
+
+    after(() => database.disconnect())
 })
