@@ -18,9 +18,9 @@ module.exports = id => {
 
             return users.updateOne({_id}, {$set: {retrieved: new Date}})
             .then(() => {
-                const { name, surname, email, publishedEvents } = user
+                const { name, surname, email, publishedEvents, subscribedEvents } = user
 
-                return { name, surname, email, publishedEvents }
+                return { name, surname, email, publishedEvents, subscribedEvents }
             })
         })
 }

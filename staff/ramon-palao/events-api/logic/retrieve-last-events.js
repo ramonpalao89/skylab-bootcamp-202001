@@ -2,18 +2,16 @@ const { validate } = require('../utils')
 const { database, database: { ObjectId } } = require('../data')
 const { NotFoundError, NotAllowedError } = require('../errors')
 
-module.exports = id => {
-
-    validate.string(id, 'id')
-
-    const _id = ObjectId(id)
+module.exports = () => {
 
     const events = database.collection('events')
 
-    return events.find({ publisher: _id }).toArray()
+    const now = new Date
+
+    return events.find({ date : {$gt: now }}).toArray()
         .then(event => {
 
-            if (!event.length) throw new NotFoundError(`User with id ${id} has not published any event`)
+            if (!event.length) throw new NotFoundError(`There are no events coming soon`)
 
             return event
         })
