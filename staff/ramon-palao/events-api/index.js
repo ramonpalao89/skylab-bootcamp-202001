@@ -4,7 +4,7 @@ const { env: { PORT = 8080, NODE_ENV: env, MONGODB_URL }, argv: [, , port = PORT
 
 const express = require('express')
 const winston = require('winston')
-const { registerUser, authenticateUser, retrieveUser, createEvent, retrievePublishedEvents, retrieveLastEvents, subscribeEvents } = require('./routes')
+const { registerUser, authenticateUser, retrieveUser, createEvent, retrievePublishedEvents, retrieveLastEvents, subscribeEvents, retrieveSubscribedEvents } = require('./routes')
 const { name, version } = require('./package')
 const bodyParser = require('body-parser')
 const morgan = require('morgan')
@@ -44,6 +44,8 @@ database.connect(MONGODB_URL)
         app.get('/users', jwtVerifierMidWare, retrieveUser)
 
         app.get('/users/:id', jwtVerifierMidWare, retrievePublishedEvents)
+
+        app.get('/users/:id/retrieve-subscribed', jwtVerifierMidWare, retrieveSubscribedEvents)
 
         app.get('/last-events', retrieveLastEvents)
 
