@@ -6,11 +6,11 @@ module.exports = (id) => {
 
     validate.string(id, 'id')
 
-    const _id = ObjectId(id)
+    //const _id = ObjectId(id)
 
     const events = database.collection('events')
 
-    return events.find({ subscribers: _id }).toArray()
+    return events.find({ subscribers: ObjectId(id) }).toArray()
         .then(event => {
 
             if (!event.length) throw new NotFoundError(`User with id ${id} is not subscribed to any event`)
