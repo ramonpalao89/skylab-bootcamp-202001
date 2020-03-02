@@ -6,10 +6,30 @@ module.exports = (idUser, idEvent, body) => {
 
     const {title, description, location, date} = body
 
+    const _event = {}
+
+    if (typeof title !== "undefined"){
+        validate.string(title, 'title')
+        _event["title"] = title
+    }
+
+    if (typeof description !== "undefined"){
+        validate.string(description, 'description')
+        _event["description"] = description
+    }
+
+    if (typeof location !== "undefined"){
+        validate.string(location, 'location')
+        _event["location"] = location
+    }
+
+    if (typeof date !== "undefined"){
+        validate.string(date, 'date')
+        _event["date"] = date
+    }
+
     validate.string(idUser, 'idUser')
     validate.string(idEvent, 'idEvent')
-
-    const _id = ObjectId(idEvent)
 
     const events = database.collection('events')
     const users = database.collection('users')
@@ -19,15 +39,11 @@ module.exports = (idUser, idEvent, body) => {
     return users.findOne({ _id: ObjectId(idUser) })
         .then(user => {
 
-            if (!user.publishedEvents) throw new NotFoundError(`User with id ${idUser} has not published any event`)
+            //if (user.publishedEvents: (ObjectId(idEvent))) throw new NotFoundError(`User with id ${idUser} cannot update this event`)
 
 
-            return events.findOne({ _id })
-                .then(() => events.updateOne({ _id }, { $set: { title, description, location, date } }))
+            return events.findOne({ _id: ObjectId(idEvent) })
+                .then(() => events.update({ _id: ObjectId(idEvent) }, {$set: _event }))
                 .then(() => { })
-
-            // return events.updateOne({ _id: ObjectId(idEvent) }, { $set: { title, description, location, date } })
-            //     .then(() => { })
-
         })
 }
