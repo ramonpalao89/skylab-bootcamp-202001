@@ -1,5 +1,5 @@
 const { validate } = require('../utils')
-const { database, database: { ObjectId } } = require('../data')
+const { models: {Event} } = require('../data')
 const { NotFoundError } = require('../errors')
 
 module.exports = (id) => {
@@ -8,9 +8,9 @@ module.exports = (id) => {
 
     //const _id = ObjectId(id)
 
-    const events = database.collection('events')
+    // const events = database.collection('events')
 
-    return events.find({ subscribers: ObjectId(id) }).toArray()
+    return Event.find({ subscribers: id })
         .then(event => {
 
             if (!event.length) throw new NotFoundError(`User with id ${id} is not subscribed to any event`)

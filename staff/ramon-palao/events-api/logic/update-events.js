@@ -1,5 +1,5 @@
 const { validate } = require('../utils')
-const { database, database: { ObjectId } } = require('../data')
+const { models: {User, Event} } = require('../data')
 const { NotFoundError } = require('../errors')
 
 module.exports = (idUser, idEvent, body) => {
@@ -31,19 +31,14 @@ module.exports = (idUser, idEvent, body) => {
     validate.string(idUser, 'idUser')
     validate.string(idEvent, 'idEvent')
 
-    const events = database.collection('events')
-    const users = database.collection('users')
-
-
-    //debugger
-    return users.findOne({ _id: ObjectId(idUser) })
+    return User.findById(idUser)
         .then(user => {
 
             //if (user.publishedEvents: (ObjectId(idEvent))) throw new NotFoundError(`User with id ${idUser} cannot update this event`)
 
-
-            return events.findOne({ _id: ObjectId(idEvent) })
-                .then(() => events.update({ _id: ObjectId(idEvent) }, {$set: _event }))
-                .then(() => { })
+            return Event.findByIdAndUpdate(idEvent, {$set: _event })
+        })
+        .then(() => {
+            return Event.findById(idEvent)
         })
 }

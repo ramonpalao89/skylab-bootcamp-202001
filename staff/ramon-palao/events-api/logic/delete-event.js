@@ -1,23 +1,23 @@
 const { validate } = require('../utils')
-const { database, database: { ObjectId } } = require('../data')
-const { NotFound } = require('../errors')
+const { models: {User, Event} } = require('../data')
+const { NotFoundError } = require('../errors')
 
 module.exports = (idUser, idEvent) => {
 
     validate.string(idUser, 'idUser')
     validate.string(idEvent, 'idEvent')
 
-    const events = database.collection('events')
-    const users = database.collection('users')
+    // const events = database.collection('events')
+    // const users = database.collection('users')
 
-    return events.findOne({ _id: ObjectId(idEvent) })
+    return Event.findById(idEvent)
         .then(event => {
 
-            if (!event) throw new NotFound(`Event with id ${idEvent} does not exist`)
+            if (!event) throw new NotFoundError (`Event with id ${idEvent} does not exist`)
 
-            return users.update({ _id: event.publisher }, { $pullAll: { publishedEvents: [ObjectId(idEvent)] } })
-            .then(() => users.updateMany({ subscribedEvents: ObjectId(idEvent) }, { $pullAll: { subscribedEvents: [ObjectId(idEvent)] } }))
-            .then(() => events.deleteOne({ _id: ObjectId(idEvent)}))
+            return User.findOneAndUpdate(event.publisher, { $pull: { publishedEvents: idEvent } })
+            .then(() => User.updateMany( {subscribedEvents: idEvent} , { $pull: { subscribedEvents: {idEvent} } }, {multi: true}))
+            .then(() => Event.deleteOne(idEvent))
             .then(() => { })
         })
 }
