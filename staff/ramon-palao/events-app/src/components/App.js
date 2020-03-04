@@ -20,9 +20,8 @@ function App({ name }) {
   useEffect(() => { sayHello(name).then(setHello) }, [])
 
 
-  function handleRegister(name, surname, email, password) {
+  function handleRegister (name, surname, email, password) {
     try {
-      debugger
       registerUser(name, surname, email, password)
         .then(() => setView('register'))
 
