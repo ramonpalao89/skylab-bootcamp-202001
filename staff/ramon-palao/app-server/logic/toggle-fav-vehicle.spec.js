@@ -1,5 +1,5 @@
 const toggleFavVehicle = require('./toggle-fav-vehicle')
-const { fetch } = require('../utils')
+const { fetch } = require('events-utils')
 
 describe('toggleFavVehicle', () => {
     let name, surname, username, password, token, id

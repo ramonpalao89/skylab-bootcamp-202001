@@ -1,6 +1,6 @@
 const { authenticate } = require('../logic')
 const { Login, App } = require('../components')
-const { logger } = require('../utils')
+const { logger } = require('events-utils')
 
 module.exports = (req, res) => {
     const { body: { username, password }, session } = req

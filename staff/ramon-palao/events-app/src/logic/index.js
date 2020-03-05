@@ -1,7 +1,7 @@
 import registerUser from './register'
-import sayHello from './say-hello'
+import authenticateUser from './authenticate-user'
 
 export {
-    sayHello,
-    registerUser
+    registerUser,
+    authenticateUser
 }

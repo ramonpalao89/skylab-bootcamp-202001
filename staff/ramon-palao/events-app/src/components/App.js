@@ -2,45 +2,54 @@ import React, { useState, useEffect } from 'react'
 import logo from './logo.svg'
 // import './App.css'
 import './App.sass'
-import { registerUser, sayHello } from '../logic'
-import { Register } from '../components'
+import { registerUser, authenticateUser } from '../logic'
+import { Register, Login } from '../components'
 
 function App({ name }) {
-  const [count, setCount] = useState(0)
   const [view, setView] = useState('register')
-  const [hello, setHello] = useState()
 
-  function countUp(event) {
-    event.preventDefault()
+  const handleRegister = (name, surname, email, password) => {
 
-    setCount(count + 1)
-    count > 4 && setView('message')
+    (async => {
+      try {
+        await registerUser(name, surname, email, password)
+        setView('login')
+
+        console.log("USER REGISTERED")
+
+      } catch (error) {
+        console.log(error.message)
+      }
+    })()
   }
 
-  useEffect(() => { sayHello(name).then(setHello) }, [])
+  const handleLogin = (email, password) => {
+
+    (async () => {
+      try {
+        const token = await authenticateUser(email, password)
+        sessionStorage.token = token
+        setView('login')
+      } catch (error) {
+        console.log(error.message)
+      }
+    })()
+  }
 
 
-  function handleRegister (name, surname, email, password) {
-    try {
-      registerUser(name, surname, email, password)
-        .then(() => setView('register'))
 
-      console.log("USER REGISTERED")
+  const handleGoToRegister = () => {
+    setView('register')
+  }
 
-    } catch (error) {
-      console.log(error.message)
-    }
+  const handleGoToLogin = () => {
+    setView('login')
   }
 
   return <div className="App">
 
-    {view === 'register' && <Register onRegister={handleRegister} />}
-    <h1>{hello}</h1>
-    <form onSubmit={countUp}>
-      <span>{count}</span>
-      {view === 'message' && <h2>count {count} reached!</h2>}
-      <button>++</button>
-    </form>
+    {view === 'register' && <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} />}
+    {view === 'login' && <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />}
   </div>
 }
 

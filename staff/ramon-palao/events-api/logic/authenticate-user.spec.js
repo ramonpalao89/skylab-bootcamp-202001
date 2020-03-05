@@ -1,13 +1,13 @@
 const { expect } = require('chai')
 // require('mocha')
 // const {validate} = require('./utils')
-const { users } = require('../data')
+const { users } = require('data')
 const fs = require('fs').promises
 const path = require('path')
 const uuid = require('uuid/v4')
 const { authenticateUser } = require('../logic')
 const jwt = require('jsonwebtoken')
-const { NotAllowedError } = require('../errors')
+const { NotAllowedError } = require('events-error')
 
 describe('authenticateUser', () => {
     let name, surname, email, password, id
@@ -25,7 +25,7 @@ describe('authenticateUser', () => {
             const user = { id, name, surname, email, password, created: new Date }
             users.push(user)
 
-            return fs.writeFile(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 4)).then(() => user)
+            return fs.writeFile(path.join(__dirname, 'data/users.json'), JSON.stringify(users, null, 4)).then(() => user)
         })
 
         it('should correctly validate user', () => {
@@ -59,7 +59,7 @@ describe('authenticateUser', () => {
             const index = users.findIndex(user => user.email === email && user.password === password)
             users.splice(index, 1)
 
-            return fs.writeFile(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 4))
+            return fs.writeFile(path.join(__dirname, 'data/users.json'), JSON.stringify(users, null, 4))
         })
     })
 

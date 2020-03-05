@@ -1,5 +1,5 @@
 const { retrieveSubscribedEvents } = require('../logic')
-const { NotFoundError } = require('../errors')
+const { NotFoundError } = require('events-error')
 
 module.exports = (req, res) => {
     const { payload: { sub: id } } = req

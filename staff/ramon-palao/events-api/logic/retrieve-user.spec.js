@@ -1,10 +1,10 @@
 const { v4: uuid } = require('uuid')
-const { users } = require('../data')
+const { users } = require('data')
 const { retrieveUser } = require('../logic')
 const { expect } = require('chai')
 const fs = require('fs').promises
 const path = require('path')
-const { NotFoundError, NotAllowedError } = require('../errors')
+const { NotFoundError, NotAllowedError } = require('events-error')
 describe('retrieveUser', () => {
     let name, surname, email, password, id
     beforeEach(() => {
@@ -17,7 +17,7 @@ describe('retrieveUser', () => {
     describe('when user already exists', () => {
         beforeEach(() => {
             users.push({ id, name, surname, email, password })
-            return fs.writeFile(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 4))
+            return fs.writeFile(path.join(__dirname, 'data/users.json'), JSON.stringify(users, null, 4))
         })
         it('should successfully retrieve existing user', () => {
             return retrieveUser(id).then(user => {
@@ -38,7 +38,7 @@ describe('retrieveUser', () => {
     describe('when user is deactivated', () => {
         beforeEach(() => {
             users.push({ id, name, surname, email, password, deactivated: true })
-            return fs.writeFile(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 4))
+            return fs.writeFile(path.join(__dirname, 'data/users.json'), JSON.stringify(users, null, 4))
         })
         it('should fail on retrieving a deactivated user', () => {
             expect(() => {
@@ -51,7 +51,7 @@ describe('retrieveUser', () => {
     afterEach(() => {
         const index = users.findIndex(item => item.id === id)
         users.splice(index, 1)
-        return fs.writeFile(path.join(__dirname, '../data/users.json'), JSON.stringify(users, null, 4))
+        return fs.writeFile(path.join(__dirname, 'data/users.json'), JSON.stringify(users, null, 4))
     })
     it('should fail on non string id param', ()=>{
         const _name = 'id'

@@ -1,5 +1,5 @@
-const { models: {Event} } = require('../data')
-const { NotFoundError } = require('../errors')
+const { models: {Event} } = require('data')
+const { NotFoundError } = require('events-error')
 
 module.exports = () => {
 

@@ -1,5 +1,5 @@
 const searchVehicles = require('./search-vehicles')
-const { fetch } = require('../utils')
+const { fetch } = require('events-utils')
 
 describe('searchVehicles', () => {
     let name, surname, username, password, token, query, ids

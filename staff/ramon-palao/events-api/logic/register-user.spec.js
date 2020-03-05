@@ -3,7 +3,7 @@ require('dotenv').config()
 const { expect } = require('chai')
 const { ObjectId } = require('mongodb')
 const { random } = Math
-const { database } = require('../data')
+const { database } = require('data')
 const { registerUser } = require('../logic')
 
 const { env: { MONGODB_URL }} = process
