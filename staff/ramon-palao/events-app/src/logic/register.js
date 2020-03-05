@@ -18,14 +18,19 @@ export default function (name, surname, email, password) {
             body: JSON.stringify({ name, surname, email, password })
         })
 
-        if (res.status === 201) return 
+        const {status} = res
 
-        if (res.status === 409) {
-  
+        if (status === 201) return 
+
+        if (status >= 400 && status < 500) {
             const { error } = await res.json()
 
-            throw new NotAllowedError(error)
-                
-        } else throw new Error('Unknown error')
+            if(status === 409) {
+                throw new NotAllowedError(error)
+            }
+            
+            throw new Error(error)
+        } 
+        throw new Error('server error')
     })()
 }

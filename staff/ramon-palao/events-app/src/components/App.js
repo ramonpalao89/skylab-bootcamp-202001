@@ -2,15 +2,17 @@ import React, { useState, useEffect } from 'react'
 import logo from './logo.svg'
 // import './App.css'
 import './App.sass'
-import { registerUser, authenticateUser } from '../logic'
-import { Register, Login } from '../components'
+import { registerUser, authenticateUser, retrieveUser, retrieveLastEvents } from '../logic'
+import { Register, Login, Landing, ResultLastEvents } from '../components'
 
 function App({ name }) {
   const [view, setView] = useState('register')
+  const [user, setUser] = useState()
+  const [lastEvents, setLastEvents] = useState()
 
   const handleRegister = (name, surname, email, password) => {
 
-    (async => {
+    (async () => {
       try {
         await registerUser(name, surname, email, password)
         setView('login')
@@ -29,27 +31,38 @@ function App({ name }) {
       try {
         const token = await authenticateUser(email, password)
         sessionStorage.token = token
-        setView('login')
+        const user = await retrieveUser(token)
+        setUser(user)
+        setView('landing')
       } catch (error) {
         console.log(error.message)
       }
     })()
   }
 
-
-
-  const handleGoToRegister = () => {
-    setView('register')
+  const handleRetrieveLastEvents = () => {
+      (async () => {
+        try {
+          const token = sessionStorage.token
+          const lastEvents = await retrieveLastEvents(token)
+          setLastEvents(lastEvents)
+          setView('lastEvents')
+        } catch (error) {
+          console.log(error.message)
+        }
+      })()
   }
 
-  const handleGoToLogin = () => {
-    setView('login')
-  }
+  useEffect(() => {
+    console.log('UPDATED')
+  }, [view])
 
   return <div className="App">
 
-    {view === 'register' && <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} />}
-    {view === 'login' && <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} />}
+    {view === 'register' && <Register onRegister={handleRegister} setView={setView} />}
+    {view === 'login' && <Login onLogin={handleLogin} setView={setView} />}
+    {view === 'landing' && <Landing user={user} onGoToLastEvents={handleRetrieveLastEvents} />}
+    {view === 'lastEvents' && <ResultLastEvents lastEvents={lastEvents} setView={setView}/>}
   </div>
 }
 

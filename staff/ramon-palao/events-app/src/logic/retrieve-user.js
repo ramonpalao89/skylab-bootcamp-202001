@@ -1,26 +1,23 @@
 import { validate } from 'events-utils'
-const { NotAllowedError } = require('events-error')
+const { NotAllowedError, NotFoundError } = require('events-error')
 
 const API_URL = process.env.REACT_APP_API_URL
 
-export default function (email, password) {
+export default function (token) {
 
-    validate.string(email, 'email')
-    validate.email(email)
-    validate.string(password, 'password')
+    validate.string(token, 'token')
 
     return (async () => {
-        const res = await fetch(`${API_URL}/users/auth`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password })
+        const res = await fetch(`${API_URL}/users`, {
+            method: 'GET',
+            headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
         })
 
         const { status } = res
 
         if (status === 200) {
-            const { token } = await res.json()
-            return token
+            const user = await res.json()
+            return user
         }
         if (status >= 400 && status < 500) {
 
@@ -28,6 +25,10 @@ export default function (email, password) {
 
             if (status === 401) {
                 throw new NotAllowedError(error)
+            }
+
+            if (status === 404) {
+                throw new NotFoundError(error)
             }
             throw new Error(error)
         }
