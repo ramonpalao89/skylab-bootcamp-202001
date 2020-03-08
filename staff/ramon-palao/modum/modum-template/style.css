@@ -254,3 +254,72 @@ main {
 .reproductor{
     border: 1px solid black;
 }
+
+.profile-detail{
+    display: flex;
+}
+
+.profile-detail__name{
+    text-align: center;
+    font-size: 30px;
+}
+
+.profile-detail__avatar{
+    border-radius: 50%;
+    width: 350px;
+    height: 350px;
+    margin: 20px;
+}
+
+.profile-detail__form{
+    display: flex;
+    flex-direction: column;
+    margin: 15px;
+    padding: 10px;
+    font-size: 20px;
+}
+
+.profile-detail__info{
+    width: 100%;
+}
+
+.profile-detail__listened{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+}
+
+.profile-detail__title, .profile-detail__artist, .profile-detail__purchased-list{
+    text-align: center;
+    font-size: 35px;
+}
+
+.profile-detail__song{
+    font-size: 30px;
+    color: grey;
+    margin: 10px;
+}
+
+.profile-detail__fav-artist{
+    text-align: center;
+}
+
+.profile-detail__artist-name{
+    font-size: 30px;
+    color: grey;
+    text-align: center;
+}
+
+.profile-detail__artist-pic{
+    width: 30%;
+}
+
+.profile-detail__purchased-albums{
+    display: flex;
+    text-align: center;
+}
+
+.profile-detail__purchased-pic{
+    width: 45%;
+}
