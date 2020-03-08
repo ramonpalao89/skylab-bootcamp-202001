@@ -12,5 +12,6 @@ module.exports = new Schema({
     publishedEvents: { type: [{ type: ObjectId, ref: 'Event' }] },
     subscribedEvents: { type: [{ type: ObjectId, ref: 'Event' }] },
     //creditCards: {type: [{type: creditCard}]}
-    creditCards: [creditCard]
+    creditCards: [creditCard],
+    deactivated: {type: Boolean, default: false}
 })
