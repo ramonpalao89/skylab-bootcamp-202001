@@ -1,0 +1,184 @@
+header 
+    width: 100%
+    height: 180px
+    // para que no se muestren elementos que sobrepasen los 150px de alto
+    overflow: hidden 
+    position: sticky
+    top: 0
+    background-color: #0e5061
+
+.nav
+    top: -20px
+    left: 0
+    right: 0
+    margin: 20px auto
+    width: 90%
+
+
+.upper-header
+    position: relative
+    z-index: 10
+
+
+.upper-header ul
+    list-style: none
+
+
+.upper-header > ul
+    display: table
+    width: 100%
+    background-color: black
+    position: relative
+
+
+.upper-header > ul li
+    display: table-cell
+
+
+.upper-header > ul li a 
+    color: white
+    display: block
+    line-height: 20px
+    padding: 20px
+    position: relative
+    text-align: center
+    text-decoration: none
+
+
+.upper-header > ul > li > a span 
+    background: #174459
+    display: block
+    height: 100%
+    width: 100%
+    left: 0
+    position: absolute
+    top: -55px
+    -webkit-transition: all .3s ease
+    -moz-transition: all .3s ease
+    -ms-transition: all .3s ease
+    -o-transition: all .3s ease
+    transition: all .3s ease
+
+
+.upper-header > ul > li > a span .fas 
+    display: block
+    line-height: 60px
+
+
+.upper-header > ul > li > a:hover > span 
+    top: 0
+
+
+.upper-header  ul  li  a .user 
+    background: #0e5061
+
+
+.upper-header  ul  li  a .logo 
+    background: #f25724
+
+
+.upper-header  ul  li  a .buy 
+    background: #0e5061
+
+
+.upper-header  ul  li  a .search 
+    background: #37a4d9
+
+
+.categories ul
+    list-style: none
+
+
+.categories > ul
+    display: table
+    width: 100%
+    background-color: black
+    position: relative
+
+
+.categories > ul li
+    display: table-cell
+
+
+/*Submenu*/
+
+.categories > ul > li:hover > ul 
+    display: block
+    height: 100%
+
+.categories > ul > li > ul 
+    display: block
+    position: absolute
+    background-color: black
+    left: 0
+    right: 0
+    overflow: hidden
+    height: 0%
+    -webkit-transition: all .3s ease
+    -moz-transition: all .3s ease
+    -ms-transition: all .3s ease
+    -o-transition: all .3s ease
+    transition: all .3s ease
+
+
+.categories > ul li a 
+    color: white
+    display: block
+    line-height: 20px
+    padding: 20px
+    position: relative
+    text-align: center
+    text-decoration: none
+    -webkit-transition: all .3s ease
+    -moz-transition: all .3s ease
+    -ms-transition: all .3s ease
+    -o-transition: all .3s ease
+    transition: all .3s ease
+
+
+.categories > ul > li > ul > li a:hover 
+    background: #5da5a2
+
+
+.categories > ul > li > a span 
+    background: #174459
+    display: block
+    height: 100%
+    width: 100%
+    left: 0
+    position: absolute
+    top: -55px
+    -webkit-transition: all .3s ease
+    -moz-transition: all .3s ease
+    -ms-transition: all .3s ease
+    -o-transition: all .3s ease
+    transition: all .3s ease
+
+
+.categories > ul > li > a span .fas 
+    display: block
+    line-height: 60px
+
+
+.categories > ul > li > a:hover > span 
+    top: 0
+
+
+.categories  ul  li  a .home 
+    background: #0e5061
+
+
+.categories  ul  li  a .genres 
+    background: #5da5a2
+
+
+.categories  ul  li  a .years 
+    background: #f25724
+
+
+.categories  ul  li  a .sellings 
+    background: #174459
+
+
+.categories  ul  li  a .modum 
+    background: #37a4d9
