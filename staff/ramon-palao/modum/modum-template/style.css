@@ -542,4 +542,196 @@ header {
   margin-left: 4%;
 }
 
+.buy {
+  display: flex;
+  justify-content: center;
+}
+
+.buy__display {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  margin-left: 5%;
+  background-color: white;
+  padding: 2%;
+}
+
+.buy__title {
+  color: white;
+  margin-left: 3%;
+  border-bottom: 1px solid grey;
+}
+
+.buy__pic {
+  width: 15%;
+}
+
+.buy__buy {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  margin-right: 10px;
+}
+
+.buy__info {
+  align-self: center;
+  margin-right: 100px;
+}
+
+.buy__artist {
+  margin-bottom: 10px;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.buy__button {
+  background-color: #32fa00d7;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  height: 45%;
+  font-weight: bolder;
+  cursor: pointer;
+  margin: 4%;
+}
+
+.buy__total__pay {
+  background-color: #32fa00d7;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  height: 45%;
+  font-weight: bolder;
+  cursor: pointer;
+  font-size: 25px;
+  padding: 1%;
+  cursor: pointer;
+}
+
+.buy__price {
+  font-size: 25px;
+  font-weight: bolder;
+  color: #740303d7;
+  text-align: center;
+}
+
+.buy__album {
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.buy__total {
+  border-top: 1px solid grey;
+  margin-left: 3%;
+}
+
+.buy__total-price {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 20px;
+  font-weight: bolder;
+  color: #250202ea;
+  margin-right: 23%;
+  margin-top: 1%;
+}
+
+.buy__total-card {
+  display: flex;
+  justify-content: flex-end;
+  margin-right: 23%;
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+.buy__quantity {
+  display: flex;
+}
+
+.buy__quantity-input {
+  width: 15%;
+}
+
+.card__border {
+  border: 1px solid black;
+  width: 30%;
+  height: 42vh;
+  border-radius: 8%;
+  background-image: url("card.jpg");
+  background-size: cover;
+}
+
+.card__display {
+  display: flex;
+  justify-content: center;
+}
+
+.card__details {
+  margin-top: 15%;
+  margin-left: 8%;
+  font-weight: bolder;
+  color: white;
+}
+
+.card__logo {
+  font-size: 50px;
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6%;
+  margin-right: 7%;
+}
+
+.card__date-display, .card__numbers-display {
+  display: flex;
+  justify-content: center;
+}
+
+.card__numbers {
+  font-size: 30px;
+  margin-right: 8%;
+  margin-bottom: 6%;
+}
+
+.card__date {
+  margin-bottom: 6%;
+}
+
+.card__form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card__input {
+  width: 40%;
+  margin: 1%;
+  font-size: 20px;
+}
+
+.card__title {
+  color: white;
+  margin-left: 3%;
+  margin-bottom: 2%;
+  border-bottom: 1px solid grey;
+}
+
+.card__button-display {
+  display: flex;
+  justify-content: center;
+  margin-top: 1%;
+  margin-bottom: 2%;
+}
+
+.card__button {
+  background-color: #32fa00d7;
+  color: white;
+  border-radius: 5px;
+  border: 1px solid black;
+  height: 35%;
+  font-weight: bolder;
+  cursor: pointer;
+  font-size: 25px;
+  padding: 1%;
+  cursor: pointer;
+}
+
 /*# sourceMappingURL=style.css.map */
