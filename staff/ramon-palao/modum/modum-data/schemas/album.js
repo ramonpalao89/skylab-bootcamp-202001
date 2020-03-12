@@ -8,6 +8,7 @@ module.exports = new Schema({
     year: {type: String, required: true},
     priceVinyl: {type: String, required: true},
     priceDigital: {type: String, required: true},
+    quantity: {type: Number, default: 0},
     portrait: {type: String, required: true},
     rating: {type: Number},
     buyers: {type: [{ type: ObjectId, ref: 'User'}]}
