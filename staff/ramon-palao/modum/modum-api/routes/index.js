@@ -3,14 +3,13 @@ const {
     registerUser,
     authenticateUser,
     retrieveUser,
-    updateUser
+    updateUser,
+    retrieveSong
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
 
 const bodyParser = require('body-parser')
-
-// const {getTrack, uploadTrack} = require('./tracks')
 
 const jsonBodyParser = bodyParser.json()
 
@@ -24,8 +23,6 @@ router.get('/users', jwtVerifierMidWare, retrieveUser)
 
 router.patch('/users/:id/update', [jwtVerifierMidWare, jsonBodyParser], updateUser)
 
-// router.get('/tracks/:trackId', getTrack )
-
-// router.post('/tracks', uploadTrack )
+router.get('/track/:id/:idSong', retrieveSong)
 
 module.exports = router

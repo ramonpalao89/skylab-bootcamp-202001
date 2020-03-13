@@ -18,7 +18,6 @@ module.exports = (idUser, body) => {
         .then(user => {
 
             if (!user) throw new NotFoundError(`user with id ${idUser} does not exist`)
-
             if (newFields.newPassword) {
                 return bcryptjs.compare(newFields.newPassword, user.newPassword)
                     .then(async (validPassword) => {
