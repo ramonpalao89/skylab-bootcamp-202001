@@ -3,5 +3,9 @@ module.exports = {
     authenticateUser: require('./authenticate-user'),
     retrieveUser: require('./retrieve-user'),
     updateUser: require('./update-user'),
-    retrieveSong: require('./retrieve-song')
+    retrieveSong: require('./retrieve-song'),
+    retrieveAlbum: require('./retrieve-album'),
+    retrieveGenre: require('./retrieve-genre'),
+    retrieveYear: require('./retrieve-year'),
+    retrieveSearch: require('./retrieve-search')
 }

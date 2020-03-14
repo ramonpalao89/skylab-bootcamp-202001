@@ -10,9 +10,8 @@ module.exports = (id, idSong) => {
     return (async ()=> {
         const user = await User.findById(id)
         if (!user) throw Error
-
+        
         const { mostPlayedSongs } = user
-
         let firstTimePlayed = {}
 
         mostPlayedSongs.forEach( song => {
