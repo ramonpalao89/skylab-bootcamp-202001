@@ -13,7 +13,9 @@ module.exports = id => {
 
             user.retrieved = new Date
 
-            return user.save()
+            user.save()
+
+            return user
         })
-        .then(({ name, surname, email, purchasedAlbums, mostPlayedSongs }) => ({ name, surname, email, purchasedAlbums, mostPlayedSongs }))
+        // .then(({ name, surname, email, purchasedAlbums, mostPlayedSongs, favSong }) => ({ name, surname, email, purchasedAlbums, mostPlayedSongs, favSong }))
 }
