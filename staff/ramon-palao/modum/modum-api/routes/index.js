@@ -8,7 +8,13 @@ const {
     retrieveAlbum,
     retrieveGenre,
     retrieveYear,
-    retrieveSearch
+    retrieveSearch,
+    retrieveArtist,
+    retrieveSongName,
+    updateChart,
+    retrieveChart,
+    buyProducts,
+    updatePlaylist
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -36,5 +42,17 @@ router.get('/album/genre/:genreName', retrieveGenre)
 router.get('/album/year/:publishYear', retrieveYear)
 
 router.get('/artist', retrieveSearch)
+
+router.get('/artist/:idArtist', retrieveArtist)
+
+router.get('/track-name/:idSong', retrieveSongName)
+
+router.patch('/chart/:idAlbum', jwtVerifierMidWare, updateChart)
+
+router.get('/chart', jwtVerifierMidWare, retrieveChart)
+
+router.patch('/purchase', jwtVerifierMidWare, buyProducts)
+
+router.patch('/playlist/:idSong', jwtVerifierMidWare, updatePlaylist)
 
 module.exports = router
