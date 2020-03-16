@@ -11,7 +11,7 @@ module.exports = (id, idSong) => {
         const user = await User.findById(id)
         if (!user) throw Error
 
-        const { mostPlayedSongs, mostPlayedAlbums } = user
+        const { mostPlayedSongs, mostPlayedArtists } = user
 
         const { file, artists } = await Song.findById(idSong)
         
@@ -34,10 +34,10 @@ module.exports = (id, idSong) => {
             mostPlayedSongs.push(firstTimePlayed)
         }
 
-        if (mostPlayedAlbums.length){
-            for (let i = 0; i < mostPlayedAlbums.length; i++) {
-                if (mostPlayedAlbums[i].subject.toString() === artists) {
-                    mostPlayedAlbums[i].value++
+        if (mostPlayedArtists.length){
+            for (let i = 0; i < mostPlayedArtists.length; i++) {
+                if (mostPlayedArtists[i].subject.toString() === artists) {
+                    mostPlayedArtists[i].value++
                     foundArtist = true
                 }
             }
@@ -45,7 +45,7 @@ module.exports = (id, idSong) => {
         if (foundArtist === false) {
             firstTimeArtistPlayed.subject = artists
             firstTimeArtistPlayed.value = 1
-            mostPlayedAlbums.push(firstTimeArtistPlayed)
+            mostPlayedArtists.push(firstTimeArtistPlayed)
         }
 
         user.save()

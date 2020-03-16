@@ -1,6 +1,7 @@
 const { Schema, Types: { ObjectId } } = require('mongoose')
 const creditCard = require('./credit-card')
 const counter = require('./counter')
+const shippingData = require('./shipping-data')
 
 module.exports = new Schema({
     name: { type: String, required: true },
@@ -13,10 +14,11 @@ module.exports = new Schema({
     authenticated: { type: Date },
     retrieved: { type: Date },
     mostPlayedSongs: [counter],
-    mostPlayedAlbums: [counter],
+    mostPlayedArtists: [counter],
     freeSong: [counter],
     purchasedAlbums: { type: [{ type: ObjectId, ref: 'Album' }] },
     playlist: { type: [{ type: ObjectId, ref: 'Song' }] },
     creditCards: [creditCard],
-    chart: { type: [{ type: ObjectId, ref: 'Album' }] }
+    chart: { type: [{ type: ObjectId, ref: 'Album' }] },
+    shippingInformation: [shippingData]
 })

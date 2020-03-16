@@ -20,5 +20,8 @@ module.exports = {
     retrieveCreditCards: require('./retrieve-credit-card'),
     retrieveOneCreditCard: require('./retrieve-one-credit-card'),
     retrieveMostPlayedSongs: require('./retrieve-most-played-songs'),
-    retrieveMostPlayedArtists: require('./retrieve-most-played-artists')
+    retrieveMostPlayedArtists: require('./retrieve-most-played-artists'),
+    saveShippingInformation: require('./save-shipping-info'),
+    retrieveShippingInformation: require('./retrieve-shipping-information'),
+    retrieveOneShipping: require('./retrieve-one-shipping')
 }

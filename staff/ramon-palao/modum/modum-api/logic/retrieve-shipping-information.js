@@ -4,7 +4,7 @@ const { NotFoundError, NotAllowedError } = require('modum-errors')
 
 module.exports = id => {
     validate.string(id, 'id')
-    const playedArtists = []
+    const allShippingDetails = []
 
     return User.findById(id)
         .then(user => {
@@ -12,13 +12,11 @@ module.exports = id => {
 
             if (user.deactivated) throw new NotAllowedError(`user with id ${id} is deactivated`)
 
-            const { mostPlayedArtists } = user
+            const { shippingInformation } = user
 
-            mostPlayedArtists.sort((a, b) => b.value - a.value)
+            shippingInformation.forEach(item => allShippingDetails.push(item))
 
-            mostPlayedArtists.forEach(item => playedArtists.push(item))
-
-            return playedArtists
+            return allShippingDetails
         })
-        .then(playedArtists => playedArtists)
+        .then(allShippingDetails => allShippingDetails)
 }

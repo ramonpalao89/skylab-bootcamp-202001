@@ -4,5 +4,6 @@ module.exports = {
     counter: require('./counter'),
     creditCard: require('./credit-card'),
     song: require('./song'),
-    user: require('./user')
+    user: require('./user'),
+    shippingData: require('./shipping-data')
 }

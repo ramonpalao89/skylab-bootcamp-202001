@@ -2,9 +2,11 @@ const { validate } = require('modum-utils')
 const { models: { User } } = require('modum-data')
 const { NotFoundError, NotAllowedError } = require('modum-errors')
 
-module.exports = id => {
+module.exports = (id, idShipping) => {
     validate.string(id, 'id')
-    const playedArtists = []
+    validate.string(idShipping, 'idShipping')
+
+    const oneShipping = []
 
     return User.findById(id)
         .then(user => {
@@ -12,13 +14,11 @@ module.exports = id => {
 
             if (user.deactivated) throw new NotAllowedError(`user with id ${id} is deactivated`)
 
-            const { mostPlayedArtists } = user
+            const { shippingInformation } = user
 
-            mostPlayedArtists.sort((a, b) => b.value - a.value)
+            shippingInformation.forEach(item => item._id.toString() === idShipping ? oneShipping.push(item) : '')
 
-            mostPlayedArtists.forEach(item => playedArtists.push(item))
-
-            return playedArtists
+            return oneShipping
         })
-        .then(playedArtists => playedArtists)
+        .then(oneShipping => oneShipping)
 }
