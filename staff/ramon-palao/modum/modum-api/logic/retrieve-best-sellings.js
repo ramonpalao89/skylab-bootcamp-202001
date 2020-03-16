@@ -8,14 +8,12 @@ module.exports = () => {
         .lean()
         .then(album => {
 
-            // if (!album) throw new NotFoundError(`album with id ${idAlbum} does not exist`)
+            album.forEach(item => {
+                item.id = item._id.toString()
 
-
-            // album.forEach(item => {
-            //     item.id = item._id.toString()
-
-            //     delete item._id
-            // })
+                delete item._id
+                delete item.__v
+            })
 
             return album
         })

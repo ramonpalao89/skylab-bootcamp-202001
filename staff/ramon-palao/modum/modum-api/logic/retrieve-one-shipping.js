@@ -8,7 +8,7 @@ module.exports = (id, idShipping) => {
 
     const oneShipping = []
 
-    return User.findById(id)
+    return User.findById(id).lean()
         .then(user => {
             if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
 
@@ -17,6 +17,13 @@ module.exports = (id, idShipping) => {
             const { shippingInformation } = user
 
             shippingInformation.forEach(item => item._id.toString() === idShipping ? oneShipping.push(item) : '')
+
+            oneShipping.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+            })
+
+            if (!oneShipping.length) throw new NotFoundError(`Shipping details with id ${id} does not exist`)
 
             return oneShipping
         })

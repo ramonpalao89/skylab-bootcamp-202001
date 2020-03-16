@@ -8,7 +8,7 @@ module.exports = (id, idCard) => {
 
     const oneCreditCard = []
 
-    return User.findById(id)
+    return User.findById(id).lean()
         .then(user => {
             if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
 
@@ -17,6 +17,13 @@ module.exports = (id, idCard) => {
             const { creditCards } = user
 
             creditCards.forEach(item => item._id.toString() === idCard ? oneCreditCard.push(item) : '')
+
+            oneCreditCard.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+            })
+
+            if(!oneCreditCard.length) throw new NotFoundError(`Credit Card with id ${idCard} does not exist`)
 
             return oneCreditCard
         })

@@ -6,7 +6,7 @@ module.exports = id => {
     validate.string(id, 'id')
     const playedSongs = []
 
-    return User.findById(id)
+    return User.findById(id).lean()
         .then(user => {
             if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
 
@@ -17,6 +17,13 @@ module.exports = id => {
             mostPlayedSongs.sort((a, b) => b.value - a.value)
 
             mostPlayedSongs.forEach(item => playedSongs.push(item))
+
+            playedSongs.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+            })
+
+            if (!playedSongs.length) throw new NotFoundError(`user with id ${id} has not played any song yet`)
 
             return playedSongs
         })

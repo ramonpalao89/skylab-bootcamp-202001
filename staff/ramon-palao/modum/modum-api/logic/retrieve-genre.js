@@ -11,11 +11,12 @@ module.exports = genreName => {
 
             if (!album.length) throw new NotFoundError(`no albums found with genre ${genreName}`)
 
-            // album.forEach(item => {
-            //     item.id = item._id.toString()
+            album.forEach(item => {
+                item.id = item._id.toString()
 
-            //     delete item._id
-            // })
+                delete item._id
+                delete item.__v
+            })
 
             return album
         })

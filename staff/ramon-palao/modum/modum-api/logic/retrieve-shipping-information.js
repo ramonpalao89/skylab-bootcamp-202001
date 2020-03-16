@@ -6,7 +6,7 @@ module.exports = id => {
     validate.string(id, 'id')
     const allShippingDetails = []
 
-    return User.findById(id)
+    return User.findById(id).lean()
         .then(user => {
             if (!user) throw new NotFoundError(`user with id ${id} does not exist`)
 
@@ -15,6 +15,13 @@ module.exports = id => {
             const { shippingInformation } = user
 
             shippingInformation.forEach(item => allShippingDetails.push(item))
+
+            allShippingDetails.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+            })
+
+            if (!allShippingDetails.length) throw new NotFoundError(`user with id ${id} has not saved shipping details yet`)
 
             return allShippingDetails
         })

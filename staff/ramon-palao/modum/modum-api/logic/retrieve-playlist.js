@@ -14,8 +14,15 @@ module.exports = id => {
 
         if(playlist.length){
             for(let i = 0; i < playlist.length; i++){
-                const song = await Song.findById(playlist[i])
-                const album = await Album.find({songs: playlist[i]}).populate('artists', 'name')
+                const song = await Song.findById(playlist[i]).lean()
+                song.id = song._id.toString()
+                delete song._id
+                delete song.__v
+                
+                const album = await Album.find({songs: playlist[i]}).populate('artists', 'name').lean()
+                
+                album[0].artists[0].id = album[0].artists[0]._id.toString()
+                delete album[0].artists[0]._id
             
                 playlistSongs.push(song, album[0].name, album[0].artists)
             }

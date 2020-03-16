@@ -12,8 +12,16 @@ module.exports = query => {
             if (!artist.length) throw new NotFoundError(`Artist ${query} not found`)
 
             return (async()=> {
-                const album = await Album.find({artists: artist[0]._id})
+                const album = await Album.find({artists: artist[0]._id}).lean()
                 if (!album) throw new NotFoundError(`${query} has not published any album`)
+
+                album.forEach(item => {
+                    item.id = item._id.toString()
+    
+                    delete item._id
+                    delete item.__v
+                })
+
                 return album
             })()
         })

@@ -11,15 +11,14 @@ module.exports = (publishYear) => {
             .lean()
             .then(album => {
 
-                if (!album.length) throw new NotFoundError(`no albums found with genre ${genreName}`)
+                if (!album.length) throw new NotFoundError(`no albums published ${publishYear} years ago`)
 
-
-
-                // album.forEach(item => {
-                //     item.id = item._id.toString()
-
-                //     delete item._id
-                // })
+                album.forEach(item => {
+                    item.id = item._id.toString()
+    
+                    delete item._id
+                    delete item.__v
+                })
 
                 return album
             })
@@ -28,15 +27,14 @@ module.exports = (publishYear) => {
             .lean()
             .then(album => {
 
-                if (!album.length) throw new NotFoundError(`no albums found with genre ${genreName}`)
+                if (!album.length) throw new NotFoundError(`no albums published ${publishYear} years ago`)
 
-
-
-                // album.forEach(item => {
-                //     item.id = item._id.toString()
-
-                //     delete item._id
-                // })
+                album.forEach(item => {
+                    item.id = item._id.toString()
+    
+                    delete item._id
+                    delete item.__v
+                })
 
                 return album
             })

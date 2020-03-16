@@ -9,7 +9,14 @@ module.exports = idArtist => {
         .lean()
         .then(album => {
 
-            if (!album.length) throw new NotFoundError(`Artist ${idArtist} not found`)
+            if (!album.length) throw new NotFoundError(`Artist with id ${idArtist} not found`)
+
+            album[0].artists.forEach(item => {
+                item.id = item._id.toString()
+
+                delete item._id
+            })
+
             return album[0]
         })
         .then(({artists, portrait}) => ({artists, portrait}))

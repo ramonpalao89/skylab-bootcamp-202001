@@ -14,12 +14,23 @@ module.exports = id => {
 
         if(chart.length){
             for(let i = 0; i < chart.length; i++){
-                const album = await Album.findById(chart[i]).populate('artists', 'name')
+                const album = await Album.findById(chart[i]).populate('artists', 'name').lean()
+                
+                album.artists[0].id = album.artists[0]._id.toString()
+                delete album.artists[0]._id
+                
                 chartList.push(album)
             }
         } else {
             throw new NotFoundError('No products in chart')
         }
+
+        chartList.forEach(item => {
+            item.id = item._id.toString()
+    
+            delete item._id
+            delete item.__v
+        })
 
         return chartList
     })()
