@@ -4,7 +4,7 @@ const { NotFoundError } = require('modum-errors')
 
 module.exports = () => {
 
-    return Album.find().sort({buyers: -1})
+    return Album.find().sort({buyers: -1}).limit(5)
         .lean()
         .then(album => {
 

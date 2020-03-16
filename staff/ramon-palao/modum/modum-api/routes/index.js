@@ -16,7 +16,12 @@ const {
     buyProducts,
     updatePlaylist,
     retrievePlaylist,
-    retrieveBestSellings
+    retrieveBestSellings,
+    saveCreditCard,
+    retrieveCreditCards,
+    retrieveOneCreditCard,
+    retrieveMostPlayedSongs,
+    retrieveMostPlayedArtists
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -60,5 +65,15 @@ router.patch('/playlist/:idSong', jwtVerifierMidWare, updatePlaylist)
 router.get('/playlist', jwtVerifierMidWare, retrievePlaylist)
 
 router.get('/best-sellings', retrieveBestSellings)
+
+router.post('/credit-card/:id', [jwtVerifierMidWare, jsonBodyParser], saveCreditCard)
+
+router.get('/credit-card', jwtVerifierMidWare, retrieveCreditCards)
+
+router.get('/credit-card/:idCard', jwtVerifierMidWare, retrieveOneCreditCard)
+
+router.get('/most-played-songs', jwtVerifierMidWare, retrieveMostPlayedSongs)
+
+router.get('/most-played-artists', jwtVerifierMidWare, retrieveMostPlayedArtists)
 
 module.exports = router

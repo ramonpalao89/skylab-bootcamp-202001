@@ -15,5 +15,10 @@ module.exports = {
     buyProducts: require('./buy-products'),
     updatePlaylist: require('./update-playlist'),
     retrievePlaylist: require('./retrieve-playlist'),
-    retrieveBestSellings: require('./retrieve-best-sellings')
+    retrieveBestSellings: require('./retrieve-best-sellings'),
+    saveCreditCard: require('./save-credit-card'),
+    retrieveCreditCards: require('./retrieve-credit-card'),
+    retrieveOneCreditCard: require('./retrieve-one-credit-card'),
+    retrieveMostPlayedSongs: require('./retrieve-most-played-songs'),
+    retrieveMostPlayedArtists: require('./retrieve-most-played-artists')
 }

@@ -15,9 +15,7 @@ module.exports = (idUser) => {
         if(chart.length){
             for(let i = 0; i < chart.length; i++){
                 const album = await Album.findById(chart[i]).populate('artists', 'name')
-                let { buyers } = album
-                buyers === 0 ? buyers = 1 : buyers++
-                debugger
+                album.buyers === 0 ? album.buyers = 1 : album.buyers++
                 purchasedAlbums.push(album)
                 album.save()
             }
