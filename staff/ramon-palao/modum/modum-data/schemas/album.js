@@ -11,5 +11,5 @@ module.exports = new Schema({
     quantity: {type: Number, default: 0},
     portrait: {type: String, required: true},
     rating: {type: Number},
-    buyers: {type: [{ type: ObjectId, ref: 'User'}]}
+    buyers: {type: Number}
 })

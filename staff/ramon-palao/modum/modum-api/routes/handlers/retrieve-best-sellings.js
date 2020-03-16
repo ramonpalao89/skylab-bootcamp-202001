@@ -1,13 +1,12 @@
-const { retrieveChart } = require('../../logic')
-const { NotFoundError } = require('modum-errors')
+const { retrieveBestSellings } = require('../../logic')
+const { NotFoundError, ContentError } = require('modum-errors')
 
 module.exports = (req, res) => {
-    const { payload: { sub: id } } = req
-
+    // const { params: { idAlbum } } = req
     try {
-        retrieveChart(id)
-            .then(chart =>{
-                res.status(200).json(chart)
+        retrieveBestSellings()
+            .then(album =>{
+                res.status(200).json(album)
             })
             .catch(error => {
                 let status = 400

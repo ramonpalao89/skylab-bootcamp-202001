@@ -14,7 +14,9 @@ const {
     updateChart,
     retrieveChart,
     buyProducts,
-    updatePlaylist
+    updatePlaylist,
+    retrievePlaylist,
+    retrieveBestSellings
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -54,5 +56,9 @@ router.get('/chart', jwtVerifierMidWare, retrieveChart)
 router.patch('/purchase', jwtVerifierMidWare, buyProducts)
 
 router.patch('/playlist/:idSong', jwtVerifierMidWare, updatePlaylist)
+
+router.get('/playlist', jwtVerifierMidWare, retrievePlaylist)
+
+router.get('/best-sellings', retrieveBestSellings)
 
 module.exports = router

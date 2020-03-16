@@ -8,14 +8,14 @@ mongoose.connect('mongodb://localhost:27017/modum', { useNewUrlParser: true, use
         const albums = []
 
         const newAlbum = new Album({
-            name: 'Loca',
+            name: 'el mal querer',
             artists: [],
             songs: [],
-            genre: 'latin',
-            year: '2010',
+            genre: 'pop',
+            year: '2018',
             priceVinyl: '9.99',
             priceDigital: '6.99',
-            portrait: 'shakira'
+            portrait: 'rosalia'
         })
 
         return newAlbum.save()

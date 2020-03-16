@@ -13,5 +13,7 @@ module.exports = {
     updateChart: require('./update-chart'),
     retrieveChart: require('./retrieve-chart'),
     buyProducts: require('./buy-products'),
-    updatePlaylist: require('./update-playlist')
+    updatePlaylist: require('./update-playlist'),
+    retrievePlaylist: require('./retrieve-playlist'),
+    retrieveBestSellings: require('./retrieve-best-sellings')
 }
