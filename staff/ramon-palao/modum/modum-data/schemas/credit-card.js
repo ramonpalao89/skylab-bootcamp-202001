@@ -5,7 +5,6 @@ module.exports = new Schema({
     number: {
         type: String,
         required: true,
-        unique: true,
         validate: {
             validator: function (v) {
                 return /^\d{16}$/.test(v);
