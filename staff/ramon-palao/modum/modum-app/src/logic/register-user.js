@@ -1,9 +1,8 @@
 import { validate } from 'modum-utils'
 const { NotAllowedError } = require('modum-errors')
+require('dotenv').config()
 
-// const { env: { REACT_APP_API_URL: API_URL } } = process
-// const API_URL = process.env.REACT_APP_API_URL
-const API_URL = 'http://localhost:8085/api'
+const API_URL = process.env.REACT_APP_API_URL
 
 export default (name, surname, email, password) => {
     validate.string(name, 'name')
