@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.sass';
-import { Register, Login, Page, Home, Header } from '../components'
-import { registerUser, login, isLoggedIn, retrieveUser } from '../logic'
+import { Register, Login, Page, Home, Header, ResultsItem, DetailItem } from '../components'
+import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail } from '../logic'
 import { Context } from './ContextProvider'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 
@@ -9,6 +9,8 @@ export default withRouter(function ({ history }) {
 
   const [state, setState] = useContext(Context)
   const [user, setUser] = useState([])
+  const [albumsGenre, setAlbumsGenre] = useState([])
+  const [albumDetail, setAlbumDetail] = useState([])
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -63,6 +65,44 @@ export default withRouter(function ({ history }) {
     })()
   }
 
+  const handleRetrieveGenre = genre => {
+    (async () => {
+      try{
+        const albumsGenre = await retrieveGenre(genre)
+
+        setAlbumsGenre(albumsGenre)
+
+        history.push('/albums/genre')
+
+      } catch ({message}) {
+        setState({ ...state, error: message})
+
+        setTimeout(() => {
+          setState({error: undefined})
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleDetail = id => {
+    (async () => {
+      try{
+        const albumDetail = await retrieveAlbumDetail(id)
+
+        setAlbumDetail(albumDetail)
+
+        history.push('/album/detail')
+
+      } catch ({message}) {
+        setState({...state, error: message})
+
+        setTimeout(() => {
+          setState({error: undefined})
+        }, 3000)
+      }
+    })()
+  }
+
   const handleGoToLogin = () => {
     history.push('/login')
   }
@@ -78,7 +118,9 @@ export default withRouter(function ({ history }) {
     <Route exact path='/' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Redirect to='/login' />} />
     <Route path='/register' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} error={error} />} />
     <Route path='/login' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} error={error} />} />
-    <Route path='/home' render={() => isLoggedIn() ? <><Header user={user} /><Home /></> : <Redirect to='/login' />} />
+    <Route path='/home' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} /><Home /></> : <Redirect to='/login' />} />
+    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre}/><ResultsItem albumsGenre={albumsGenre} onGoToDetail={handleDetail}/></> : <Redirect to='/login'/>} />
+    <Route path='/album/detail' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre}/><DetailItem albumDetail={albumDetail}/></> : <Redirect to='/login'/>} />
 
   </div>
 })

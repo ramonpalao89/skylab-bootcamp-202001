@@ -17,10 +17,11 @@ export default (function (email, password) {
         })
 
         const { status } = res
-
+        
         if (status === 200){
             const { token } = await res.json()
             this.token = token
+            
 
             return
         }

@@ -5,7 +5,7 @@ const { NotFoundError } = require('modum-errors')
 module.exports = genreName => {
     validate.string(genreName, 'genreName')
 
-    return Album.find({genre: genreName})
+    return Album.find({genre: genreName}).populate('artists', 'name')
         .lean()
         .then(album => {
 
@@ -17,6 +17,12 @@ module.exports = genreName => {
                 delete item._id
                 delete item.__v
             })
+
+            // album.artists.forEach(item => {
+            //     item.id = item._id.toString()
+
+            //     delete item._id
+            // })
 
             return album
         })

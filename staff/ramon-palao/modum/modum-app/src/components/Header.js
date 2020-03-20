@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Header.sass'
 
-export default ({user}) => {
+export default ({user, genreButtonClick}) => {
     const {name, surname} = user
 
     return <div>
@@ -21,9 +21,15 @@ export default ({user}) => {
                         <ul>
                             <li><a href="">POP</a></li>
                             <li><a href="">HIP HOP</a></li>
-                            <li><a href="">ROCK</a></li>
+                            <li><a href="" onClick={event => {
+                                event.preventDefault()
+                                genreButtonClick('rock')
+                            }}>ROCK</a></li>
                             <li><a href="">LATIN</a></li>
-                            <li><a href="">REGGAE</a></li>
+                            <li><a href="" onClick={event => {
+                                event.preventDefault()
+                                genreButtonClick('Reggae')
+                            }}>REGGAE</a></li>
                             <li><a href="">SOUL</a></li>
                         </ul>
                     </li>

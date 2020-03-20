@@ -4,6 +4,9 @@ import Login from './Login'
 import Page from './Page'
 import Home from './Home'
 import Header from './Header'
+import Item from './Item'
+import ResultsItem from './Results-item'
+import DetailItem from './Detail-item'
 
 export {
     App,
@@ -11,5 +14,8 @@ export {
     Login,
     Page,
     Home,
-    Header
+    Header,
+    Item,
+    ResultsItem,
+    DetailItem
 }

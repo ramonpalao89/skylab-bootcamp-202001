@@ -24,7 +24,8 @@ const {
     retrieveMostPlayedArtists,
     saveShippingInformation,
     retrieveShippingInformation,
-    retrieveOneShipping
+    retrieveOneShipping,
+    retrievePortrait
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -84,5 +85,7 @@ router.post('/shipping-information/:id', [jwtVerifierMidWare, jsonBodyParser], s
 router.get('/shipping-information', jwtVerifierMidWare, retrieveShippingInformation)
 
 router.get('/shipping-information/:idShipping', jwtVerifierMidWare, retrieveOneShipping)
+
+router.get('/portrait/:idAlbum', retrievePortrait)
 
 module.exports = router

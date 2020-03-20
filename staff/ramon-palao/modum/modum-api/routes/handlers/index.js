@@ -23,5 +23,6 @@ module.exports = {
     retrieveMostPlayedArtists: require('./retrieve-most-played-artists'),
     saveShippingInformation: require('./save-shipping-info'),
     retrieveShippingInformation: require('./retrieve-shipping-information'),
-    retrieveOneShipping: require('./retrieve-one-shipping')
+    retrieveOneShipping: require('./retrieve-one-shipping'),
+    retrievePortrait: require('./retrieve-portrait')
 }
