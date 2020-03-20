@@ -19,7 +19,6 @@ export default withRouter(function ({ history }) {
         const user = await retrieveUser()
         setUser(user)
 
-        history.push('/home')
       })()
     } else {
       history.push('/login')
@@ -91,7 +90,7 @@ export default withRouter(function ({ history }) {
 
         setAlbumDetail(albumDetail)
 
-        history.push('/album/detail')
+        history.push(`/album/detail/`)
 
       } catch ({message}) {
         setState({...state, error: message})
@@ -120,7 +119,7 @@ export default withRouter(function ({ history }) {
     <Route path='/login' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} error={error} />} />
     <Route path='/home' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} /><Home /></> : <Redirect to='/login' />} />
     <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre}/><ResultsItem albumsGenre={albumsGenre} onGoToDetail={handleDetail}/></> : <Redirect to='/login'/>} />
-    <Route path='/album/detail' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre}/><DetailItem albumDetail={albumDetail}/></> : <Redirect to='/login'/>} />
+    <Route path='/album/detail/' render={props => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre}/><DetailItem albumDetail={albumDetail} id={props.match.params.id} /></> : <Redirect to='/login'/>} />
 
   </div>
 })

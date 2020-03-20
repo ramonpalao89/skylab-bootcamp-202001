@@ -1,43 +1,46 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import { retrieveAlbumDetail, isLoggedIn } from '../logic'
+import './Detail-item.sass'
 
-export default ({albumDetail}) => {
-const {artists} = albumDetail
+export default ({ albumDetail }) => {
+
+    // let [albumDetail, setAlbumDetail] = useState()
+    // useEffect(() => {
+    //     if (isLoggedIn()) {
+    //       (async() => {
+
+    //         const albumDetail = await retrieveAlbumDetail(id)
+    //         debugger
+    //         setAlbumDetail(albumDetail)
+
+    //     })()
+    // }
+    // })
+
+    const { artists, songs, name, genre, year, priceVinyl, priceDigital, portrait, id } = albumDetail
+
     return <section>
-        <section class="album-titles">
+        <section className="album-titles">
             <section>
-                <h2 class="album-name">LEGEND (1984)</h2><br />
-                <h2 class="album-artist">BOB MARLEY</h2><br />
-                <h3 class="album-genre">Reggae</h3>
+                <h2 className="album-name">{name} ({year})</h2><br />
+                <h2 className="album-artist">{artists ? artists[0].name : 'Artist name not found'}</h2><br />
+                <h3 className="album-genre">{genre}</h3>
             </section>
-            <section>
-                <h2 class="album-rating">Rating: 9/10</h2>
-            </section>
+            {/* <section>
+                <h2 className="album-rating">Rating: 9/10</h2>
+            </section> */}
         </section>
-        <section class="album-detail">
+        <section className="album-detail">
             <section>
-                <img src="bob.jpeg" />
+                <img src={portrait} />
             </section>
-            <section class="album-songs">
-                <p>1 - Is This Love (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>2 - No Woman No Cry (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>3 - Could you be loved (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>4 - Three Little Birds (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>5 - Buffalo Soldier (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>6 - Get Up, Stand Up (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>7 - Stir It Up (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>8 - Easy Skanking (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>9 - One Love / People Get Ready (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
-                <p>10 - I Shot The Sheriff (3:00)</p>
-                <p class="reproductor"><i class="fas fa-play-circle"></i> REPRODUCTOR</p><br />
+            <section className="album-songs">
+                <section className='album-songs__title'>
+                {songs && songs.map(song => <p className='album-songs__name'>{song.name}</p>)}
+                </section>
+                <section className='album-songs__audio'>
+                {songs && songs.map(song => <audio controls><source src={song.file} type='audio/mpeg'/></audio>)}
+                </section>
             </section>
         </section>
     </section>
