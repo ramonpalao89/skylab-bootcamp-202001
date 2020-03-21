@@ -1,8 +1,8 @@
 import React from 'react'
 import './Item.sass'
 
-export default ({albumsGenre, onGoToDetail}) => {
-    const {name, priceVinyl, portrait, artists, id} = albumsGenre
+export default ({albums, onGoToDetail}) => {
+    const {name, priceVinyl, portrait, artists, id} = albums
     return <div>
         <section className="landing__section">
             <img src={portrait} className="landing__album-picture"/>

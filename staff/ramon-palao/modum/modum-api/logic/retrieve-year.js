@@ -23,7 +23,7 @@ module.exports = (publishYear) => {
                 return album
             })
     } else {
-        return Album.find({ year: { $lt: new Date().getFullYear() - 10 } })
+        return Album.find({ year: { $lt: new Date().getFullYear() - 10 } }).populate('artists', 'name')
             .lean()
             .then(album => {
 

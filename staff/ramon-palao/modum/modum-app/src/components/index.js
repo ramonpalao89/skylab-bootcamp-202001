@@ -7,6 +7,8 @@ import Header from './Header'
 import Item from './Item'
 import ResultsItem from './Results-item'
 import DetailItem from './Detail-item'
+import BestSellings from './Best-sellings'
+import ResultsBestSellings from './Results-best-sellings'
 
 export {
     App,
@@ -17,5 +19,7 @@ export {
     Header,
     Item,
     ResultsItem,
-    DetailItem
+    DetailItem,
+    BestSellings,
+    ResultsBestSellings
 }

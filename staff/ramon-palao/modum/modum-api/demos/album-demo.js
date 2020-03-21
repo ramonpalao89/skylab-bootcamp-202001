@@ -5,14 +5,14 @@ mongoose.connect('mongodb://localhost:27017/modum', { useNewUrlParser: true, use
     .then(() => {
 
         const newAlbum = new Album({
-            name: '',
+            name: 'Jackboys',
             artists: [],
             songs: [],
-            genre: '',
-            year: '',
-            priceVinyl: '',
-            priceDigital: '',
-            portrait: ''
+            genre: 'Hip-Hop',
+            year: '2020',
+            priceVinyl: '9,99',
+            priceDigital: '9,99',
+            portrait: 'travis'
         })
 
         return newAlbum.save()

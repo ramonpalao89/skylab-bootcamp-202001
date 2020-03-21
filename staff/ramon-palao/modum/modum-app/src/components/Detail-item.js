@@ -19,7 +19,7 @@ export default ({ albumDetail }) => {
 
     const { artists, songs, name, genre, year, priceVinyl, priceDigital, portrait, id } = albumDetail
 
-    return <section>
+    return <section className="album-background">
         <section className="album-titles">
             <section>
                 <h2 className="album-name">{name} ({year})</h2><br />

@@ -1,9 +1,10 @@
 import React from 'react'
 import Feedback from './Feedback'
+import './Register.sass'
 
 export default ({onRegister, onGoToLogin, error, onMount}) =>{
 
-    return <div>
+    return <div className="register-background">
         <form onSubmit={event =>{
             event.preventDefault()
 
