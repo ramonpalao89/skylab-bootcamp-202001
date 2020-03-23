@@ -1,5 +1,5 @@
 const { updateUser } = require('../../logic')
-const { NotFoundError, ContentError } = require('modum-errors')
+const { NotFoundError, ContentError, NotAllowedError } = require('modum-errors')
 
 module.exports = (req, res) => {
     const { payload: { sub: id }, body } = req
@@ -14,6 +14,9 @@ module.exports = (req, res) => {
 
                 if (error instanceof NotFoundError)
                     status = 404
+
+                if (error instanceof NotAllowedError)
+                    status = 409
 
                 const { message } = error
 

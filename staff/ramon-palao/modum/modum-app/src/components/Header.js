@@ -1,14 +1,17 @@
 import React, {useState} from 'react'
 import './Header.sass'
 
-export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClick}) => {
+export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClick, onGoToProfile}) => {
     const {name, surname} = user
 
     return <div>
         <header>
             <nav className="upper-header">
                 <ul>
-                    {user && <li><a href=""><span className="user"><i className="fas fa-user"></i></span>{name} {surname}</a></li>}
+                    {user && <li><a href="" onClick={event=>{
+                        event.preventDefault()
+                        onGoToProfile()
+                    }}><span className="user"><i className="fas fa-user"></i></span>{name} {surname}</a></li>}
                     <li><a href=""><span className="logo"><i></i></span>MODUM</a></li>
                     <li><a href=""><span className="buy"><i className="fas fa-shopping-cart"></i></span>BUY</a></li>
                     <li><a href=""><span className="search"><i className="fas fa-search"></i></span>SEARCH</a></li>

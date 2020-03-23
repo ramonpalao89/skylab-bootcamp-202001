@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.sass';
-import { Register, Login, Page, Home, Header, ResultsItem, DetailItem, ResultsBestSellings } from '../components'
-import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail, retrieveYear, retrieveBestSellings } from '../logic'
+import { Register, Login, Page, Home, Header, ResultsItem, DetailItem, ResultsBestSellings, Profile } from '../components'
+import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail, retrieveYear, retrieveBestSellings, updateProfile, retrieveSong } from '../logic'
 import { Context } from './ContextProvider'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 
@@ -12,14 +12,20 @@ export default withRouter(function ({ history }) {
   const [albums, setAlbums] = useState([])
   const [albumDetail, setAlbumDetail] = useState([])
   const [bestSellings, setBestSellings] = useState([])
+  let [message, setMessage] = useState([])
+  const [file, setFile] = useState([])
+  // const [mostPlayedSongs, setMostPlayedSongs] = useState([])
 
   useEffect(() => {
     if (isLoggedIn()) {
       (async () => {
-
-        const user = await retrieveUser()
-        setUser(user)
-
+        try{
+          const user = await retrieveUser()
+          setUser(user)
+        } catch (error) {
+          // logout()
+          history.push('/login')
+        }
       })()
     } else {
       history.push('/login')
@@ -49,7 +55,7 @@ export default withRouter(function ({ history }) {
       try {
         await login(email, password)
 
-        const user = await retrieveUser()
+        let user = await retrieveUser()
 
         setUser(user)
 
@@ -142,12 +148,58 @@ export default withRouter(function ({ history }) {
     })()
   }
 
+  const handleProfile = (newUser) => {
+    (async() => {
+      try{
+        await updateProfile(newUser)
+
+        setUser(newUser)
+
+        setMessage('Updated Succesfully!')
+
+        setTimeout(() => {
+          setMessage(undefined)
+        }, 3000)
+        
+        history.push('/user/profile')
+
+      } catch({message}){
+        setState({...state, error: message})
+
+        setTimeout(() => {
+          setState({error: undefined})
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleRetrieveSong = idSong => {
+    (async() => {
+      try{
+        const file = await retrieveSong(idSong)
+        setFile(file)
+
+      } catch({message}){
+        setState({...state, error: message})
+
+        setTimeout(() => {
+          setState({error: undefined})
+        }, 3000)
+
+      }
+    })()
+  }
+
   const handleGoToLogin = () => {
     history.push('/login')
   }
 
   const handleGoToRegister = () => {
     history.push('/register')
+  }
+
+  const handleGoToProfile = () => {
+    history.push('/user/profile')
   }
 
 
@@ -157,11 +209,12 @@ export default withRouter(function ({ history }) {
     <Route exact path='/' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Redirect to='/login' />} />
     <Route path='/register' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} error={error} />} />
     <Route path='/login' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} error={error} />} />
-    <Route path='/home' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Home /></> : <Redirect to='/login' />} />
-    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
-    <Route path='/albums/year' render={() => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
-    <Route path='/album/detail/' render={props => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><DetailItem albumDetail={albumDetail} id={props.match.params.id} /></> : <Redirect to='/login' />} />
-    <Route path='/albums/best-sellings/' render={props => isLoggedIn() ? <><Header user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsBestSellings bestSellings={bestSellings} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/home' render={() => isLoggedIn() ? <><Header onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Home /></> : <Redirect to='/login' />} />
+    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/albums/year' render={() => isLoggedIn() ? <><Header onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/album/detail/' render={props => isLoggedIn() ? <><Header onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><DetailItem albumDetail={albumDetail} id={props.match.params.id} onTrackedSong={handleRetrieveSong} file={file}/></> : <Redirect to='/login' />} />
+    <Route path='/albums/best-sellings/' render={() => isLoggedIn() ? <><Header onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsBestSellings bestSellings={bestSellings} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/user/profile/' render={() => isLoggedIn() ? <><Header onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Profile onSubmit={handleProfile} user={user} error={error} message={message} /></> : <Redirect to='/login' />} />
 
   </div>
 })

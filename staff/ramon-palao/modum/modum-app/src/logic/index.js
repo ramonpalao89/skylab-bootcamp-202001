@@ -7,6 +7,10 @@ import retrieveGenre from './retrieve-genre'
 import retrieveAlbumDetail from './retrieve-album-detail'
 import retrieveYear from './retrieve-year'
 import retrieveBestSellings from './retrieve-best-sellings'
+import updateProfile from './update-profile'
+import retrieveSong from './retrieve-song'
+import retrieveMostPlayedSongs from './retrieve-most-played-songs'
+import retrieveMostPlayedArtist from './retrieve-most-played-artist'
 
 export {
     registerUser,
@@ -17,5 +21,9 @@ export {
     retrieveGenre,
     retrieveAlbumDetail,
     retrieveYear,
-    retrieveBestSellings
+    retrieveBestSellings,
+    updateProfile,
+    retrieveSong,
+    retrieveMostPlayedSongs,
+    retrieveMostPlayedArtist
 }

@@ -1,40 +1,37 @@
 const { validate } = require('modum-utils')
 const { models: { User } } = require('modum-data')
-const { NotFoundError } = require('modum-errors')
-const bcryptjs = require('bcryptjs')
+const { NotAllowedError, NotFoundError } = require('modum-errors')
+const bcrypt = require('bcryptjs')
 
 module.exports = (idUser, body) => {
-
-    validate.type(body, 'body', Object)
-    const newFields = {}
-
-    for (keys in body) {
-        newFields[keys] = body[keys]
-    }
-
     validate.string(idUser, 'idUser')
 
-    return User.findById(idUser)
-        .then(user => {
+    const validFields = ['name', 'surname', 'email', 'city', 'birth', 'password', 'newPassword']
 
-            if (!user) throw new NotFoundError(`user with id ${idUser} does not exist`)
-            if (newFields.newPassword) {
-                return bcryptjs.compare(newFields.newPassword, user.newPassword)
-                    .then(async (validPassword) => {
+    for (key in body) {
+        if (!validFields.includes(key)) throw new NotAllowedError(`field ${key} cannot be modified`)
 
-                        if (!validPassword) throw new NotAllowedError(`wrong credentials`)
+        if (key === 'newPassword' && !body.password) throw new Error('Old password must be completed')
+        if (key === 'password' && !body.newPassword) throw new Error('New password must be completed')
+    }
 
-                        delete newfields.password
-                        const newpass = await bcrypt.hash(newFields.newpassword, 10)
-                        return User.findByIdAndUpdate(idUser, { password: newpass })
-                    })
-                    .then(() => {
-                        return User.findByIdAndUpdate(idUser, { $set: newFields })
-                            .then(() => { })
-                    })
-            } else {
-                return User.findByIdAndUpdate(idUser, { $set: newFields })
-                    .then(() => { })
-            }
-        })
+    return (async() => {
+        
+        const user = await User.findById(idUser)
+        if (!user) throw new NotFoundError(`user ${id} does not exist`)
+    
+        if (body.newPassword) {
+            const result = await bcrypt.compare(body.password, user.newPassword)
+    
+            if (!result) throw new NotAllowedError('wrong credentials')
+            body.newPassword = await bcrypt.hash(body.newPassword, 10)
+        }
+    
+        for (key in body) {
+            user[key] = body[key]
+        }
+        
+        await user.save()
+        return 
+    })()
 }

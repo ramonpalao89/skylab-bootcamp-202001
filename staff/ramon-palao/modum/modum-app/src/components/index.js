@@ -9,6 +9,7 @@ import ResultsItem from './Results-item'
 import DetailItem from './Detail-item'
 import BestSellings from './Best-sellings'
 import ResultsBestSellings from './Results-best-sellings'
+import Profile from './Profile'
 
 export {
     App,
@@ -21,5 +22,6 @@ export {
     ResultsItem,
     DetailItem,
     BestSellings,
-    ResultsBestSellings
+    ResultsBestSellings,
+    Profile
 }

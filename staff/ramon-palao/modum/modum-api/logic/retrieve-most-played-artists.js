@@ -16,7 +16,9 @@ module.exports = id => {
 
             mostPlayedArtists.sort((a, b) => b.value - a.value)
 
-            mostPlayedArtists.forEach(item => playedArtists.push(item))
+            playedArtists.push(mostPlayedArtists[0])
+
+            // mostPlayedArtists.forEach(item => playedArtists.push(item))
 
             playedArtists.forEach(item => {
                 item.id = item._id.toString()

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { retrieveAlbumDetail, isLoggedIn } from '../logic'
+// import { retrieveAlbumDetail, isLoggedIn } from '../logic'
 import './Detail-item.sass'
 
-export default ({ albumDetail }) => {
+export default ({ albumDetail, onTrackedSong, file }) => {
+    // debugger
 
     // let [albumDetail, setAlbumDetail] = useState()
     // useEffect(() => {
@@ -36,10 +37,13 @@ export default ({ albumDetail }) => {
             </section>
             <section className="album-songs">
                 <section className='album-songs__title'>
-                {songs && songs.map(song => <p className='album-songs__name'>{song.name}</p>)}
+                    {songs && songs.map(song => <p className='album-songs__name' onClick={event => {
+                        event.preventDefault()
+                        onTrackedSong(song.id)
+                    }}>{song.name}</p>)}
                 </section>
                 <section className='album-songs__audio'>
-                {songs && songs.map(song => <audio controls><source src={song.file} type='audio/mpeg'/></audio>)}
+                    {songs && <audio src={file} controls autoplay='true'></audio>}
                 </section>
             </section>
         </section>
