@@ -9,7 +9,6 @@ module.exports = (req, res) => {
     try {
         retrievePortrait(idAlbum)
             .then(file => {
-                debugger
                 res.status(200)
                 res.set('content-type', 'image/jpeg')
                 res.set('accept-ranges', 'bytes')

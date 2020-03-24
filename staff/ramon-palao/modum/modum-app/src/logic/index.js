@@ -11,6 +11,8 @@ import updateProfile from './update-profile'
 import retrieveSong from './retrieve-song'
 import retrieveMostPlayedSongs from './retrieve-most-played-songs'
 import retrieveMostPlayedArtist from './retrieve-most-played-artist'
+import updateShoppingCart from './update-shopping-cart'
+import retrieveShoppingCart from './retrieve-shopping-cart'
 
 export {
     registerUser,
@@ -25,5 +27,7 @@ export {
     updateProfile,
     retrieveSong,
     retrieveMostPlayedSongs,
-    retrieveMostPlayedArtist
+    retrieveMostPlayedArtist,
+    updateShoppingCart,
+    retrieveShoppingCart
 }

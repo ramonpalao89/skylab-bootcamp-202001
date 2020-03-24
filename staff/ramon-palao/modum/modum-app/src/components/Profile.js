@@ -1,12 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState, useRef } from 'react'
 import './Profile.sass'
 import Feedback from './Feedback'
 import { retrieveMostPlayedSongs, retrieveMostPlayedArtist } from '../logic'
 
 export default ({ onSubmit, user, error, message }) => {
 
-    const[mostPlayedSongs, setMostPlayedSongs] = useState(null)
-    const[mostPlayedArtist, setMostPlayedArtist] = useState(null)
+    const [mostPlayedSongs, setMostPlayedSongs] = useState(null)
+    const [mostPlayedArtist, setMostPlayedArtist] = useState(null)
+    const overlayClassName = useRef()
 
     useEffect(() => {
         (async () => {
@@ -19,7 +20,15 @@ export default ({ onSubmit, user, error, message }) => {
 
             setMostPlayedArtist(mostPlayedArtist)
         })()
-    },[])
+    }, [])
+
+    const handleOpenModule = () => {
+        overlayClassName.current.className = 'overlay active'
+    }
+
+    const handleCloseModule = () => {
+        overlayClassName.current.className = 'overlay'
+    }
 
     return <section className="profile-detail">
         <section className="profile-detail__user">
@@ -61,7 +70,7 @@ export default ({ onSubmit, user, error, message }) => {
             </section>
             <section className="profile-detail__fav-artist"><br />
                 <h1 className="profile-detail__artist"><i className="fas fa-trophy"></i> Most Listened ARTIST:</h1><br />
-                {mostPlayedArtist && <h2 className="profile-detail__artist-name">{mostPlayedArtist.artists[0].name}</h2>}<br/>
+                {mostPlayedArtist && <h2 className="profile-detail__artist-name">{mostPlayedArtist.artists[0].name}</h2>}<br />
                 {mostPlayedArtist && <img src={mostPlayedArtist.portrait} className="profile-detail__artist-pic" />}
             </section><br />
             <section className="profile-detail__purchased"><br />
@@ -81,6 +90,32 @@ export default ({ onSubmit, user, error, message }) => {
                     </section>
                 </section>
             </section>
+        </section>
+        <section>
+            <button onClick={event => {
+                event.preventDefault()
+                handleOpenModule()
+            }}>Add Shipping Details</button>
+        </section>
+        <section className="overlay" ref={overlayClassName}>
+            <div className="popup">
+                <a href='#' onClick={event => {
+                    event.preventDefault()
+                    handleCloseModule()
+                }} className='btn-close-popup'><i className='fas fa-times'></i></a>
+                <h3>Shipping Details</h3>
+                <h5>Give us your address details to send your shopping as soon as possible</h5>
+                <form>
+                    <div className='inputs-container'>
+                        <input type="text" name="customerName" placeholder="Enter your full name" />
+                        <input type="text" name="address" placeholder="Enter your street address" />
+                        <input type="text" name="city" placeholder="Enter your city" />
+                        <input type="text" name="country" placeholder="Enter your country" />
+                        <input type="text" name="phoneNumber" placeholder="Enter your phone number" />
+                    </div>
+                    <button className='btn-submit'>Accept</button>
+                </form>
+            </div>
         </section>
     </section>
 }

@@ -10,6 +10,9 @@ import DetailItem from './Detail-item'
 import BestSellings from './Best-sellings'
 import ResultsBestSellings from './Results-best-sellings'
 import Profile from './Profile'
+import ShoppingCart from './Shopping-cart'
+import ResultsShopping from './Results-shopping'
+import Pay from './Pay'
 
 export {
     App,
@@ -23,5 +26,8 @@ export {
     DetailItem,
     BestSellings,
     ResultsBestSellings,
-    Profile
+    Profile,
+    ShoppingCart,
+    ResultsShopping,
+    Pay
 }

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react'
 // import { retrieveAlbumDetail, isLoggedIn } from '../logic'
 import './Detail-item.sass'
+import Feedback from './Feedback'
 
-export default ({ albumDetail, onTrackedSong, file }) => {
+export default ({ albumDetail, onTrackedSong, file, onAddToCart, message, error }) => {
     // debugger
 
     // let [albumDetail, setAlbumDetail] = useState()
@@ -43,9 +44,15 @@ export default ({ albumDetail, onTrackedSong, file }) => {
                     }}>{song.name}</p>)}
                 </section>
                 <section className='album-songs__audio'>
-                    {songs && <audio src={file} controls autoplay='true'></audio>}
+                    {songs && <audio src={file} controls autoPlay='true'></audio>}
                 </section>
             </section>
         </section>
+        <button onClick={event => {
+            event.preventDefault()
+            onAddToCart(id)
+        }}>ADD TO CART</button>
+        {message && <Feedback message={message} level='info'/>}
+        {error && <Feedback message={error} level='error'/>}
     </section>
 }
