@@ -76,8 +76,8 @@ mongoose.connect('mongodb://localhost:27017/modum', { useNewUrlParser: true, use
             songs: [songs[0]._id, songs[1]._id, songs[2]._id, songs[3]._id, songs[4]._id, songs[5]._id, songs[6]._id, songs[7]._id, songs[8]._id, songs[9]._id, songs[10]._id, songs[11]._id, songs[12]._id, songs[13]._id,],
             genre: 'Reggae',
             year: '1984',
-            priceVinyl: '9.99',
-            priceDigital: '6.99',
+            priceVinyl: 9.99,
+            priceDigital: 6.99,
             portrait: 'bob.jpeg'
         }))
 

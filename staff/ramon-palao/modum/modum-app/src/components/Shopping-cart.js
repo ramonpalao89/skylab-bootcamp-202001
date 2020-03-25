@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { retrieveShoppingCart } from '../logic'
 import './Shopping-cart.sass'
 
-export default ({ albums }) => {
+export default ({ albums, totalPay }) => {
     let { name, year, artists, quantity, priceVinyl, priceDigital, portrait, id } = albums
     const [_priceVinyl, setPriceVinyl] = useState(priceVinyl)
     const [_priceDigital, setPriceDigital] = useState(priceDigital)
@@ -20,6 +20,7 @@ export default ({ albums }) => {
     // }, [])
 
     const handleShowPriceVinyl = () => {
+        // debugger
         setPriceDigital(undefined)
         setPriceVinyl(priceVinyl)
         
@@ -28,6 +29,7 @@ export default ({ albums }) => {
     const handleShowPriceDigital = () => {
         setPriceVinyl(undefined)
         setPriceDigital(priceDigital)
+
     }
 
 

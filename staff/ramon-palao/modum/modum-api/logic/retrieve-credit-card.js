@@ -21,7 +21,7 @@ module.exports = id => {
                 delete item._id
             })
 
-            if (!allCreditCards.length) throw new NotFoundError(`user with id ${id} has not saved card details yet`)
+            // if (!allCreditCards.length) throw new NotFoundError(`user with id ${id} has not saved card details yet`)
 
             return allCreditCards
         })

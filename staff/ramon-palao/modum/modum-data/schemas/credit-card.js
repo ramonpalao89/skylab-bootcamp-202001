@@ -2,6 +2,7 @@ const { Schema } = require('mongoose')
 
 module.exports = new Schema({
     issuer: { type: String, enum: ['visa', 'mastercard', 'american express', 'apple card'], default: 'visa', required: true },
+    name: { type: String },
     number: {
         type: String,
         required: true,
@@ -12,7 +13,7 @@ module.exports = new Schema({
             message: props => `${props.value} is not a valid credit card number`
         },
     },
-    expiration: { type: Date, required: true },
+    expiration: { type: String, required: true },
     cvv: {
         type: String,
         required: true,

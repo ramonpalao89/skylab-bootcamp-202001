@@ -13,6 +13,10 @@ import retrieveMostPlayedSongs from './retrieve-most-played-songs'
 import retrieveMostPlayedArtist from './retrieve-most-played-artist'
 import updateShoppingCart from './update-shopping-cart'
 import retrieveShoppingCart from './retrieve-shopping-cart'
+import postShipping from './post-shipping'
+import retrieveShippingDetails from './retrieve-shipping-details'
+import saveCreditCard from './save-credit-card'
+import retrieveCreditCards from './retrieve-credit-cards'
 
 export {
     registerUser,
@@ -29,5 +33,9 @@ export {
     retrieveMostPlayedSongs,
     retrieveMostPlayedArtist,
     updateShoppingCart,
-    retrieveShoppingCart
+    retrieveShoppingCart,
+    postShipping,
+    retrieveShippingDetails,
+    saveCreditCard,
+    retrieveCreditCards
 }

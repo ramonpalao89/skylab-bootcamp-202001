@@ -3,11 +3,14 @@ import './Profile.sass'
 import Feedback from './Feedback'
 import { retrieveMostPlayedSongs, retrieveMostPlayedArtist } from '../logic'
 
-export default ({ onSubmit, user, error, message }) => {
+export default ({ onSubmit, user, error, message, onShipping, onShippingDetails, shippingDetails, onSaveCard, onCardDetails, creditCards }) => {
 
     const [mostPlayedSongs, setMostPlayedSongs] = useState(null)
     const [mostPlayedArtist, setMostPlayedArtist] = useState(null)
     const overlayClassName = useRef()
+    const showShipping = useRef()
+    const saveCreditCard = useRef()
+    const showCreditCards = useRef()
 
     useEffect(() => {
         (async () => {
@@ -28,6 +31,30 @@ export default ({ onSubmit, user, error, message }) => {
 
     const handleCloseModule = () => {
         overlayClassName.current.className = 'overlay'
+    }
+
+    const handleOpenShippingModule = () => {
+        showShipping.current.className = 'overlay active'
+    }
+
+    const handleCloseShippingModule = () => {
+        showShipping.current.className = 'overlay'
+    }
+
+    const handleOpenCardModule = () => {
+        saveCreditCard.current.className = 'overlay active'
+    }
+
+    const handleCloseCardModule = () => {
+        saveCreditCard.current.className = 'overlay'
+    }
+
+    const handleOpenCardDetailsModule = () => {
+        showCreditCards.current.className = 'overlay active'
+    }
+
+    const handleCloseCardDetailsModule = () => {
+        showCreditCards.current.className = 'overlay'
     }
 
     return <section className="profile-detail">
@@ -97,6 +124,26 @@ export default ({ onSubmit, user, error, message }) => {
                 handleOpenModule()
             }}>Add Shipping Details</button>
         </section>
+        <section>
+            <button onClick={event => {
+                event.preventDefault()
+                handleOpenShippingModule()
+                onShippingDetails()
+            }}>See your Shipping Details</button>
+        </section>
+        <section>
+            <button onClick={event => {
+                event.preventDefault()
+                handleOpenCardModule()
+            }}>Add Credit Card Details</button>
+        </section>
+        <section>
+            <button onClick={event => {
+                event.preventDefault()
+                handleOpenCardDetailsModule()
+                onCardDetails()
+            }}>See your Credit Cards</button>
+        </section>
         <section className="overlay" ref={overlayClassName}>
             <div className="popup">
                 <a href='#' onClick={event => {
@@ -105,7 +152,17 @@ export default ({ onSubmit, user, error, message }) => {
                 }} className='btn-close-popup'><i className='fas fa-times'></i></a>
                 <h3>Shipping Details</h3>
                 <h5>Give us your address details to send your shopping as soon as possible</h5>
-                <form>
+                <form onSubmit={event => {
+                        event.preventDefault()
+
+                        const customerName = event.target.customerName.value
+                        const address = event.target.address.value
+                        const city = event.target.city.value
+                        const country = event.target.country.value
+                        const phoneNumber = event.target.phoneNumber.value
+
+                        onShipping(customerName, address, city, country, phoneNumber)
+                    }}>
                     <div className='inputs-container'>
                         <input type="text" name="customerName" placeholder="Enter your full name" />
                         <input type="text" name="address" placeholder="Enter your street address" />
@@ -113,8 +170,70 @@ export default ({ onSubmit, user, error, message }) => {
                         <input type="text" name="country" placeholder="Enter your country" />
                         <input type="text" name="phoneNumber" placeholder="Enter your phone number" />
                     </div>
-                    <button className='btn-submit'>Accept</button>
+                    <button type='submit' className='btn-submit'>Accept</button>
+                    {message && <Feedback message={message} level='info'/>}
+                    {error && <Feedback message={error} level='error'/>}
                 </form>
+            </div>
+        </section>
+        <section className="overlay" ref={showShipping}>
+            <div className="popup">
+                <a href='#' onClick={event => {
+                    event.preventDefault()
+                    handleCloseShippingModule()
+                }} className='btn-close-popup'><i className='fas fa-times'></i></a>
+                <h3>My Shipping Details</h3>
+                {shippingDetails && shippingDetails.map(detail => <p>{detail.customerName}</p>)}
+                {shippingDetails && shippingDetails.map(detail => <p>{detail.streetAddress}</p>)}
+                {shippingDetails && shippingDetails.map(detail => <p>{detail.city}</p>)}
+                {shippingDetails && shippingDetails.map(detail => <p>{detail.country}</p>)}
+                {shippingDetails && shippingDetails.map(detail => <p>{detail.phoneNumber}</p>)}
+            </div>
+        </section>
+        <section className="overlay" ref={saveCreditCard}>
+            <div className="popup">
+                <a href='#' onClick={event => {
+                    event.preventDefault()
+                    handleCloseCardModule()
+                }} className='btn-close-popup'><i className='fas fa-times'></i></a>
+                <h3>Credit Card Details</h3>
+                <h5>Save your credit card details:</h5>
+                <form onSubmit={event => {
+                        event.preventDefault()
+
+                        const issuer = event.target.issuer.value
+                        const name = event.target.name.value
+                        const number = event.target.number.value
+                        const expiration = event.target.expiration.value
+                        const cvv = event.target.cvv.value
+
+                        onSaveCard(issuer, name, number, expiration, cvv)
+                    }}>
+                    <div className='inputs-container'>
+                        <input type="text" name="issuer" placeholder="Issuer (Mastercard, Visa, ...)" />
+                        <input type="text" name="name" placeholder="Cardholder Name" />
+                        <input type="text" name="number" placeholder="Card Number" />
+                        <input type="text" name="expiration" placeholder="Expiration date (yy - mm)" />
+                        <input type="text" name="cvv" placeholder="CVV (3 digits)" />
+                    </div>
+                    <button type='submit' className='btn-submit'>Accept</button>
+                    {message && <Feedback message={message} level='info'/>}
+                    {error && <Feedback message={error} level='error'/>}
+                </form>
+            </div>
+        </section>
+        <section className="overlay" ref={showCreditCards}>
+            <div className="popup">
+                <a href='#' onClick={event => {
+                    event.preventDefault()
+                    handleCloseCardDetailsModule()
+                }} className='btn-close-popup'><i className='fas fa-times'></i></a>
+                <h3>My Credit Cards</h3>
+                {creditCards && creditCards.map(detail => <p>{detail.issuer}</p>)}
+                {creditCards && creditCards.map(detail => <p>{detail.name}</p>)}
+                {creditCards && creditCards.map(detail => <p>{detail.number}</p>)}
+                {creditCards && creditCards.map(detail => <p>{detail.expiration}</p>)}
+                {creditCards && creditCards.map(detail => <p>{detail.cvv}</p>)}
             </div>
         </section>
     </section>

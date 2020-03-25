@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.sass';
 import { Register, Login, Page, Home, Header, ResultsItem, DetailItem, ResultsBestSellings, Profile, ResultsShopping, Pay } from '../components'
-import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail, retrieveYear, retrieveBestSellings, updateProfile, retrieveSong, updateShoppingCart, retrieveShoppingCart } from '../logic'
+import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail, retrieveYear, retrieveBestSellings, updateProfile, retrieveSong, updateShoppingCart, retrieveShoppingCart, postShipping, retrieveShippingDetails, saveCreditCard, retrieveCreditCards } from '../logic'
 import { Context } from './ContextProvider'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 
@@ -14,6 +14,9 @@ export default withRouter(function ({ history }) {
   const [bestSellings, setBestSellings] = useState([])
   let [message, setMessage] = useState([])
   const [file, setFile] = useState([])
+  const [shippingDetails, setShippingDetails] = useState([])
+  const [creditCards, setCreditCards] = useState([])
+  const [totalPay, setTotalPay] = useState([])
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -154,7 +157,7 @@ export default withRouter(function ({ history }) {
 
         setUser(newUser)
 
-        setMessage('Updated Succesfully!')
+        setMessage('Updated Successfully!')
 
         setTimeout(() => {
           setMessage(undefined)
@@ -215,7 +218,75 @@ export default withRouter(function ({ history }) {
         setAlbums(albums)
         history.push('/shopping-cart')
       } catch ({ message }) {
-        setState({...state, error:message})
+        setState({ ...state, error: message })
+
+        setTimeout(() => {
+          setState({ error: undefined })
+        }, 3000)
+      }
+    })()
+  }
+
+  const handlePostShipping = (customerName, address, city, country, phoneNumber) => {
+    (async () => {
+      try {
+        await postShipping(customerName, address, city, country, phoneNumber)
+        setMessage('Shipping Information saved successfully!')
+
+        setTimeout(() => {
+          setMessage(undefined)
+        }, 3000)
+      } catch ({ message }) {
+        setState({ ...state, error: message })
+
+        setTimeout(() => {
+          setState({ error: undefined })
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleRetrieveShipping = () => {
+    (async () => {
+      try {
+        const shippingDetails = await retrieveShippingDetails()
+        setShippingDetails(shippingDetails)
+      } catch ({ message }) {
+        setState({...state, error: message})
+
+        setTimeout(() => {
+          setState({error: undefined})
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleSaveCard = (issuer, name, number, expiration, cvv) => {
+    (async() => {
+      try{
+        await saveCreditCard(issuer, name, number, expiration, cvv)
+        setMessage('Credit Card saved successfully!')
+
+        setTimeout(() => {
+          setMessage(undefined)
+        }, 3000)
+      } catch({message}) {
+        setState({...state, error: message})
+
+        setTimeout(() => {
+          setState({error: undefined})
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleRetrieveCreditCards = () => {
+    (async() => {
+      try{
+        const creditCards = await retrieveCreditCards()
+        setCreditCards(creditCards)
+      } catch ({message}) {
+        setState({...state, error: message})
 
         setTimeout(() => {
           setState({error: undefined})
@@ -236,7 +307,8 @@ export default withRouter(function ({ history }) {
     history.push('/user/profile')
   }
 
-  const handleGoToPay = () => {
+  const handleGoToPay = (totalPay) => {
+    setTotalPay(totalPay)
     history.push('/payment')
   }
 
@@ -248,13 +320,13 @@ export default withRouter(function ({ history }) {
     <Route path='/register' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} error={error} />} />
     <Route path='/login' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} error={error} />} />
     <Route path='/home' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Home /></> : <Redirect to='/login' />} />
-    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onAddToCart={handleAddToCart} message={message} error={error}/></> : <Redirect to='/login' />} />
     <Route path='/albums/year' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
     <Route path='/album/detail/' render={props => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><DetailItem albumDetail={albumDetail} id={props.match.params.id} onTrackedSong={handleRetrieveSong} file={file} onAddToCart={handleAddToCart} message={message} error={error} /></> : <Redirect to='/login' />} />
     <Route path='/albums/best-sellings/' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsBestSellings bestSellings={bestSellings} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
-    <Route path='/user/profile/' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Profile onSubmit={handleProfile} user={user} error={error} message={message} /></> : <Redirect to='/login' />} />
+    <Route path='/user/profile/' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Profile onSubmit={handleProfile} user={user} error={error} message={message} onShipping={handlePostShipping} onShippingDetails={handleRetrieveShipping} shippingDetails={shippingDetails} onSaveCard={handleSaveCard} onCardDetails={handleRetrieveCreditCards} creditCards={creditCards} /></> : <Redirect to='/login' />} />
     <Route path='/shopping-cart' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsShopping albums={albums} error={error} onGoToPay={handleGoToPay} /></> : <Redirect to='/login' />} />
-    <Route path='/payment' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Pay /></> : <Redirect to='/login' />} />
+    <Route path='/payment' render={() => isLoggedIn() ? <><Header onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Pay totalPay={totalPay} message={message} onShipping={handlePostShipping} onSaveCard={handleSaveCard} /></> : <Redirect to='/login' />} />
 
   </div>
 })

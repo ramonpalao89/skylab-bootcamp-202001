@@ -27,20 +27,25 @@ export default (function () {
 
         if (status === 200) {
             const artists = await response.json()
-            
-            const idArtist = artists[0].subject
 
-            const res = await fetch(`${API_URL}/artist/${idArtist}`, {
-                method: 'GET',
-                headers: { 'Content-Type': 'application/json' }
-            })
+            if(artists.length){
 
-            if (status === 200) {
-                const artist = await res.json()
-                let { portrait } = artist
-                let [id,] = portrait.split('.')
-                artist.portrait = `${API_URL}/portrait/${id}`
-                return artist
+                const idArtist = artists[0].subject
+    
+                const res = await fetch(`${API_URL}/artist/${idArtist}`, {
+                    method: 'GET',
+                    headers: { 'Content-Type': 'application/json' }
+                })
+    
+                if (status === 200) {
+                    const artist = await res.json()
+                    let { portrait } = artist
+                    let [id,] = portrait.split('.')
+                    artist.portrait = `${API_URL}/portrait/${id}`
+                    return artist
+                }
+            } else {
+                return
             }
         }
     })()
