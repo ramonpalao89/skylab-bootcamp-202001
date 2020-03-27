@@ -1,12 +1,13 @@
 import React, { useEffect, useState, useRef } from 'react'
 import './Profile.sass'
 import Feedback from './Feedback'
-import { retrieveMostPlayedSongs, retrieveMostPlayedArtist } from '../logic'
+import { retrieveMostPlayedSongs, retrieveMostPlayedArtist, retrievePurchasedAlbums } from '../logic'
 
 export default ({ onSubmit, user, error, message, onShipping, onShippingDetails, shippingDetails, onSaveCard, onCardDetails, creditCards }) => {
 
     const [mostPlayedSongs, setMostPlayedSongs] = useState(null)
     const [mostPlayedArtist, setMostPlayedArtist] = useState(null)
+    const [purchasedAlbums, setPurchased] = useState(null)
     const overlayClassName = useRef()
     const showShipping = useRef()
     const saveCreditCard = useRef()
@@ -22,6 +23,11 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
             const mostPlayedArtist = await retrieveMostPlayedArtist()
 
             setMostPlayedArtist(mostPlayedArtist)
+
+            const purchasedAlbums = await retrievePurchasedAlbums()
+
+            setPurchased(purchasedAlbums)
+
         })()
     }, [])
 
@@ -104,16 +110,7 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                 <h1 className="profile-detail__purchased-list"><i className="fas fa-shopping-cart"></i> Purchased ALBUMS:</h1><br />
                 <section className="profile-detail__purchased-albums">
                     <section>
-                        <img src="bob.jpeg" className="profile-detail__purchased-pic" />
-                        <p>Bob Marley - Legend</p>
-                    </section>
-                    <section>
-                        <img src="bob.jpeg" className="profile-detail__purchased-pic" />
-                        <p>Bob Marley - Legend</p>
-                    </section>
-                    <section>
-                        <img src="bob.jpeg" className="profile-detail__purchased-pic" />
-                        <p>Bob Marley - Legend</p>
+                        {purchasedAlbums && purchasedAlbums.map(album => <img src={album.portrait} alt={album.name} className='profile-detail__purchased-pic' />)}
                     </section>
                 </section>
             </section>

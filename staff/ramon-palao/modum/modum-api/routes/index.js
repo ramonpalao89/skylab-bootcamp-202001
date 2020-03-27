@@ -25,7 +25,8 @@ const {
     saveShippingInformation,
     retrieveShippingInformation,
     retrieveOneShipping,
-    retrievePortrait
+    retrievePortrait,
+    retrievePurchased
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -58,7 +59,7 @@ router.get('/artist/:idArtist', retrieveArtist)
 
 router.get('/track-name/:idSong', retrieveSongName)
 
-router.patch('/chart/:idAlbum', jwtVerifierMidWare, updateChart)
+router.patch('/chart/:idAlbum/:format', jwtVerifierMidWare, updateChart)
 
 router.get('/chart', jwtVerifierMidWare, retrieveChart)
 
@@ -87,5 +88,7 @@ router.get('/shipping-information', jwtVerifierMidWare, retrieveShippingInformat
 router.get('/shipping-information/:idShipping', jwtVerifierMidWare, retrieveOneShipping)
 
 router.get('/portrait/:idAlbum', retrievePortrait)
+
+router.get('/purchased-albums', jwtVerifierMidWare, retrievePurchased)
 
 module.exports = router

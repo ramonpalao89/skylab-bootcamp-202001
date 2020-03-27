@@ -24,5 +24,6 @@ module.exports = {
     saveShippingInformation: require('./save-shipping-info'),
     retrieveShippingInformation: require('./retrieve-shipping-information'),
     retrieveOneShipping: require('./retrieve-one-shipping'),
-    retrievePortrait: require('./retrieve-portrait')
+    retrievePortrait: require('./retrieve-portrait'),
+    retrievePurchased: require('./retrieve-purchased')
 }

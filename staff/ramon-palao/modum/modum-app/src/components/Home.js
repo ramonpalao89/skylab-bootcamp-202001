@@ -1,9 +1,8 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { retrieveUser, isLoggedIn, logout } from '../logic'
+import { isLoggedIn, logout } from '../logic'
 import { withRouter } from 'react-router-dom'
 import { Context } from './ContextProvider'
 import Feedback from './Feedback'
-import Header from './Header'
 
 export default withRouter(({ history }) => {
 

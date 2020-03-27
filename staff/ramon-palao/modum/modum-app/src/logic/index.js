@@ -17,6 +17,8 @@ import postShipping from './post-shipping'
 import retrieveShippingDetails from './retrieve-shipping-details'
 import saveCreditCard from './save-credit-card'
 import retrieveCreditCards from './retrieve-credit-cards'
+import buyProducts from './buy-products'
+import retrievePurchasedAlbums from './retrieve-purchased-albums'
 
 export {
     registerUser,
@@ -37,5 +39,7 @@ export {
     postShipping,
     retrieveShippingDetails,
     saveCreditCard,
-    retrieveCreditCards
+    retrieveCreditCards,
+    buyProducts,
+    retrievePurchasedAlbums
 }

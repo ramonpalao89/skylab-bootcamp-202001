@@ -3,12 +3,13 @@ import './Pay.sass'
 import { retrieveShippingDetails, retrieveCreditCards } from '../logic'
 import Feedback from './Feedback'
 
-export default ({ totalPay, onShipping, message, onSaveCard }) => {
+export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
     const postShipping = useRef()
     const showShipping = useRef()
     const showCreditCards = useRef()
     const cardForm = useRef()
     const loading = useRef()
+    const completed = useRef()
     const [shippingDetails, setShipping] = useState([])
     const [error, setError] = useState(undefined)
     const [creditCards, setCards] = useState(undefined)
@@ -19,11 +20,17 @@ export default ({ totalPay, onShipping, message, onSaveCard }) => {
             try {
                 const shippingDetails = await retrieveShippingDetails()
                 setShipping(shippingDetails)
-                if (!shippingDetails.length) {
-                    postShipping.current.className = 'overlay active'
-                } else {
-                    showShipping.current.className = 'overlay active'
-                }
+
+                cartItems.forEach(item =>{
+                    if(item.priceVinyl){
+                        
+                        if (!shippingDetails.length) {
+                            postShipping.current.className = 'overlay active'
+                        } else {
+                            showShipping.current.className = 'overlay active'
+                        }
+                    }
+                })
 
             } catch (error) {
                 setError(error)
@@ -41,6 +48,7 @@ export default ({ totalPay, onShipping, message, onSaveCard }) => {
 
     const handleCloseModule = () => {
         postShipping.current.className = 'overlay'
+        completed.current.className = 'overlay'
     }
 
     const handleCloseCardDetailsModule = () => {
@@ -82,6 +90,7 @@ export default ({ totalPay, onShipping, message, onSaveCard }) => {
 
         setTimeout(() => {
             loading.current.className = 'dot-container'
+            completed.current.className = 'overlay active'
         }, 3000)
     }
 
@@ -192,6 +201,20 @@ export default ({ totalPay, onShipping, message, onSaveCard }) => {
                     handleSelectCard(detail.name, detail.number, detail.expiration)
                     handleCloseCardDetailsModule()
                 }}>Select</button>)}
+            </div>
+        </section>
+        <section className="overlay" ref={completed}>
+            <div className="popup">
+                <a href='#' onClick={event => {
+                    event.preventDefault()
+                    handleCloseModule()
+                }} className='btn-close-popup'><i className='fas fa-times'></i></a>
+                <h3>PURCHASED COMPLETED!</h3>
+                <h5>Thanks for shopping. You can enjoy now your digital albums on 'My Modum' section.</h5>
+                <button className='btn-submit' onClick={event => {
+                    event.preventDefault()
+                    onPurchased()
+                }}>Accept</button>
             </div>
         </section>
     </div>

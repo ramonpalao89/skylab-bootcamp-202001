@@ -5,5 +5,6 @@ module.exports = {
     creditCard: require('./credit-card'),
     song: require('./song'),
     user: require('./user'),
-    shippingData: require('./shipping-data')
+    shippingData: require('./shipping-data'),
+    cartItem: require('./cart-item')
 }

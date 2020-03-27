@@ -1,14 +1,14 @@
-const { updateChart } = require('../../logic')
-const { NotFoundError, ContentError } = require('modum-errors')
+const { retrievePurchased } = require('../../logic')
+const { NotFoundError } = require('modum-errors')
 
 module.exports = (req, res) => {
-    const { payload: { sub: id }, params: { idAlbum, format } } = req
+    const { payload: { sub: id } } = req
 
     try {
-        updateChart(id, idAlbum, format)
-            .then(user =>
-                res.status(201).json(user)
-            )
+        retrievePurchased(id)
+            .then(purchased =>{
+                res.status(200).json(purchased)
+            })
             .catch(error => {
                 let status = 400
 

@@ -4,9 +4,9 @@ const { NotFoundError } = require('modum-errors')
 const API_URL = process.env.REACT_APP_API_URL
 
 export default (function () {
-    let albums
+    let albums = []
 
-    return fetch(`${API_URL}/chart`, {
+    return fetch(`${API_URL}/purchased-albums`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json', 'Authorization' : 'Bearer ' + this.token }
     })
@@ -27,24 +27,14 @@ export default (function () {
             }
 
             if (status === 200) {
-                const albumsCart = response.json()
-                albums = albumsCart
+                const purchasedAlbums = response.json()
+                albums = purchasedAlbums
                 return albums
             }
         })
         .then(albums => {
 
             albums.forEach((album) => album.portrait = `${API_URL}/portrait/${album.id}`)
-            return albums
-        })
-        .then(albums => {
-            albums.forEach((album) => {
-                if(album.format === 'digital'){
-                    album.priceVinyl = 0
-                } else if (album.format === 'vinyl'){
-                    album.priceDigital = 0
-                }
-            })
             return albums
         })
 }).bind(context)

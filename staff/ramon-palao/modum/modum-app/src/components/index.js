@@ -13,6 +13,8 @@ import Profile from './Profile'
 import ShoppingCart from './Shopping-cart'
 import ResultsShopping from './Results-shopping'
 import Pay from './Pay'
+import MyAlbums from './My-albums'
+import ResultsMyAlbums from './Results-my-albums'
 
 export {
     App,
@@ -29,5 +31,7 @@ export {
     Profile,
     ShoppingCart,
     ResultsShopping,
-    Pay
+    Pay,
+    MyAlbums,
+    ResultsMyAlbums
 }

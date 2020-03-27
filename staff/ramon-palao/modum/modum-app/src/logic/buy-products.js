@@ -1,15 +1,12 @@
-import { validate } from 'modum-utils'
 import context from './context'
 const { NotAllowedError, NotFoundError } = require('modum-errors')
 
 const API_URL = process.env.REACT_APP_API_URL
 
-export default (function (id, format) {
-    validate.string(id, 'id')
-    validate.string(format, 'format')
+export default (function () {
 
     return (async() => {
-        const res = await fetch(`${API_URL}/chart/${id}/${format}`,{
+        const res = await fetch(`${API_URL}/purchase`,{
             method: 'PATCH',
             headers: {'Content-Type' : 'application/json', 'Authorization': 'Bearer ' + this.token}
         })

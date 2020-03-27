@@ -31,60 +31,75 @@ export default (function () {
 
             if (songs.length) {
 
-                let idSong = songs[0].subject
-                let res = await fetch(`${API_URL}/track-name/${idSong}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
+                songs.forEach(song => {
+                    (async() => {
+                        let idSong = song.subject
+                        let res = await fetch(`${API_URL}/track-name/${idSong}`, {
+                            method: 'GET',
+                            headers: { 'Content-Type': 'application/json' }
+                        })
+        
+                        if (status === 200) {
+                            let song = await res.json()
+                            mostPlayedSongs.push(song)
+                        }
+                    })()
                 })
 
-                if (status === 200) {
-                    let song = await res.json()
-                    mostPlayedSongs.push(song)
-                }
+                // let idSong = songs[0].subject
+                // let res = await fetch(`${API_URL}/track-name/${idSong}`, {
+                //     method: 'GET',
+                //     headers: { 'Content-Type': 'application/json' }
+                // })
 
-                idSong = songs[1].subject
-                res = await fetch(`${API_URL}/track-name/${idSong}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                })
+                // if (status === 200) {
+                //     let song = await res.json()
+                //     mostPlayedSongs.push(song)
+                // }
 
-                if (status === 200) {
-                    let song = await res.json()
-                    mostPlayedSongs.push(song)
-                }
+                // idSong = songs[1].subject
+                // res = await fetch(`${API_URL}/track-name/${idSong}`, {
+                //     method: 'GET',
+                //     headers: { 'Content-Type': 'application/json' }
+                // })
 
-                idSong = songs[2].subject
-                res = await fetch(`${API_URL}/track-name/${idSong}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                })
+                // if (status === 200) {
+                //     let song = await res.json()
+                //     mostPlayedSongs.push(song)
+                // }
 
-                if (status === 200) {
-                    let song = await res.json()
-                    mostPlayedSongs.push(song)
-                }
+                // idSong = songs[2].subject
+                // res = await fetch(`${API_URL}/track-name/${idSong}`, {
+                //     method: 'GET',
+                //     headers: { 'Content-Type': 'application/json' }
+                // })
 
-                idSong = songs[3].subject
-                res = await fetch(`${API_URL}/track-name/${idSong}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                })
+                // if (status === 200) {
+                //     let song = await res.json()
+                //     mostPlayedSongs.push(song)
+                // }
 
-                if (status === 200) {
-                    let song = await res.json()
-                    mostPlayedSongs.push(song)
-                }
+                // idSong = songs[3].subject
+                // res = await fetch(`${API_URL}/track-name/${idSong}`, {
+                //     method: 'GET',
+                //     headers: { 'Content-Type': 'application/json' }
+                // })
 
-                idSong = songs[4].subject
-                res = await fetch(`${API_URL}/track-name/${idSong}`, {
-                    method: 'GET',
-                    headers: { 'Content-Type': 'application/json' }
-                })
+                // if (status === 200) {
+                //     let song = await res.json()
+                //     mostPlayedSongs.push(song)
+                // }
 
-                if (status === 200) {
-                    let song = await res.json()
-                    mostPlayedSongs.push(song)
-                }
+                // idSong = songs[4].subject
+                // res = await fetch(`${API_URL}/track-name/${idSong}`, {
+                //     method: 'GET',
+                //     headers: { 'Content-Type': 'application/json' }
+                // })
+
+                // if (status === 200) {
+                //     let song = await res.json()
+                //     mostPlayedSongs.push(song)
+                // }
             }
 
             return mostPlayedSongs

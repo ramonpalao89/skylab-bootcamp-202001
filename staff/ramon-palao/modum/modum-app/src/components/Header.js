@@ -1,7 +1,7 @@
 import React, {useState} from 'react'
 import './Header.sass'
 
-export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClick, onGoToProfile, onGoToShoppingCart}) => {
+export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClick, onGoToProfile, onGoToShoppingCart, onGoToPurchased}) => {
     const {name, surname} = user
 
     return <div>
@@ -82,7 +82,10 @@ export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClic
                         className="fas fa-compact-disc "></i></span>BEST-SELLINGS</a></li>
                     <li><a href=""><span className="modum"><i className="fas fa-headphones-alt "></i></span>MY MODUM</a>
                         <ul>
-                            <li><a href="">MY ALBUMS</a></li>
+                            <li><a href="" onClick={event => {
+                                event.preventDefault()
+                                onGoToPurchased()
+                            }}>MY ALBUMS</a></li>
                             <li><a href="">MY PLAYLIST</a></li>
                         </ul>
                     </li>

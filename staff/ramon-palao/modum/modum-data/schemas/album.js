@@ -8,6 +8,7 @@ module.exports = new Schema({
     year: {type: String, required: true},
     priceVinyl: {type: Number, required: true},
     priceDigital: {type: Number, required: true},
+    format: {type: String, enum: ['digital', 'vinyl']},
     quantity: {type: Number, default: 0},
     portrait: {type: String, required: true},
     rating: {type: Number},

@@ -1,37 +1,8 @@
-import React, { useEffect, useState } from 'react'
-import { retrieveShoppingCart } from '../logic'
+import React from 'react'
 import './Shopping-cart.sass'
 
-export default ({ albums, totalPay }) => {
-    let { name, year, artists, quantity, priceVinyl, priceDigital, portrait, id } = albums
-    const [_priceVinyl, setPriceVinyl] = useState(priceVinyl)
-    const [_priceDigital, setPriceDigital] = useState(priceDigital)
-
-
-    // const [albums, setAlbums] = useState([])
-
-    // useEffect(() => {
-    //     (async () => {
-
-    //         const albums = await retrieveShoppingCart()
-    //         setAlbums(albums)
-
-    //     })()
-    // }, [])
-
-    const handleShowPriceVinyl = () => {
-        // debugger
-        setPriceDigital(undefined)
-        setPriceVinyl(priceVinyl)
-        
-    }
-
-    const handleShowPriceDigital = () => {
-        setPriceVinyl(undefined)
-        setPriceDigital(priceDigital)
-
-    }
-
+export default ({ cartItems }) => {
+    const {format, priceDigital, priceVinyl, portrait, name, year} = cartItems
 
     return <div>
         <section class="buy">
@@ -40,30 +11,10 @@ export default ({ albums, totalPay }) => {
                     <img src={portrait} class="buy__pic" />
                     <section class="buy__info">
                         <p class="buy__album">{name} ({year})</p>
-                        <p class="buy__artist">{artists[0].name}</p>
-                        {/* <section class="buy__quantity">
-                            <input list="quantity" name="quantity" class="buy__quantity-input" />
-                            <p> QTY.</p>
-                            <datalist id="quantity">
-                                <option value="1" />
-                                <option value="2" />
-                                <option value="3" />
-                                <option value="4" />
-                                <option value="5" />
-                            </datalist>
-                        </section> */}
                     </section>
-                    <section class="buy__buy">
-                        <button class="buy__button" onClick={event => {
-                            event.preventDefault()
-                            handleShowPriceVinyl()
-                        }}>BUY VINYL ALBUM</button>
-                        <button class="buy__button" onClick={event => {
-                            event.preventDefault()
-                            handleShowPriceDigital()
-                        }}>BUY DIGITAL VERSION</button>
-                        {_priceVinyl ? <span class="buy__price"> Vinyl: {priceVinyl} €</span> : ''}
-                        {_priceDigital ? <span class="buy__price"> Digital: {priceDigital} €</span> : ''}
+                    <section>
+                        <p>Version: {format}</p>
+                        <p>Price: {priceDigital ? priceDigital : priceVinyl} €</p>
                     </section>
                 </section><br />
             </section>

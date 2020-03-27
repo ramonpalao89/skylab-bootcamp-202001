@@ -10,22 +10,26 @@ module.exports = (idUser) => {
         const user = await User.findById(idUser)
         if (!user) throw new NotFoundError(`User with id ${idUser} not found`)
 
-        let { chart, purchasedAlbums} = user
+        let { cart, purchasedAlbums} = user
 
-        if(chart.length){
-            for(let i = 0; i < chart.length; i++){
-                const album = await Album.findById(chart[i]).populate('artists', 'name')
+        if(cart.length){
+            for(let i = 0; i < cart.length; i++){
+                const album = await Album.findById(cart[i].album).populate('artists', 'name')
                 album.buyers === 0 ? album.buyers = 1 : album.buyers++
-                purchasedAlbums.push(album)
+
+                // purchasedAlbums.push(cart[i])
                 album.save()
+                debugger
+                purchasedAlbums.push(album)
+                cart[i].format === 'digital' ? purchasedAlbums[purchasedAlbums.length -1].format = 'digital' : purchasedAlbums[purchasedAlbums.length -1].format = 'vinyl'
             }
         } else {
             throw new NotAllowedError('Chart is empty')
         }
 
-        chart.splice(0, chart.length)
+        cart.splice(0, cart.length)
         user.save()
 
-        return
+        return purchasedAlbums
     })()
 }
