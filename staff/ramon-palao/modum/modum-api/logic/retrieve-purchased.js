@@ -15,14 +15,14 @@ module.exports = id => {
 
         if(purchasedAlbums.length){
             for(let i = 0; i < purchasedAlbums.length; i++){
-                const album = await Album.findById(purchasedAlbums[i]).populate('artists', 'name').lean()
+                const album = await Album.findById(purchasedAlbums[i].album).populate('artists', 'name').lean()
                 
                 album.artists[0].id = album.artists[0]._id.toString()
                 delete album.artists[0]._id
                 
                 purchasedList.push(album)
                 purchasedAlbums[i].format === 'digital' ? purchasedList[purchasedList.length -1].format = 'digital' : purchasedList[purchasedList.length -1].format = 'vinyl'
-                // debugger
+                debugger
             }
         } else {
             // throw new NotFoundError('No purchased albums')

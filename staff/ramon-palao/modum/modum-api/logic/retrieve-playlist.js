@@ -11,24 +11,28 @@ module.exports = id => {
 
         const { playlist } = user
         const playlistSongs = []
+        
 
         if(playlist.length){
             for(let i = 0; i < playlist.length; i++){
-                const song = await Song.findById(playlist[i]).lean()
+                const song = await Song.findById(playlist[i].song).lean()
                 song.id = song._id.toString()
                 delete song._id
                 delete song.__v
                 
-                const album = await Album.find({songs: playlist[i]}).populate('artists', 'name').lean()
+                const album = await Album.find({songs: playlist[i].song}).populate('artists', 'name').lean()
                 
                 album[0].artists[0].id = album[0].artists[0]._id.toString()
                 delete album[0].artists[0]._id
+                
+                const element = {}
+                element.song = song
+                element.name = album[0].name
+                element.artists = album[0].artists
             
-                playlistSongs.push(song, album[0].name, album[0].artists)
+                playlistSongs.push(element)
             }
 
-        } else {
-            throw new NotFoundError('No songs in playlist')
         }
 
         return playlistSongs

@@ -41,6 +41,7 @@ export default (function (id) {
             album.portrait = `${API_URL}/portrait/${album.id}`
 
             album.songs.forEach((item) => item.file = `${API_URL}/track/${sub}/${item.id}`)
+
             return album
         })
 }).bind(context)

@@ -15,6 +15,8 @@ import ResultsShopping from './Results-shopping'
 import Pay from './Pay'
 import MyAlbums from './My-albums'
 import ResultsMyAlbums from './Results-my-albums'
+import Playlist from './Playlist'
+import ResultsPlaylist from './Results-playlist'
 
 export {
     App,
@@ -33,5 +35,7 @@ export {
     ResultsShopping,
     Pay,
     MyAlbums,
-    ResultsMyAlbums
+    ResultsMyAlbums,
+    Playlist,
+    ResultsPlaylist
 }

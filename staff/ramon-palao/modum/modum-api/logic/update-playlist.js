@@ -1,5 +1,5 @@
 const { validate } = require('modum-utils')
-const { models: { User, Song } } = require('modum-data')
+const { models: { User, Song, Playlist } } = require('modum-data')
 const { NotFoundError } = require('modum-errors')
 
 module.exports = (idUser, idSong) => {
@@ -15,7 +15,27 @@ module.exports = (idUser, idSong) => {
             return User.findById(idUser)
                 .then(user => {
                     const { playlist } = user
-                    playlist.push(idSong)
+                    debugger
+
+                    if (playlist.length) {
+                        const existIndex = playlist.findIndex(item => item.song.toString() === idSong)
+                        if (existIndex !== -1) {
+                            playlist.splice(existIndex, 1)
+                            song.isFav = false
+                        } else {
+                            const playlistSong = new Playlist({ song: idSong })
+
+                            song.isFav = true
+                            playlist.push(playlistSong)
+                        }
+                    } else {
+                        const playlistSong = new Playlist({ song: idSong })
+
+                        song.isFav = true
+                        playlist.push(playlistSong)
+                    }
+
+                    song.save()
                     user.save()
                 })
                 .then(() => { })

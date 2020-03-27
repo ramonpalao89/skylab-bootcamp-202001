@@ -19,6 +19,8 @@ import saveCreditCard from './save-credit-card'
 import retrieveCreditCards from './retrieve-credit-cards'
 import buyProducts from './buy-products'
 import retrievePurchasedAlbums from './retrieve-purchased-albums'
+import updatePlaylist from './update-playlist'
+import retrievePlaylist from './retrieve-playlist'
 
 export {
     registerUser,
@@ -41,5 +43,7 @@ export {
     saveCreditCard,
     retrieveCreditCards,
     buyProducts,
-    retrievePurchasedAlbums
+    retrievePurchasedAlbums,
+    updatePlaylist,
+    retrievePlaylist
 }

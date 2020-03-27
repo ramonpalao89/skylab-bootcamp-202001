@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import './App.sass';
-import { Register, Login, Page, Home, Header, ResultsItem, DetailItem, ResultsBestSellings, Profile, ResultsShopping, Pay, ResultsMyAlbums } from '../components'
-import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail, retrieveYear, retrieveBestSellings, updateProfile, retrieveSong, updateShoppingCart, retrieveShoppingCart, postShipping, retrieveShippingDetails, saveCreditCard, retrieveCreditCards, buyProducts, retrievePurchasedAlbums } from '../logic'
+import { Register, Login, Page, Home, Header, ResultsItem, DetailItem, ResultsBestSellings, Profile, ResultsShopping, Pay, ResultsMyAlbums, ResultsPlaylist } from '../components'
+import { registerUser, login, isLoggedIn, retrieveUser, retrieveGenre, retrieveAlbumDetail, retrieveYear, retrieveBestSellings, updateProfile, retrieveSong, updateShoppingCart, retrieveShoppingCart, postShipping, retrieveShippingDetails, saveCreditCard, retrieveCreditCards, buyProducts, retrievePurchasedAlbums, updatePlaylist, retrievePlaylist } from '../logic'
 import { Context } from './ContextProvider'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 
@@ -19,6 +19,7 @@ export default withRouter(function ({ history }) {
   const [totalPay, setTotalPay] = useState([])
   const [purchasedAlbums, setPurchased] = useState([])
   const [cartItems, setCartItems] = useState([])
+  const [songsPlaylist, setSongsPlaylist] = useState([])
 
   useEffect(() => {
     if (isLoggedIn()) {
@@ -313,13 +314,45 @@ export default withRouter(function ({ history }) {
   }
 
   const handlePurchasedAlbums = () => {
-    (async() => {
-      try{
+    (async () => {
+      try {
         const purchasedAlbums = await retrievePurchasedAlbums()
         setPurchased(purchasedAlbums)
 
         history.push('/my-albums')
-      }catch({message}){
+      } catch ({ message }) {
+        setState({ ...state, error: message })
+
+        setTimeout(() => {
+          setState({ error: undefined })
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleAddToPlaylist = idSong => {
+    (async () => {
+      try {
+        await updatePlaylist(idSong)
+
+      } catch ({ message }) {
+        setState({ ...state, error: message })
+
+        setTimeout(() => {
+          setState({ error: undefined })
+        }, 3000)
+      }
+    })()
+  }
+
+  const handleRetrievePlaylist = () => {
+    (async () => {
+      try {
+        const songsPlaylist = await retrievePlaylist()
+        setSongsPlaylist(songsPlaylist)
+
+        history.push('/playlist')
+      } catch ({ message }) {
         setState({ ...state, error: message })
 
         setTimeout(() => {
@@ -354,15 +387,16 @@ export default withRouter(function ({ history }) {
     <Route exact path='/' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Redirect to='/login' />} />
     <Route path='/register' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Register onRegister={handleRegister} onGoToLogin={handleGoToLogin} error={error} />} />
     <Route path='/login' render={() => isLoggedIn() ? <Redirect to='/home' /> : <Login onLogin={handleLogin} onGoToRegister={handleGoToRegister} error={error} />} />
-    <Route path='/home' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Home /></> : <Redirect to='/login' />} />
-    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onAddToCart={handleAddToCart} message={message} error={error} /></> : <Redirect to='/login' />} />
-    <Route path='/albums/year' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
-    <Route path='/album/detail/' render={props => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><DetailItem albumDetail={albumDetail} id={props.match.params.id} onTrackedSong={handleRetrieveSong} file={file} message={message} error={error} /></> : <Redirect to='/login' />} />
-    <Route path='/albums/best-sellings/' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsBestSellings bestSellings={bestSellings} onAddToCart={handleAddToCart} message={message} error={error}/></> : <Redirect to='/login' />} />
-    <Route path='/user/profile/' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Profile onSubmit={handleProfile} user={user} error={error} message={message} onShipping={handlePostShipping} onShippingDetails={handleRetrieveShipping} shippingDetails={shippingDetails} onSaveCard={handleSaveCard} onCardDetails={handleRetrieveCreditCards} creditCards={creditCards} /></> : <Redirect to='/login' />} />
-    <Route path='/shopping-cart' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsShopping albums={albums} error={error} onGoToPay={handleGoToPay} /></> : <Redirect to='/login' />} />
-    <Route path='/payment' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Pay cartItems={cartItems} totalPay={totalPay} message={message} onShipping={handlePostShipping} onPurchased={handlePurchase} /></> : <Redirect to='/login' />} />
-    <Route path='/my-albums' render={() => isLoggedIn() ? <><Header onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsMyAlbums purchasedAlbums={purchasedAlbums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/home' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Home /></> : <Redirect to='/login' />} />
+    <Route path='/albums/genre' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onAddToCart={handleAddToCart} message={message} error={error} /></> : <Redirect to='/login' />} />
+    <Route path='/albums/year' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsItem albums={albums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/album/detail/' render={props => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><DetailItem albumDetail={albumDetail} id={props.match.params.id} onTrackedSong={handleRetrieveSong} file={file} message={message} error={error} addToPlaylist={handleAddToPlaylist} /></> : <Redirect to='/login' />} />
+    <Route path='/albums/best-sellings/' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsBestSellings bestSellings={bestSellings} onAddToCart={handleAddToCart} message={message} error={error} /></> : <Redirect to='/login' />} />
+    <Route path='/user/profile/' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Profile onSubmit={handleProfile} user={user} error={error} message={message} onShipping={handlePostShipping} onShippingDetails={handleRetrieveShipping} shippingDetails={shippingDetails} onSaveCard={handleSaveCard} onCardDetails={handleRetrieveCreditCards} creditCards={creditCards} /></> : <Redirect to='/login' />} />
+    <Route path='/shopping-cart' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsShopping albums={albums} error={error} onGoToPay={handleGoToPay} /></> : <Redirect to='/login' />} />
+    <Route path='/payment' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><Pay cartItems={cartItems} totalPay={totalPay} message={message} onShipping={handlePostShipping} onPurchased={handlePurchase} /></> : <Redirect to='/login' />} />
+    <Route path='/my-albums' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsMyAlbums purchasedAlbums={purchasedAlbums} onGoToDetail={handleDetail} /></> : <Redirect to='/login' />} />
+    <Route path='/playlist' render={() => isLoggedIn() ? <><Header onGoToPlaylist={handleRetrievePlaylist} onGoToPurchased={handlePurchasedAlbums} onGoToShoppingCart={handleRetrieveShoppingCart} onGoToProfile={handleGoToProfile} user={user} genreButtonClick={handleRetrieveGenre} yearButtonClick={handleRetrieveYear} bestSellingsButtonClick={handleRetrieveBestSellings} /><ResultsPlaylist songsPlaylist={songsPlaylist} /></> : <Redirect to='/login' />} />
 
   </div>
 })

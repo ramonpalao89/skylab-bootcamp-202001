@@ -6,5 +6,7 @@ module.exports = {
     Song: require('./song'),
     User: require('./user'),
     ShippingData: require('./shipping-data'),
-    CartItem: require('./cart-item')
+    CartItem: require('./cart-item'),
+    PurchasedAlbums: require('./purchased-item'),
+    Playlist: require('./playlist')
 }

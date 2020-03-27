@@ -15,7 +15,7 @@ export default ({ albums, onAddToCart, message, error }) => {
                 const purchasedAlbums = await retrievePurchasedAlbums()
 
                 purchasedAlbums.forEach(item => {
-                    if (item.id === albums.id) {
+                    if (item.format === 'digital' && item.id === albums.id) {
                         digital.current.className = 'hide'
                         purchased.current.className = 'popup-purchased'
                     } else {
