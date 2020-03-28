@@ -1,7 +1,7 @@
 const { Schema } = require('mongoose')
 
 module.exports = new Schema({
-    issuer: { type: String, enum: ['visa', 'mastercard', 'american express', 'apple card'], default: 'visa', required: true },
+    issuer: { type: String, enum: ['Visa', 'Mastercard', 'American Express', 'Apple Card'], default: 'Visa', required: true },
     name: { type: String },
     number: {
         type: String,

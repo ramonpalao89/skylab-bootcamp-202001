@@ -1,25 +1,23 @@
 import React, { useState, useEffect } from 'react'
-// import { retrieveAlbumDetail, isLoggedIn } from '../logic'
+import { retrieveAlbumDetail } from '../logic'
 import './Detail-item.sass'
 import Feedback from './Feedback'
 
 export default ({ albumDetail, onTrackedSong, file, addToPlaylist, message, error }) => {
+    // const [album, setAlbum] = useState([])
 
-    // let [albumDetail, setAlbumDetail] = useState()
     // useEffect(() => {
-    //     if (isLoggedIn()) {
-    //       (async() => {
+    //     (async () => {
 
-    //         const albumDetail = await retrieveAlbumDetail(id)
+    //         const album = await retrieveAlbumDetail(id)
     //         debugger
-    //         setAlbumDetail(albumDetail)
+    //         setAlbum(album)
 
     //     })()
-    // }
-    // })
+
+    // }, [])
 
     const { artists, songs, name, genre, year, portrait, id } = albumDetail
-    debugger
 
     return <section>
         <section className="play-album-titles">

@@ -15,59 +15,73 @@ mongoose.connect('mongodb://localhost:27017/modum', { useNewUrlParser: true, use
         songs.push(new Song({
             name: 'Is This Love',
             artists: artists[0]._id,
-            file: '01 Is This Love.mp3'
+            file: '01 Is This Love.mp3',
+            isFav: false
         }), new Song({
             name: 'No Woman, No Cry',
             artists: artists[0]._id,
-            file: '02 No Woman, No Cry [Live].mp3'
+            file: '02 No Woman, No Cry [Live].mp3',
+            isFav: false
         }), new Song({
             name: 'Could You Be Loved',
             artists: artists[0]._id,
-            file: '03 Could You Be Loved.mp3'
+            file: '03 Could You Be Loved.mp3',
+            isFav: false
         }), new Song({
             name: 'Three Little Birds',
             artists: artists[0]._id,
-            file: '04 Three Little Birds.mp3'
+            file: '04 Three Little Birds.mp3',
+            isFav: false
         }), new Song({
             name: 'Buffalo Soldier',
             artists: artists[0]._id,
-            file: '05 Buffalo Soldier [Album Version].mp3'
+            file: '05 Buffalo Soldier [Album Version].mp3',
+            isFav: false
         }), new Song({
             name: 'Get Up, Stand Up',
             artists: artists[0]._id,
-            file: '06 Get Up, Stand Up [LP Version].mp3'
+            file: '06 Get Up, Stand Up [LP Version].mp3',
+            isFav: false
         }), new Song({
             name: 'Stir It Up',
             artists: artists[0]._id,
-            file: '07 Stir It Up [Edit].mp3'
+            file: '07 Stir It Up [Edit].mp3',
+            isFav: false
         }), new Song({
             name: 'One Love / People Get Ready',
             artists: artists[0]._id,
-            file: '08 One Love-People Get Ready.mp3'
+            file: '08 One Love-People Get Ready.mp3',
+            isFav: false
         }), new Song({
             name: 'I Shot the Sheriff',
             artists: artists[0]._id,
-            file: '09 I Shot the Sheriff.mp3'
+            file: '09 I Shot the Sheriff.mp3',
+            isFav: false
         }), new Song({
             name: 'Waiting in Vain',
             artists: artists[0]._id,
-            file: '10 Waiting in Vain.mp3'
+            file: '10 Waiting in Vain.mp3',
+            isFav: false
         }), new Song({
             name: 'Redemption Song',
             artists: artists[0]._id,
-            file: '11 Redemption Song [Album Version].mp3'
+            file: '11 Redemption Song [Album Version].mp3',
+            isFav: false
         }), new Song({
             name: 'Satisfy My Soul',
             artists: artists[0]._id,
-            file: '12 Satisfy My Soul.mp3'
+            file: '12 Satisfy My Soul.mp3',
+            isFav: false
         }), new Song({
             name: 'Exodus',
             artists: artists[0]._id,
-            file: '13 Exodus.mp3'
+            file: '13 Exodus.mp3',
+            isFav: false
         }), new Song({
             name: 'Jamming',
             artists: artists[0]._id,
-            file: '14 Jamming.mp3'
+            file: '14 Jamming.mp3',
+            isFav: false
         }))
 
         albums.push(new Album({

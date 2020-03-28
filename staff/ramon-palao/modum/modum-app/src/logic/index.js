@@ -21,6 +21,7 @@ import buyProducts from './buy-products'
 import retrievePurchasedAlbums from './retrieve-purchased-albums'
 import updatePlaylist from './update-playlist'
 import retrievePlaylist from './retrieve-playlist'
+import searchArtist from './search-artist'
 
 export {
     registerUser,
@@ -45,5 +46,6 @@ export {
     buyProducts,
     retrievePurchasedAlbums,
     updatePlaylist,
-    retrievePlaylist
+    retrievePlaylist,
+    searchArtist
 }

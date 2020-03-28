@@ -211,7 +211,7 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                         <input type="text" name="name" placeholder="Cardholder Name" />
                         <input type="text" name="number" placeholder="Card Number" />
                         <input type="text" name="expiration" placeholder="Expiration date (yy - mm)" />
-                        <input type="text" name="cvv" placeholder="CVV (3 digits)" />
+                        <input type="password" name="cvv" placeholder="CVV (3 digits)" />
                     </div>
                     <button type='submit' className='btn-submit'>Accept</button>
                     {message && <Feedback message={message} level='info'/>}

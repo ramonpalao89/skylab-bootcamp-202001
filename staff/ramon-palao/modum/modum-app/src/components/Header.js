@@ -1,23 +1,34 @@
-import React, {useState} from 'react'
+import React, { useRef } from 'react'
 import './Header.sass'
 
-export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClick, onGoToProfile, onGoToShoppingCart, onGoToPurchased, onGoToPlaylist}) => {
-    const {name, surname} = user
+export default ({ user, genreButtonClick, yearButtonClick, bestSellingsButtonClick, onGoToProfile, onGoToShoppingCart, onGoToPurchased, onGoToPlaylist, onSearch, onLogout }) => {
+    const { name, surname } = user
+    const search = useRef()
+
+    const handleShowSearch = () => {
+        search.current.className === 'header-search' ? search.current.className = '' : search.current.className = 'header-search'
+    }
 
     return <div>
         <header>
             <nav className="upper-header">
                 <ul>
-                    {user && <li><a href="" onClick={event=>{
+                    {user && <li><a href="" onClick={event => {
                         event.preventDefault()
                         onGoToProfile()
                     }}><span className="user"><i className="fas fa-user"></i></span>{name} {surname}</a></li>}
-                    <li><a href=""><span className="logo"><i></i></span>MODUM</a></li>
+                    <li><a href="" onClick={event => {
+                        event.preventDefault()
+                        handleShowSearch()
+                    }}><span className="search"><i className="fas fa-search"></i></span>SEARCH</a></li>
                     <li><a href="" onClick={event => {
                         event.preventDefault()
                         onGoToShoppingCart()
                     }}><span className="buy"><i className="fas fa-shopping-cart"></i></span>BUY</a></li>
-                    <li><a href=""><span className="search"><i className="fas fa-search"></i></span>SEARCH</a></li>
+                    <li><a href="" onClick={event => {
+                        event.preventDefault()
+                        onLogout()
+                    }}><span className="logo"><i className="fas fa-sign-out-alt"></i></span>LOGOUT</a></li>
                 </ul>
             </nav>
             <nav className="categories">
@@ -95,5 +106,16 @@ export default ({user, genreButtonClick, yearButtonClick, bestSellingsButtonClic
                 </ul>
             </nav>
         </header>
+        <section  className='header-search' ref={search}>
+            <form onSubmit={event => {
+                event.preventDefault()
+                const query = event.target.query.value
+
+                onSearch(query)
+            }}>
+                <input type='text' name='query' placeholder='search by Artist' autoComplete='off' />
+                <i className='fas fa-search'></i>
+            </form>
+        </section>
     </div>
 }

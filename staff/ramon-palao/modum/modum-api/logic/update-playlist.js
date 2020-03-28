@@ -22,20 +22,22 @@ module.exports = (idUser, idSong) => {
                         if (existIndex !== -1) {
                             playlist.splice(existIndex, 1)
                             song.isFav = false
+                            song.save()
                         } else {
                             const playlistSong = new Playlist({ song: idSong })
 
                             song.isFav = true
                             playlist.push(playlistSong)
+                            song.save()
                         }
                     } else {
                         const playlistSong = new Playlist({ song: idSong })
 
                         song.isFav = true
                         playlist.push(playlistSong)
+                        song.save()
                     }
 
-                    song.save()
                     user.save()
                 })
                 .then(() => { })
