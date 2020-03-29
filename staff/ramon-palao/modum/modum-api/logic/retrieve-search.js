@@ -5,7 +5,7 @@ const { NotFoundError } = require('modum-errors')
 module.exports = query => {
     validate.string(query, 'query')
 
-    return Artist.find({ name: { $regex: `${query}` } })
+    return Artist.find({ name: { $regex: `.*${query}.*` } })
         .lean()
         .then(artist => {
 

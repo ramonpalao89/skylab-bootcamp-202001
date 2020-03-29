@@ -6,7 +6,7 @@ export default ({ user, genreButtonClick, yearButtonClick, bestSellingsButtonCli
     const search = useRef()
 
     const handleShowSearch = () => {
-        search.current.className === 'header-search' ? search.current.className = '' : search.current.className = 'header-search'
+        search.current.className === 'header-search' ? search.current.className = 'activate-search' : search.current.className = 'header-search'
     }
 
     return <div>
@@ -106,15 +106,15 @@ export default ({ user, genreButtonClick, yearButtonClick, bestSellingsButtonCli
                 </ul>
             </nav>
         </header>
-        <section  className='header-search' ref={search}>
+        <section  >
             <form onSubmit={event => {
                 event.preventDefault()
                 const query = event.target.query.value
 
                 onSearch(query)
             }}>
-                <input type='text' name='query' placeholder='search by Artist' autoComplete='off' />
-                <i className='fas fa-search'></i>
+                <input className='header-search' ref={search} type='text' name='query' placeholder='  Search by Artist' autoComplete='off' />
+                {/* <i className='fas fa-search'></i> */}
             </form>
         </section>
     </div>

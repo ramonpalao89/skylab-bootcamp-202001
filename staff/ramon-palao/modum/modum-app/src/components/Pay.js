@@ -14,6 +14,12 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
     const [error, setError] = useState(undefined)
     const [creditCards, setCards] = useState(undefined)
     const [newMessage, setMessage] = useState()
+    const [data, setData] = useState({
+        cardholder: '',
+        number: '',
+        date: '',
+        ccv: ''
+    })
 
     useEffect(() => {
         (async () => {
@@ -41,6 +47,15 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
             }
         })()
     }, [])
+
+    const handleInputChange = (event) => {
+        console.log(event.target.value)
+        setData({
+            ...data,
+            [event.target.name] : event.target.value,
+        })
+
+    }
 
     const handleCloseShippingModule = () => {
         showShipping.current.className = 'overlay'
@@ -109,20 +124,20 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
                 </section>
                 <section class="card__details">
                     <section class="card__numbers-display">
-                        <h3 class="card__numbers">#### #### #### ####</h3>
+                        <h3 class="card__numbers">{data.number}</h3>
                     </section>
                     <section class="card__date-display">
-                        <p class="card__date">EXP. 12/21</p>
+                        <p class="card__date">{data.date}</p>
                     </section>
-                    <h3 class="card__name">JOHN DOE</h3>
+                    <h3 class="card__name">{data.cardholder}</h3>
                 </section>
             </section>
         </section>
         <form class="card__form" ref={cardForm}>
-            <input type="text" name="cardholder" placeholder="CARDHOLDER NAME" class="card__input" required />
-            <input type="text" name="number" placeholder="CARD NUMBER" class="card__input" required />
-            <input type="text" name="date" placeholder="EXPIRED DATE" class="card__input" required />
-            <input type="password" name="ccv" placeholder="CCV NUMBER" class="card__input" required />
+            <input type="text" name="cardholder" placeholder="CARDHOLDER NAME" class="card__input" onChange={handleInputChange} />
+            <input type="text" name="number" placeholder="CARD NUMBER" class="card__input" onChange={handleInputChange} />
+            <input type="text" name="date" placeholder="EXPIRED DATE" class="card__input" onChange={handleInputChange} />
+            <input type="password" name="ccv" placeholder="CCV NUMBER" class="card__input" onChange={handleInputChange} />
         <div className='dot-container' ref={loading}>
             <span></span>
             <span></span>

@@ -6,7 +6,7 @@ const { expect } = require('chai')
 const { random } = Math
 const retrieveYear = require('./retrieve-year')
 
-describe.only('retrieveYear', () => {
+describe('retrieveYear', () => {
     before(() =>
         mongoose.connect(TEST_MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(() => Promise.all([User.deleteMany(), Album.deleteMany()]))
@@ -21,8 +21,8 @@ describe.only('retrieveYear', () => {
         password = `password-${random()}`
         genre = `genre-${random()}`
         year = `2020`
-        priceDigital = `priceDigital-${random()}`
-        priceVinyl = `priceVinyl-${random()}`
+        priceDigital = random()
+        priceVinyl = random()
         portrait = `portrait-${random()}`
         artistObject = new Artist({ name })
         let { _id } = artistObject
@@ -63,8 +63,8 @@ describe.only('retrieveYear', () => {
             name = `name-${random()}`
             genre = `genre-${random()}`
             year = `2020`
-            priceDigital = `priceDigital-${random()}`
-            priceVinyl = `priceVinyl-${random()}`
+            priceDigital = random()
+            priceVinyl = random()
             portrait = `portrait-${random()}`
             artistObject = new Artist({ name })
             let { _id } = artistObject
@@ -91,8 +91,8 @@ describe.only('retrieveYear', () => {
             name = `name-${random()}`
             genre = `genre-${random()}`
             year = `2020`
-            priceDigital = `priceDigital-${random()}`
-            priceVinyl = `priceVinyl-${random()}`
+            priceDigital = random()
+            priceVinyl = random()
             portrait = `portrait-${random()}`
             artistObject = new Artist({ name })
             let { _id } = artistObject
@@ -119,8 +119,8 @@ describe.only('retrieveYear', () => {
             name = `name-${random()}`
             genre = `genre-${random()}`
             year = `2015`
-            priceDigital = `priceDigital-${random()}`
-            priceVinyl = `priceVinyl-${random()}`
+            priceDigital = random()
+            priceVinyl = random()
             portrait = `portrait-${random()}`
             artistObject = new Artist({ name })
             let { _id } = artistObject
@@ -147,8 +147,8 @@ describe.only('retrieveYear', () => {
             name = `name-${random()}`
             genre = `genre-${random()}`
             year = `1984`
-            priceDigital = `priceDigital-${random()}`
-            priceVinyl = `priceVinyl-${random()}`
+            priceDigital = random()
+            priceVinyl = random()
             portrait = `portrait-${random()}`
             artistObject = new Artist({ name })
             let { _id } = artistObject
@@ -169,35 +169,6 @@ describe.only('retrieveYear', () => {
                     expect(album.length).to.be.greaterThan(0)
                 })
         })
-
-        // it('should fail on retrieving an album published more than 10 years ago if actual published year is current year', () => {
-        //     const albums = []
-        //     name = `name-${random()}`
-        //     genre = `genre-${random()}`
-        //     year = `2020`
-        //     priceDigital = `priceDigital-${random()}`
-        //     priceVinyl = `priceVinyl-${random()}`
-        //     portrait = `portrait-${random()}`
-        //     artistObject = new Artist({ name })
-        //     let { _id } = artistObject
-        //     idArtist = _id.toString()
-        //     artists = [idArtist]
-        //     songs = [name]
-
-        //     for (let i = 0; i < 20; i++) {
-        //         albums.push({ name, genre, year, priceDigital, priceVinyl, portrait, songs, artists })
-        //     }
-
-        //     Album.insertMany(albums)
-        //     let publishYear = "more-than-ten"
-        //     return retrieveYear(publishYear)
-        //         .then(() => { throw new Error('should not reach this point') })
-        //         .catch(error => {
-        //             expect(error).to.be.an.instanceOf(Error)
-        //             expect(error).not.to.be.undefined
-        //             expect(error.message).to.equal(`no albums published ${publishYear} years ago`)
-        //         })
-        // })
     })
 
     after(() => Promise.all([User.deleteMany(), Album.deleteMany()]).then(() => mongoose.disconnect()))

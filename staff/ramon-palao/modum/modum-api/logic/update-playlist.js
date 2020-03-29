@@ -15,7 +15,6 @@ module.exports = (idUser, idSong) => {
             return User.findById(idUser)
                 .then(user => {
                     const { playlist } = user
-                    debugger
 
                     if (playlist.length) {
                         const existIndex = playlist.findIndex(item => item.song.toString() === idSong)
