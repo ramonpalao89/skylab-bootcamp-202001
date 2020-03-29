@@ -20,8 +20,6 @@ module.exports = id => {
 
                 playedArtists.push(mostPlayedArtists[0])
 
-                // mostPlayedArtists.forEach(item => playedArtists.push(item))
-
                 playedArtists.forEach(item => {
                     item.id = item._id.toString()
                     delete item._id

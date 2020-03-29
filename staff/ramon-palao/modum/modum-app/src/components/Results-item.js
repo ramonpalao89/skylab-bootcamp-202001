@@ -1,6 +1,6 @@
 import React from 'react'
 import Item from './Item'
-// import './Results-item.sass'
+import './Results-item.sass'
 
 export default ({albums, onAddToCart, message, error}) => {
 

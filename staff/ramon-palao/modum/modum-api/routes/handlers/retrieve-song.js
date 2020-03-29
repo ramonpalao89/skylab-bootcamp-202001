@@ -14,7 +14,7 @@ module.exports = (req, res) => {
                 res.set('content-type', 'audio/mp3')
                 res.set('accept-ranges', 'bytes')
 
-                let readStream = fs.createReadStream(path.join(__dirname, `../../../modum-data/songs/${file}`))
+                let readStream = fs.createReadStream(path.join(__dirname, `../../data/songs/${file}`))
 
                 readStream.on('close', () => {
                     res.end()

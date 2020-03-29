@@ -18,12 +18,6 @@ module.exports = genreName => {
                 delete item.__v
             })
 
-            // album.artists.forEach(item => {
-            //     item.id = item._id.toString()
-
-            //     delete item._id
-            // })
-
             return album
         })
 }

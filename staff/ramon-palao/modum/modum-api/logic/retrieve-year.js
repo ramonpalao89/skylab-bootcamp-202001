@@ -7,7 +7,7 @@ module.exports = (publishYear) => {
     validate.string(publishYear, 'publishYear')
 
     if (publishYear !== 'more-than-ten') {
-        return Album.find({ year: { $gte: new Date().getFullYear() - publishYear } })
+        return Album.find({ year: { $gte: new Date().getFullYear() - publishYear } }).populate('artists', 'name')
             .lean()
             .then(album => {
 
@@ -29,12 +29,12 @@ module.exports = (publishYear) => {
 
                 if (!album.length) throw new NotFoundError(`no albums published ${publishYear} years ago`)
 
-                // album.forEach(item => {
-                //     item.id = item._id.toString()
+                album.forEach(item => {
+                    item.id = item._id.toString()
     
-                //     delete item._id
-                //     delete item.__v
-                // })
+                    delete item._id
+                    delete item.__v
+                })
 
                 return album
             })

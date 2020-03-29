@@ -13,7 +13,7 @@ module.exports = (req, res) => {
                 res.set('content-type', 'image/jpeg')
                 res.set('accept-ranges', 'bytes')
 
-                let readStream = fs.createReadStream(path.join(__dirname, `../../../modum-data/portraits/${file}`)).pipe(res)
+                let readStream = fs.createReadStream(path.join(__dirname, `../../data/portraits/${file}`)).pipe(res)
 
                 readStream.on('close', () => {
                     res.end()

@@ -20,7 +20,7 @@ mongoose.connect('mongodb://localhost:27017/modum', { useNewUrlParser: true, use
         }), new Song({
             name: 'No Woman, No Cry',
             artists: artists[0]._id,
-            file: '02 No Woman, No Cry [Live].mp3',
+            file: '',
             isFav: false
         }), new Song({
             name: 'Could You Be Loved',
@@ -97,12 +97,14 @@ mongoose.connect('mongodb://localhost:27017/modum', { useNewUrlParser: true, use
 
 
         songs.forEach(song => {
-            fs.copyFile(path.join(__dirname, song.file), path.join(__dirname, `../../../modum-data/songs/${song._id}.mp3`), (err) => {
-                if (err) throw err;
-                console.log('source.txt was copied to destination.txt');
-            });
-
-            song.file = `${song._id}.mp3`
+            if(song.file){
+                fs.copyFile(path.join(__dirname, song.file), path.join(__dirname, `../../../modum-data/songs/${song._id}.mp3`), (err) => {
+                    if (err) throw err;
+                    console.log('source.txt was copied to destination.txt');
+                });
+    
+                song.file = `${song._id}.mp3`
+            }
         })
 
         albums.forEach(album => {

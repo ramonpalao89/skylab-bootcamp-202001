@@ -18,9 +18,9 @@ module.exports = id => {
 
             if (mostPlayedSongs.length) {
 
-                mostPlayedSongs.forEach(song => playedSongs.push(song))
+                // mostPlayedSongs.forEach(song => playedSongs.push(song))
 
-                // for (let i = 0; i < 5; i++) playedSongs.push(mostPlayedSongs[i])
+                for (let i = 0; i < 5; i++) playedSongs.push(mostPlayedSongs[i])
 
                 playedSongs.forEach(item => {
                     item.id = item._id.toString()

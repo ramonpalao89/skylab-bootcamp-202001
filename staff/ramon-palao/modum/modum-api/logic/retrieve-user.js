@@ -12,36 +12,35 @@ module.exports = id => {
             if (user.deactivated) throw new NotAllowedError(`user with id ${id} is deactivated`)
 
             
-            // user.mostPlayedSongs.forEach(item => {
-            //     item.id = item._id.toString()
+            user.mostPlayedSongs.forEach(item => {
+                item.id = item._id.toString()
                 
-            //     delete item._id
-            // })
+                delete item._id
+            })
             
-            // user.mostPlayedArtists.forEach(item => {
-            //     item.id = item._id.toString()
+            user.mostPlayedArtists.forEach(item => {
+                item.id = item._id.toString()
                 
-            //     delete item._id
-            // })
+                delete item._id
+            })
             
-            // user.creditCards.forEach(item => {
-            //     item.id = item._id.toString()
+            user.creditCards.forEach(item => {
+                item.id = item._id.toString()
                 
-            //     delete item._id
-            // })
+                delete item._id
+            })
             
-            // user.shippingInformation.forEach(item => {
-            //     item.id = item._id.toString()
+            user.shippingInformation.forEach(item => {
+                item.id = item._id.toString()
                 
-            //     delete item._id
-            // })
+                delete item._id
+            })
             
-            // user.id = user._id.toString()
-            // delete user._id
-            // delete user.__v
+            user.id = user._id.toString()
+            delete user._id
+            delete user.__v
             
             user.retrieved = new Date
-            // user.save()
             
             return user
         })

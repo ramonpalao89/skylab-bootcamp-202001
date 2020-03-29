@@ -16,11 +16,11 @@ module.exports = id => {
 
             creditCards.forEach(item => allCreditCards.push(item))
 
-            // allCreditCards.forEach(item => {
-            //     item.id = item._id.toString()
-            //     delete item._id
-            //     delete item.cvv
-            // })
+            allCreditCards.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+                delete item.cvv
+            })
 
             return allCreditCards
         })

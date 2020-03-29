@@ -42,7 +42,7 @@ export default ({ user, genreButtonClick, yearButtonClick, bestSellingsButtonCli
                             }}>POP</a></li>
                             <li><a href="" onClick={event => {
                                 event.preventDefault()
-                                genreButtonClick('Hip-Hop')
+                                genreButtonClick('Hip-hop')
                             }}>HIP HOP</a></li>
                             <li><a href="" onClick={event => {
                                 event.preventDefault()

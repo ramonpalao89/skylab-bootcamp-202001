@@ -16,10 +16,10 @@ module.exports = id => {
 
             shippingInformation.forEach(item => allShippingDetails.push(item))
 
-            // allShippingDetails.forEach(item => {
-            //     item.id = item._id.toString()
-            //     delete item._id
-            // })
+            allShippingDetails.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+            })
 
             // if (!allShippingDetails.length) throw new NotFoundError(`user with id ${id} has not saved shipping details yet`)
 
