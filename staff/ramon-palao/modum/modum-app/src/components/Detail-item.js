@@ -1,23 +1,23 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { retrieveAlbumDetail } from '../logic'
 import './Detail-item.sass'
 import Feedback from './Feedback'
 
-export default ({ albumDetail, onTrackedSong, file, addToPlaylist, message, error }) => {
-    // const [album, setAlbum] = useState([])
+export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error }) => {
+    const [album, setAlbum] = useState([])
 
-    // useEffect(() => {
-    //     (async () => {
+    useEffect(() => {
+        (async () => {
 
-    //         const album = await retrieveAlbumDetail(id)
-    //         debugger
-    //         setAlbum(album)
+            const album = await retrieveAlbumDetail(idAlbum)
+            debugger
+            setAlbum(album)
 
-    //     })()
+        })()
 
-    // }, [])
+    }, [])
 
-    const { artists, songs, name, genre, year, portrait, id } = albumDetail
+    const { artists, songs, name, genre, year, portrait, id } = album
 
     return <section>
         <section className="play-album-titles">
@@ -38,7 +38,7 @@ export default ({ albumDetail, onTrackedSong, file, addToPlaylist, message, erro
                 }}></i>{song.name}</p>)}
             </section>
             <section>
-                {songs && <audio src={file} controls autoPlay='true'></audio>}
+                {songs && <audio src={file} controls autoPlay={true}></audio>}
             </section>
         </section>
     </section>

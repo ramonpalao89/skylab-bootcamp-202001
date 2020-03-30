@@ -4,7 +4,7 @@ import './Shopping-cart.sass'
 import Feedback from './Feedback'
 import { retrieveShoppingCart } from '../logic'
 
-export default ({ onGoToPay }) => {
+export default ({ onGoToPay, onToDelete }) => {
 
     const [totalPay, setTotal] = useState(0)
     const [cartItems, setCartItems] = useState([])
@@ -30,7 +30,7 @@ export default ({ onGoToPay }) => {
             }
         })()
 
-    }, [])
+    }, [cartItems])
 
     return <section className="buy-background">
         {error && <Feedback message={error} level='error' />}
@@ -38,7 +38,7 @@ export default ({ onGoToPay }) => {
         <h1 class="buy__title"><i class="fas fa-shopping-cart"></i> My Shopping List:</h1><br />
         {!cartItems.length && <h2>No products added to your Shopping List</h2>}
 
-        {cartItems.map((item, index) => <ShoppingCart key={index} cartItems={item} />)}
+        {cartItems.map((item, index) => <ShoppingCart key={index} cartItems={item} onToDelete={onToDelete} />)}
 
         <section class="buy__total">
             <h3 class="buy__total-price">Total ({cartItems.length} products) : {totalPay} €</h3>

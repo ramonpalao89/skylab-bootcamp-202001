@@ -27,7 +27,8 @@ const {
     retrieveOneShipping,
     retrievePortrait,
     retrievePurchased,
-    retrieveAllAlbums
+    retrieveAllAlbums,
+    deleteCartItem
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -93,5 +94,7 @@ router.get('/portrait/:idAlbum', retrievePortrait)
 router.get('/purchased-albums', jwtVerifierMidWare, retrievePurchased)
 
 router.get('/all-albums', retrieveAllAlbums)
+
+router.delete('/delete-item/:idAlbum', jwtVerifierMidWare, deleteCartItem)
 
 module.exports = router

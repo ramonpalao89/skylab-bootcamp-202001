@@ -23,6 +23,7 @@ import updatePlaylist from './update-playlist'
 import retrievePlaylist from './retrieve-playlist'
 import searchArtist from './search-artist'
 import retrieveGenreHome from './retrieve-genre-home'
+import deleteCartItem from './delete-cart-item'
 
 export {
     registerUser,
@@ -49,5 +50,6 @@ export {
     updatePlaylist,
     retrievePlaylist,
     searchArtist,
-    retrieveGenreHome
+    retrieveGenreHome,
+    deleteCartItem
 }
