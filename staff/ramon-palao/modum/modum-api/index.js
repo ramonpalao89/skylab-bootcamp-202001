@@ -8,23 +8,12 @@ const { name, version } = require('./package')
 const morgan = require('morgan')
 const fs = require('fs')
 const path = require('path')
-const { cors } = require('./mid-wares')
+const cors = require('cors')
 const { mongoose } = require('modum-data')
 const router = require('./routes')
-const multer = require('multer')
-const crypto = require('crypto') //To rename upload files
-const GridFsStorage = require('multer-gridfs-storage')
-const Grid = require('gridfs-stream')
 
-
-
-// let db, client
 
 mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-    // .then(_client => {
-    //     client = _client
-    //     db = client.db('modum')
-    // })
     .then(() => {
         const logger = winston.createLogger({
             level: env === 'development' ? 'debug' : 'info',
@@ -44,13 +33,11 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true 
 
         const app = express()
 
-        app.use(cors)
+        app.use(cors())
 
         app.use(morgan('combined', { stream: accessLogStream }))
 
         app.use('/api', router)
-        app.use(router)
-
 
 
         app.listen(port, () => logger.info(`server ${name} ${version} up and running on port ${port}`))
@@ -61,8 +48,3 @@ mongoose.connect(MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true 
             process.exit(0)
         })
     })
-
-    // const getConnection = () => db
-    // module.exports = {
-    //     getConnection
-    // }

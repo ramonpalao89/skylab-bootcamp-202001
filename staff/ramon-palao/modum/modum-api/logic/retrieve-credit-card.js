@@ -19,9 +19,8 @@ module.exports = id => {
             allCreditCards.forEach(item => {
                 item.id = item._id.toString()
                 delete item._id
+                delete item.cvv
             })
-
-            if (!allCreditCards.length) throw new NotFoundError(`user with id ${id} has not saved card details yet`)
 
             return allCreditCards
         })

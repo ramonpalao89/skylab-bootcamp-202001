@@ -1,0 +1,121 @@
+.best-selling
+    display: flex
+
+.best-selling__display
+    display: flex
+    justify-content: space-between
+    border: 1px solid black
+    width: 80%
+    margin-left: 5%
+    margin-bottom: 3%
+    background-color: white
+
+.best-selling__title
+    color: white
+    margin-left: 3%
+
+.best-selling__pic
+    width: 15%
+
+.best-selling__buy
+    display: flex
+    flex-direction: column
+    justify-content: space-evenly
+    margin-right: 10px
+
+.best-selling__info
+    align-self: center
+    margin-right: 100px
+
+.best-selling__artist
+    margin-bottom: 10px
+    font-size: 20px
+    font-weight: bolder
+
+
+.best-selling__button
+    background-color: #32fa00d7
+    color: white
+    border-radius: 5px
+    border: 1px solid black
+    height: 45%
+    font-weight: bolder
+    cursor: pointer
+
+.best-selling__price, .best-selling__album
+    font-size: 20px
+    font-weight: bolder
+
+// MODULE
+
+.overlay
+    background-color: rgba(0,0,0,.3)
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    display: flex
+    align-items: center
+    justify-content: center
+    visibility: hidden
+
+.overlay.active
+    visibility: visible
+
+.popup
+    background-color: white
+    box-shadow: 0px 0px 5px 0px rgba(0,0,0,.3)
+    border-radius: 3px
+    padding: 20px
+    text-align: center
+    width: 40%
+
+.popup-image
+    width: 80%
+
+.popup h3
+    font-size: 36px
+    font-weight: 500
+    margin-bottom: 20px
+
+.popup h5
+    font-size: 23px
+    font-weight: 100
+    margin-bottom: 2px
+
+.popup .inputs-container input
+    width: 100%
+    margin-bottom: 20px
+    height: 52px
+    line-height: 52px
+    font-size: 18px
+    text-align: center
+    border: 1px solid grey
+
+.btn-submit
+    padding: 0 20px
+    height: 40px
+    line-height: 40px
+    border: none
+    background-color: #5e7ed3
+    color: white
+    border-radius: 3px
+    font-size: 16px
+    cursor: pointer
+    transition: 0.3s ease all
+
+.btn-submit:hover
+    background-color: rgba(94,125,227,.8)
+
+.btn-close-popup
+    font-size: 16px
+    line-height: 16px
+    display: block
+    text-align: right
+    color: grey
+    transition: .3s ease all
+
+.btn-close-popup:hover
+    color: red
+    

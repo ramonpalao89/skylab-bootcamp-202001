@@ -16,14 +16,15 @@ module.exports = id => {
 
             mostPlayedArtists.sort((a, b) => b.value - a.value)
 
-            mostPlayedArtists.forEach(item => playedArtists.push(item))
+            if (mostPlayedArtists.length) {
 
-            playedArtists.forEach(item => {
-                item.id = item._id.toString()
-                delete item._id
-            })
+                playedArtists.push(mostPlayedArtists[0])
 
-            if (!playedArtists.length) throw new NotFoundError(`user with id ${id} has not played any artist yet`)
+                playedArtists.forEach(item => {
+                    item.id = item._id.toString()
+                    delete item._id
+                })
+            }
 
             return playedArtists
         })

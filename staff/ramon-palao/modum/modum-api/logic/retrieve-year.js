@@ -7,7 +7,7 @@ module.exports = (publishYear) => {
     validate.string(publishYear, 'publishYear')
 
     if (publishYear !== 'more-than-ten') {
-        return Album.find({ year: { $gte: new Date().getFullYear() - publishYear } })
+        return Album.find({ year: { $gte: new Date().getFullYear() - publishYear } }).populate('artists', 'name')
             .lean()
             .then(album => {
 
@@ -23,7 +23,7 @@ module.exports = (publishYear) => {
                 return album
             })
     } else {
-        return Album.find({ year: { $lt: new Date().getFullYear() - 10 } })
+        return Album.find({ year: { $lt: new Date().getFullYear() - 10 } }).populate('artists', 'name')
             .lean()
             .then(album => {
 

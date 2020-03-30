@@ -2,10 +2,10 @@ const { updateChart } = require('../../logic')
 const { NotFoundError, ContentError } = require('modum-errors')
 
 module.exports = (req, res) => {
-    const { payload: { sub: id }, params: { idAlbum } } = req
+    const { payload: { sub: id }, params: { idAlbum, format } } = req
 
     try {
-        updateChart(id, idAlbum)
+        updateChart(id, idAlbum, format)
             .then(user =>
                 res.status(201).json(user)
             )

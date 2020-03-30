@@ -16,14 +16,20 @@ module.exports = id => {
 
             mostPlayedSongs.sort((a, b) => b.value - a.value)
 
-            mostPlayedSongs.forEach(item => playedSongs.push(item))
+            if (mostPlayedSongs.length) {
 
-            playedSongs.forEach(item => {
-                item.id = item._id.toString()
-                delete item._id
-            })
+                // mostPlayedSongs.forEach(song => playedSongs.push(song))
 
-            if (!playedSongs.length) throw new NotFoundError(`user with id ${id} has not played any song yet`)
+                for (let i = 0; i < 5; i++) playedSongs.push(mostPlayedSongs[i])
+
+                playedSongs.forEach(item => {
+                    item.id = item._id.toString()
+                    delete item._id
+                })
+            }
+
+
+            // if (!playedSongs.length) throw new NotFoundError(`user with id ${id} has not played any song yet`)
 
             return playedSongs
         })

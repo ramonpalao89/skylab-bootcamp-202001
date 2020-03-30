@@ -21,7 +21,7 @@ module.exports = id => {
                 delete item._id
             })
 
-            if (!allShippingDetails.length) throw new NotFoundError(`user with id ${id} has not saved shipping details yet`)
+            // if (!allShippingDetails.length) throw new NotFoundError(`user with id ${id} has not saved shipping details yet`)
 
             return allShippingDetails
         })

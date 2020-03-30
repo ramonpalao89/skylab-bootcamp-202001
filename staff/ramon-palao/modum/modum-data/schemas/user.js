@@ -2,6 +2,9 @@ const { Schema, Types: { ObjectId } } = require('mongoose')
 const creditCard = require('./credit-card')
 const counter = require('./counter')
 const shippingData = require('./shipping-data')
+const cartItem = require('./cart-item')
+const purchasedAlbums = require('./purchased-item')
+const playlist = require('./playlist')
 
 module.exports = new Schema({
     name: { type: String, required: true },
@@ -16,9 +19,9 @@ module.exports = new Schema({
     mostPlayedSongs: [counter],
     mostPlayedArtists: [counter],
     freeSong: [counter],
-    purchasedAlbums: { type: [{ type: ObjectId, ref: 'Album' }] },
-    playlist: { type: [{ type: ObjectId, ref: 'Song' }] },
+    purchasedAlbums: [purchasedAlbums],
+    playlist: [playlist],
     creditCards: [creditCard],
-    chart: { type: [{ type: ObjectId, ref: 'Album' }] },
+    cart: [cartItem],
     shippingInformation: [shippingData]
 })

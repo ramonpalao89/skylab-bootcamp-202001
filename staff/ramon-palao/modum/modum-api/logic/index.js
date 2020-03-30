@@ -23,5 +23,8 @@ module.exports = {
     retrieveMostPlayedArtists: require('./retrieve-most-played-artists'),
     saveShippingInfo: require('./save-shipping-info'),
     retrieveShippingInformation: require('./retrieve-shipping-information'),
-    retrieveOneShipping: require('./retrieve-one-shipping')
+    retrieveOneShipping: require('./retrieve-one-shipping'),
+    retrievePortrait: require('./retrieve-portrait'),
+    retrievePurchased: require('./retrieve-purchased'),
+    retrieveAllAlbums: require('./retrieve-all-albums')
 }

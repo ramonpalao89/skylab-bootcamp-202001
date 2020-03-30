@@ -1,5 +1,5 @@
 const { validate } = require('modum-utils')
-const { models: { User, Album } } = require('modum-data')
+const { models: { User, Album, PurchasedAlbums } } = require('modum-data')
 const { NotFoundError, NotAllowedError } = require('modum-errors')
 
 module.exports = (idUser) => {
@@ -10,20 +10,24 @@ module.exports = (idUser) => {
         const user = await User.findById(idUser)
         if (!user) throw new NotFoundError(`User with id ${idUser} not found`)
 
-        let { chart, purchasedAlbums} = user
+        let { cart, purchasedAlbums } = user
 
-        if(chart.length){
-            for(let i = 0; i < chart.length; i++){
-                const album = await Album.findById(chart[i]).populate('artists', 'name')
+        if (cart.length) {
+            for (let i = 0; i < cart.length; i++) {
+                const album = await Album.findById(cart[i].album).populate('artists', 'name')
                 album.buyers === 0 ? album.buyers = 1 : album.buyers++
-                purchasedAlbums.push(album)
+
                 album.save()
+                const purchasedItem = new PurchasedAlbums({ album: cart[i].album, format: cart[i].format })
+
+                purchasedAlbums.push(purchasedItem)
+                user.save()
             }
         } else {
-            throw new NotAllowedError('Chart is empty')
+            throw new NotAllowedError('Cart is empty')
         }
 
-        chart.splice(0, chart.length)
+        cart.splice(0, cart.length)
         user.save()
 
         return

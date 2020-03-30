@@ -1,11 +1,12 @@
 const { validate } = require('modum-utils')
-const { models: { User, Album } } = require('modum-data')
+const { models: { User, Album, CartItem } } = require('modum-data')
 const { NotFoundError } = require('modum-errors')
 
-module.exports = (idUser, idAlbum) => {
+module.exports = (idUser, idAlbum, format) => {
 
     validate.string(idUser, 'idUser')
     validate.string(idAlbum, 'idAlbum')
+    validate.string(format, 'format')
 
     return Album.findById(idAlbum)
         .then(album => {
@@ -14,8 +15,11 @@ module.exports = (idUser, idAlbum) => {
 
             return User.findById(idUser)
                 .then(user => {
-                    const { chart } = user
-                    chart.push(idAlbum)
+                    const { cart } = user
+
+                    const cartItem = new CartItem({ album: idAlbum, format })
+
+                    cart.push(cartItem)
                     user.save()
                 })
                 .then(() => { })

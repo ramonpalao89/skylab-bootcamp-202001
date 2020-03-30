@@ -41,7 +41,6 @@ module.exports = id => {
             delete user.__v
             
             user.retrieved = new Date
-            // user.save()
             
             return user
         })
