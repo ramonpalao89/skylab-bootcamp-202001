@@ -8,13 +8,13 @@ const { random } = Math
 const updatePlaylist = require('./update-playlist')
 
 describe('updatePlaylist', () => {
-
+    
     before(() =>
         mongoose.connect(TEST_MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
-            .then(() => Promise.all([User.deleteMany(), Album.deleteMany(), Song.deleteMany(), Playlist.deleteMany()]))
+            .then(() => Promise.all([User.deleteMany(), Album.deleteMany(), Playlist.deleteMany()]))
     )
 
-    let name, surname, email, password, artists, file, isFav, genre, year, priceDigital, priceVinyl, buyers, portrait, songs, format, idUser, idSong
+    let name, surname, email, password, artists, file, genre, year, priceDigital, priceVinyl, buyers, portrait, songs, format, idUser, idSong
 
     beforeEach(() => {
         name = `name-${random()}`
@@ -23,7 +23,6 @@ describe('updatePlaylist', () => {
         password = `password-${random()}`
         artists = `artist-${random()}`
         file = `file-${random()}`
-        isFav = true
         genre = `genre-${random()}`
         year = `year-${random()}`
         priceDigital = random()
@@ -32,12 +31,17 @@ describe('updatePlaylist', () => {
         portrait = `portrait-${random()}`
         songs = []
         format
+
     })
 
     describe('when user already exists', () => {
+        
 
-        beforeEach(() => {
+
+        beforeEach(() =>
+
             User.create({ name, surname, email, password })
+
                 .then(user => {
 
                     idUser = user.id
@@ -47,29 +51,32 @@ describe('updatePlaylist', () => {
                     return Song.create({ name, artists, file, isfav: true })
 
                         .then((_song) => {
-
+                           
 
                             idSong = _song.id
                             return new Playlist({ song: idSong })
 
                         })
                         .then((list) => {
-
+                           
 
                             playlist.push(list)
                             user.save()
                         })
-                })
-                .then(({ id }) => {
-                    _id = id
-                })
-        })
 
-        it('should succeed updating playlist', () => {
+
+                })
+
+        )
+
+        it('should succeed updating playlist', () => {debugger
+
+            // User.create({ name, surname, email, password })
+            //     .then(user => { idUser = user.id })
 
             updatePlaylist(idUser, idSong)
                 .then(result => {
-                    expect(result).not.to.exist
+                    expect(result).to.not.exist
                     expect(result).to.be.undefined
 
                     return User.findById(idUser)
@@ -84,62 +91,79 @@ describe('updatePlaylist', () => {
         })
 
         it('should fail on incorrect song id', () => {
+           
+
             const wrongIdSong = `8756uyj7iuku`
 
             updatePlaylist(idUser, wrongIdSong)
 
                 .then(() => { throw new Error('should not reach this point') })
                 .catch(error => {
-
+                   
                     expect(error).to.be.an.instanceOf(NotFoundError)
                     expect(error).not.to.be.undefined
                     expect(error.message).to.equal(`song with id ${wrongIdSong} does not exist`)
                 })
         })
 
-        describe('when user does not exist', () => {
-
-            beforeEach(() => {
-                User.create({ name, surname, email, password })
-
-                    .then(user => {
-
-                        idUser = user.id
-
-                        const { playlist } = user
-
-                        return Song.create({ name, artists, file, isFav: true })
-
-                            .then((_song) => {
 
 
-                                idSong = _song.id
-                                return new Playlist({ song: idSong })
+    })
 
-                            })
-                            .then((list) => {
+    describe('when user does not exist', () => {
 
-                                playlist.push(list)
-                                user.save()
-                            })
-                    })
-            })
+        
 
-            it('should fail on incorrect user id', () => {
-                const wrongIdUser = '8798ijujhu78'
+        beforeEach(() =>
+            User.create({ name, surname, email, password })
 
-                updatePlaylist(wrongIdUser, idSong)
+                .then(user => {
 
-                    .then(() => { throw new Error('should not reach this point') })
-                    .catch(error => {
-                        expect(error).to.be.an.instanceOf(NotFoundError)
-                        expect(error).not.to.be.undefined
-                        expect(error.message).to.equal(`user with id ${wrongIdUser} does not exist`)
-                    })
-            })
+                    idUser = user.id
 
+                    const { playlist } = user
+
+                    return Song.create({ name, artists, file, isFav: true })
+
+                        .then((_song) => {
+                            
+
+                            idSong = _song.id
+                            return new Playlist({ song: idSong })
+
+                        })
+                        .then((list) => {
+
+                            playlist.push(list)
+                            user.save()
+                        })
+
+
+                })
+
+
+        )
+
+
+
+        it('should fail on incorrect user id', () => {
+           
+
+            const wrongIdUser = '8798ijujhu78'
+
+            updatePlaylist(wrongIdUser, idSong)
+
+                .then(() => { throw new Error('should not reach this point') })
+                .catch(error => {
+                    expect(error).to.be.an.instanceOf(NotFoundError)
+                    expect(error).not.to.be.undefined
+                    expect(error.message).to.equal(`user with id ${wrongIdUser} does not exist`)
+                })
         })
 
         after(() => Promise.all([User.deleteMany(), Album.deleteMany(), Song.deleteMany(), Playlist.deleteMany()]).then(() => mongoose.disconnect()))
     })
+
+
+    after(() => Promise.all([User.deleteMany(), Album.deleteMany(), Song.deleteMany(), Playlist.deleteMany()]).then(() => mongoose.disconnect()))
 })
