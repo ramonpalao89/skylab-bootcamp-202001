@@ -25,5 +25,6 @@ module.exports = {
     retrieveShippingInformation: require('./retrieve-shipping-information'),
     retrieveOneShipping: require('./retrieve-one-shipping'),
     retrievePortrait: require('./retrieve-portrait'),
-    retrievePurchased: require('./retrieve-purchased')
+    retrievePurchased: require('./retrieve-purchased'),
+    retrieveAllAlbums: require('./retrieve-all-albums')
 }

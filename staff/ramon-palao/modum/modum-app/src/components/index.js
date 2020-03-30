@@ -17,6 +17,7 @@ import MyAlbums from './My-albums'
 import ResultsMyAlbums from './Results-my-albums'
 import Playlist from './Playlist'
 import ResultsPlaylist from './Results-playlist'
+import ResultsGenre from './Results-genre'
 
 export {
     App,
@@ -37,5 +38,6 @@ export {
     MyAlbums,
     ResultsMyAlbums,
     Playlist,
-    ResultsPlaylist
+    ResultsPlaylist,
+    ResultsGenre,
 }

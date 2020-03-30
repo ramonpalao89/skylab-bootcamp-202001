@@ -22,6 +22,7 @@ import retrievePurchasedAlbums from './retrieve-purchased-albums'
 import updatePlaylist from './update-playlist'
 import retrievePlaylist from './retrieve-playlist'
 import searchArtist from './search-artist'
+import retrieveGenreHome from './retrieve-genre-home'
 
 export {
     registerUser,
@@ -47,5 +48,6 @@ export {
     retrievePurchasedAlbums,
     updatePlaylist,
     retrievePlaylist,
-    searchArtist
+    searchArtist,
+    retrieveGenreHome
 }

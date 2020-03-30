@@ -1,43 +1,41 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { isLoggedIn, logout } from '../logic'
-import { withRouter } from 'react-router-dom'
+import { isLoggedIn, retrieveGenreHome } from '../logic'
 import { Context } from './ContextProvider'
 import Feedback from './Feedback'
+import Item from './Item'
+import './Results-item.sass'
 
-export default withRouter(({ history }) => {
+export default () => {
 
     const [set, setState] = useContext(Context)
+    const [albums, setAlbums] = useState([])
 
     useEffect(() => {
-        if (isLoggedIn) {
+        if (isLoggedIn()) {
             (async () => {
                 try {
 
-                    history.push('/home')
+                    const albums = await retrieveGenreHome()
+
+                    setAlbums(albums)
 
                 } catch (error) {
                     setState({ error: error.message })
-                    history.push('/login')
+
                 }
             })()
         } else {
-            history.push('/login')
+
         }
     }, [])
 
-    const handleLogout = () => {
-        logout()
 
-        history.push('/login')
-    }
 
     const { error } = set
-    return <div>
+    return <div className='landing__pop'>
         {error && <Feedback message={error} level="error" />}
-        <h1>HELLO</h1>
-        <button onClick={event => {
-            event.preventDefault()
-            handleLogout()
-        }}>Logout</button>
+
+        {albums.map((album, index) => <Item key={index} albums={album} />)}
+
     </div>
-})
+}

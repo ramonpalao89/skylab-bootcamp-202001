@@ -10,7 +10,6 @@ module.exports = id => {
         if (!user) throw new NotFoundError(`User with id ${id} not found`)
 
         const { purchasedAlbums } = user
-        debugger
         const purchasedList = []
 
         if(purchasedAlbums.length){
@@ -22,10 +21,7 @@ module.exports = id => {
                 
                 purchasedList.push(album)
                 purchasedAlbums[i].format === 'digital' ? purchasedList[purchasedList.length -1].format = 'digital' : purchasedList[purchasedList.length -1].format = 'vinyl'
-                debugger
             }
-        } else {
-            // throw new NotFoundError('No purchased albums')
         }
 
         purchasedList.forEach(item => {

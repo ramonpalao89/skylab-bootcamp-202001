@@ -26,9 +26,6 @@ module.exports = id => {
                 })
             }
 
-
-            // if (!playedArtists.length) throw new NotFoundError(`user with id ${id} has not played any artist yet`)
-
             return playedArtists
         })
         .then(playedArtists => playedArtists)

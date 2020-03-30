@@ -24,7 +24,7 @@ module.exports = (idUser) => {
                 user.save()
             }
         } else {
-            throw new NotAllowedError('Chart is empty')
+            throw new NotAllowedError('Cart is empty')
         }
 
         cart.splice(0, cart.length)
