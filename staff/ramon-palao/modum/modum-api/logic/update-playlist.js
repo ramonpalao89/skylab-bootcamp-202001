@@ -14,6 +14,9 @@ module.exports = (idUser, idSong) => {
 
             return User.findById(idUser)
                 .then(user => {
+
+                    if(!user) throw new NotFoundError(`user with id ${idUser} does not exist`)
+
                     const { playlist } = user
 
                     if (playlist.length) {
