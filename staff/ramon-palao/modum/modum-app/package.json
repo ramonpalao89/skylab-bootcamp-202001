@@ -17,7 +17,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --runInBand --no-cache",
     "eject": "react-scripts eject",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache"
   },
@@ -37,7 +37,10 @@
     ]
   },
   "devDependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
     "modum-data": "file:../modum-data",
-    "node-sass": "^4.13.1"
+    "node-sass": "^4.13.1",
+    "nyc": "^15.0.0"
   }
 }
