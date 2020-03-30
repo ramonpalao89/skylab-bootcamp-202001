@@ -37,11 +37,66 @@ describe('retrieveUser', () => {
                     expect(user.surname).to.equal(surname)
                     expect(user.email).to.equal(email)
                     expect(user.password).to.equal(password)
+                    expect(user._id).to.be.undefined
+                    expect(user.__v).to.be.undefined
+                    expect(user.retrieved).to.be.an.instanceOf(Date)
+                    expect(user.creditCards).to.exist
+                    expect(user.mostPlayedArtists).to.exist
+                    expect(user.mostPlayedSongs).to.exist
+                    expect(user.shippingInformation).to.exist
+                    expect(user.creditCards).to.be.an.instanceOf(Object)
+                    expect(user.mostPlayedArtists).to.be.an.instanceOf(Object)
+                    expect(user.mostPlayedSongs).to.be.an.instanceOf(Object)
+                    expect(user.shippingInformation).to.be.an.instanceOf(Object)
                 })
         )
-    })
 
-    // TODO more happies and unhappies
+        it('should fail on incorrect user id', () => {
+            retrieveUser(`${_id}-wrong`)
+                .then(() => { throw new Error('should not reach this point') })
+                .catch(error => {
+                    expect(error).to.be.an.instanceOf(Error)
+                    expect(error).not.to.be.undefined
+                    expect(error.message).to.equal(`user with id ${_id}-wrong does not exist`)
+                })
+        })
+
+        it('should fail on deactivated user', () => {
+            User.create({ name, surname, email, password })
+                .then(user => {
+
+                    _id = user.id
+                    user.deactivated = true
+                    user.save()
+                })
+                .then(() => {
+                    retrieveUser(_id)
+                        .then(() => { throw new Error('should not reach this point') })
+                        .catch(error => {
+                            expect(error).to.be.an.instanceOf(Error)
+                            expect(error).not.to.be.undefined
+                            expect(error.message).to.equal(`user with id ${_id} is deactivated`)
+                        })
+                })
+        })
+
+        it('should fail on non-string _id', () => {
+            _id = 1
+            expect(() =>
+                retrieveUser(_id)
+            ).to.Throw(TypeError, `id ${_id} is not a string`)
+
+            _id = true
+            expect(() =>
+                retrieveUser(_id)
+            ).to.Throw(TypeError, `id ${_id} is not a string`)
+
+            _id = undefined
+            expect(() =>
+                retrieveUser(_id)
+            ).to.Throw(TypeError, `id ${_id} is not a string`)
+        })
+    })
 
     after(() => User.deleteMany().then(() => mongoose.disconnect()))
 })

@@ -33,7 +33,7 @@ describe('retrievePlaylist', () => {
     })
 
     describe('when user already exists', () => {
-        let _id, idUser
+        let _id, idUser, idSong, albumObject
 
         beforeEach(() =>
             User.create({ name, surname, email, password })
@@ -45,7 +45,7 @@ describe('retrievePlaylist', () => {
 
                     let songObject = new Song({ name, artists, file })
                     let { _id } = songObject
-                    let idSong = _id.toString()
+                    idSong = _id.toString()
 
                     const playList = new Playlist({ song: idSong })
 
@@ -53,13 +53,9 @@ describe('retrievePlaylist', () => {
 
                     user.save()
 
-                    let albumObject = new Album({ name, genre, year, priceDigital, priceVinyl, buyers, portrait, songs: idSong, artists: idSong })
+                    albumObject = new Album({ name, genre, year, priceDigital, priceVinyl, buyers, portrait, songs: idSong, artists: idSong })
                     
                     Album.create(albumObject)
-
-                    const now = new Date
-
-                    date = new Date(now.getFullYear() + 1, now.getMonth(), now.getDate())
 
                     return Song.create(songObject)
                 })
@@ -75,7 +71,9 @@ describe('retrievePlaylist', () => {
                     expect(playlistSongs).to.be.instanceOf(Object)
                     expect(playlistSongs.length).to.be.greaterThan(0)
                     expect(playlistSongs.length).not.to.be.greaterThan(1)
-                    
+                    expect(playlistSongs[0].song.id).to.equal(idSong)
+                    expect(playlistSongs[0].song.isFav).to.equal(false)
+                    expect(playlistSongs[0].name).to.equal(albumObject.name)                    
                 })
         )
 

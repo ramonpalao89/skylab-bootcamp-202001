@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const { env: { TEST_MONGODB_URL } } = process
-const { mongoose, models: { User } } = require('modum-data')
+const { mongoose, models: { User, CreditCard } } = require('modum-data')
 const { NotFoundError } = require('modum-errors')
 const { expect } = require('chai')
 const { random } = Math
@@ -38,17 +38,21 @@ describe('retrieveCreditCard', () => {
 
                     const { creditCards } = user
 
-                    creditCardDetails = {}
+                    // creditCardDetails = {}
 
-                    creditCardDetails.issuer = issuer
-                    creditCardDetails.name = name
-                    creditCardDetails.number = number
-                    creditCardDetails.expiration = expiration
-                    creditCardDetails.cvv = cvv
+                    const card = new CreditCard({ issuer: issuer, name: name, number: number, expiration: expiration, cvv: cvv })
 
-                    creditCards.push(creditCardDetails)
+                    // creditCardDetails.issuer = issuer
+                    // creditCardDetails.name = name
+                    // creditCardDetails.number = number
+                    // creditCardDetails.expiration = expiration
+                    // creditCardDetails.cvv = cvv
+
+                    creditCards.push(card)
 
                     user.save()
+
+                    return CreditCard.insertMany(card)
                 })
         )
 
@@ -57,6 +61,13 @@ describe('retrieveCreditCard', () => {
                 .then(creditCard => {
                     expect(creditCard).to.exist
                     expect(creditCard).to.be.instanceOf(Object)
+                    expect(creditCard.length).to.be.greaterThan(0)
+                    expect(creditCard.length).not.to.be.greaterThan(1)
+                    expect(creditCard[0].issuer).to.equal(issuer)
+                    expect(creditCard[0].name).to.equal(name)
+                    expect(creditCard[0].number).to.equal(number)
+                    expect(creditCard[0].expiration).to.equal(expiration)
+                    expect(creditCard[0].cvv).to.be.undefined
                 })
         )
 

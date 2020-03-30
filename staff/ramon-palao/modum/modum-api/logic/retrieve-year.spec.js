@@ -144,9 +144,10 @@ describe('retrieveYear', () => {
 
         it('should succeed retrieving albums published more than 10 years ago', () => {
             const albums = []
+            let publishYear = '9'
             name = `name-${random()}`
             genre = `genre-${random()}`
-            year = `1984`
+            year = new Date().getFullYear() - publishYear
             priceDigital = random()
             priceVinyl = random()
             portrait = `portrait-${random()}`
@@ -157,17 +158,35 @@ describe('retrieveYear', () => {
             songs = [name]
 
             for (let i = 0; i < 20; i++) {
-                albums.push({ name, genre, year, priceDigital, priceVinyl, portrait, songs, artists })
+                albums.push({ name, genre, year: year, priceDigital, priceVinyl, portrait, songs, artists })
             }
 
             Album.insertMany(albums)
-            let publishYear = "11"
-            return retrieveYear(publishYear)
-                .then(album => {
-                    expect(album).to.exist
-                    expect(album).to.be.an.instanceOf(Array)
-                    expect(album.length).to.be.greaterThan(0)
-                })
+            return retrieveYear('more-than-ten')
+            .then(() => {throw new Error('should not reach this point')})
+            .catch(error => {
+                expect(error).to.exist
+                expect(error).to.be.instanceOf(Error)
+                expect(error).not.to.be.undefined
+                expect(error.message).to.equal(`no albums published more-than-ten years ago`)
+            })
+        })
+
+        it('should fail on non-string publishYear', () => {
+            publishYear = 1
+            expect(() =>
+                retrieveYear(publishYear)
+            ).to.Throw(TypeError, `publishYear ${publishYear} is not a string`)
+
+            publishYear = true
+            expect(() =>
+                retrieveYear(publishYear)
+            ).to.Throw(TypeError, `publishYear ${publishYear} is not a string`)
+
+            publishYear = undefined
+            expect(() =>
+                retrieveYear(publishYear)
+            ).to.Throw(TypeError, `publishYear ${publishYear} is not a string`)
         })
     })
 

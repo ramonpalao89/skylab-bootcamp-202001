@@ -36,7 +36,7 @@ describe('retrieveMostPlayedArtists', () => {
 
                     const { mostPlayedArtists } = user
 
-                    playedArtist = {}
+                    const playedArtist = {}
 
                     playedArtist.subject = subject
                     playedArtist.value = value
@@ -44,6 +44,8 @@ describe('retrieveMostPlayedArtists', () => {
                     mostPlayedArtists.push(playedArtist)
 
                     user.save()
+
+                    return User.insertMany({name, surname, email, password})
                 })
         )
 
@@ -52,6 +54,10 @@ describe('retrieveMostPlayedArtists', () => {
                 .then(artists => {
                     expect(artists).to.exist
                     expect(artists).to.be.instanceOf(Object)
+                    expect(artists.length).to.be.greaterThan(0)
+                    expect(artists.length).not.to.be.greaterThan(1)
+                    expect(artists[0].subject.toString()).to.equal(subject)
+                    expect(artists[0].value).to.equal(value)
                 })
         )
 

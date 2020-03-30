@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const { env: { TEST_MONGODB_URL } } = process
-const { mongoose, models: { User } } = require('modum-data')
+const { mongoose, models: { User, ShippingData } } = require('modum-data')
 const { NotFoundError } = require('modum-errors')
 const { expect } = require('chai')
 const { random } = Math
@@ -39,17 +39,13 @@ describe('retrieveShippingInformation', () => {
 
                     let { shippingInformation } = user
 
-                    const shippingDetails = {}
-
-                    shippingDetails.customerName = customerName
-                    shippingDetails.streetAddress = streetAddress
-                    shippingDetails.city = city
-                    shippingDetails.country = country
-                    shippingDetails.phoneNumber = phoneNumber
+                    const shippingDetails = new ShippingData({ customerName: customerName, streetAddress: streetAddress, city: city, country: country, phoneNumber: phoneNumber })
 
                     shippingInformation.push(shippingDetails)
 
                     user.save()
+
+                    return ShippingData.insertMany(shippingDetails)
                 })
         )
 
@@ -58,6 +54,14 @@ describe('retrieveShippingInformation', () => {
                 .then(allShippingDetails => {
                     expect(allShippingDetails).to.exist
                     expect(allShippingDetails).to.be.instanceOf(Object)
+                    expect(allShippingDetails.length).to.be.greaterThan(0)
+                    expect(allShippingDetails.length).not.to.be.greaterThan(1)
+                    expect(allShippingDetails[0].customerName).to.equal(customerName)
+                    expect(allShippingDetails[0].streetAddress).to.equal(streetAddress)
+                    expect(allShippingDetails[0].city).to.equal(city)
+                    expect(allShippingDetails[0].country).to.equal(country)
+                    expect(allShippingDetails[0].phoneNumber).to.equal(phoneNumber)
+
                 })
         )
 
@@ -67,6 +71,7 @@ describe('retrieveShippingInformation', () => {
                 .catch(error => {
                     expect(error).to.be.an.instanceOf(Error)
                     expect(error).not.to.be.undefined
+                    expect(error.message).to.equal(`user with id ${idUser}-wrong does not exist`)
                 })
         })
 
@@ -84,8 +89,26 @@ describe('retrieveShippingInformation', () => {
                         .catch(error => {
                             expect(error).to.be.an.instanceOf(Error)
                             expect(error).not.to.be.undefined
+                            expect(error.message).to.equal(`user with id ${idUser} is deactivated`)
                         })
                 })
+        })
+
+        it('should fail on non-string idUser', () => {
+            idUser = 1
+            expect(() =>
+                retrieveShippingInformation(idUser)
+            ).to.Throw(TypeError, `id ${idUser} is not a string`)
+
+            idUser = true
+            expect(() =>
+                retrieveShippingInformation(idUser)
+            ).to.Throw(TypeError, `id ${idUser} is not a string`)
+
+            idUser = undefined
+            expect(() =>
+                retrieveShippingInformation(idUser)
+            ).to.Throw(TypeError, `id ${idUser} is not a string`)
         })
     })
 
