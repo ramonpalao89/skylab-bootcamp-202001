@@ -91,7 +91,7 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                 <p>Do you want to change your password??</p><br />
                 <input type="password" name="password" placeholder="Enter your old password" /><br />
                 <input type="password" name="newPassword" placeholder="Enter your new password" /><br />
-                <button>UPDATE YOUR PROFILE</button><br />
+                <button className='profile__buttons-submit'>UPDATE YOUR PROFILE</button><br />
             </form>
             {error && <Feedback message={error} level="error" />}
             {message && <Feedback message={message} level="info" />}
@@ -115,31 +115,33 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                 </section>
             </section>
         </section>
-        <section>
-            <button onClick={event => {
-                event.preventDefault()
-                handleOpenModule()
-            }}>Add Shipping Details</button>
-        </section>
-        <section>
-            <button onClick={event => {
-                event.preventDefault()
-                handleOpenShippingModule()
-                onShippingDetails()
-            }}>See your Shipping Details</button>
-        </section>
-        <section>
-            <button onClick={event => {
-                event.preventDefault()
-                handleOpenCardModule()
-            }}>Add Credit Card Details</button>
-        </section>
-        <section>
-            <button onClick={event => {
-                event.preventDefault()
-                handleOpenCardDetailsModule()
-                onCardDetails()
-            }}>See your Credit Cards</button>
+        <section className='profile__buttons'>
+            <section>
+                <button className='profile__buttons-submit' onClick={event => {
+                    event.preventDefault()
+                    handleOpenModule()
+                }}>Add Shipping Details</button>
+            </section>
+            <section>
+                <button className='profile__buttons-submit' onClick={event => {
+                    event.preventDefault()
+                    handleOpenShippingModule()
+                    onShippingDetails()
+                }}>See your Shipping Details</button>
+            </section>
+            <section>
+                <button className='profile__buttons-submit' onClick={event => {
+                    event.preventDefault()
+                    handleOpenCardModule()
+                }}>Add Credit Card Details</button>
+            </section>
+            <section>
+                <button className='profile__buttons-submit' onClick={event => {
+                    event.preventDefault()
+                    handleOpenCardDetailsModule()
+                    onCardDetails()
+                }}>See your Credit Cards</button>
+            </section>
         </section>
         <section className="overlay" ref={overlayClassName}>
             <div className="popup">
@@ -150,16 +152,16 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                 <h3>Shipping Details</h3>
                 <h5>Give us your address details to send your shopping as soon as possible</h5>
                 <form onSubmit={event => {
-                        event.preventDefault()
+                    event.preventDefault()
 
-                        const customerName = event.target.customerName.value
-                        const address = event.target.address.value
-                        const city = event.target.city.value
-                        const country = event.target.country.value
-                        const phoneNumber = event.target.phoneNumber.value
+                    const customerName = event.target.customerName.value
+                    const address = event.target.address.value
+                    const city = event.target.city.value
+                    const country = event.target.country.value
+                    const phoneNumber = event.target.phoneNumber.value
 
-                        onShipping(customerName, address, city, country, phoneNumber)
-                    }}>
+                    onShipping(customerName, address, city, country, phoneNumber)
+                }}>
                     <div className='inputs-container'>
                         <input type="text" name="customerName" placeholder="Enter your full name" />
                         <input type="text" name="address" placeholder="Enter your street address" />
@@ -168,8 +170,8 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                         <input type="text" name="phoneNumber" placeholder="Enter your phone number" />
                     </div>
                     <button type='submit' className='btn-submit'>Accept</button>
-                    {message && <Feedback message={message} level='info'/>}
-                    {error && <Feedback message={error} level='error'/>}
+                    {message && <Feedback message={message} level='info' />}
+                    {error && <Feedback message={error} level='error' />}
                 </form>
             </div>
         </section>
@@ -196,16 +198,16 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                 <h3>Credit Card Details</h3>
                 <h5>Save your credit card details:</h5>
                 <form onSubmit={event => {
-                        event.preventDefault()
+                    event.preventDefault()
 
-                        const issuer = event.target.issuer.value
-                        const name = event.target.name.value
-                        const number = event.target.number.value
-                        const expiration = event.target.expiration.value
-                        const cvv = event.target.cvv.value
+                    const issuer = event.target.issuer.value
+                    const name = event.target.name.value
+                    const number = event.target.number.value
+                    const expiration = event.target.expiration.value
+                    const cvv = event.target.cvv.value
 
-                        onSaveCard(issuer, name, number, expiration, cvv)
-                    }}>
+                    onSaveCard(issuer, name, number, expiration, cvv)
+                }}>
                     <div className='inputs-container'>
                         <input type="text" name="issuer" placeholder="Issuer (Mastercard, Visa, ...)" />
                         <input type="text" name="name" placeholder="Cardholder Name" />
@@ -214,8 +216,8 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                         <input type="password" name="cvv" placeholder="CVV (3 digits)" />
                     </div>
                     <button type='submit' className='btn-submit'>Accept</button>
-                    {message && <Feedback message={message} level='info'/>}
-                    {error && <Feedback message={error} level='error'/>}
+                    {message && <Feedback message={message} level='info' />}
+                    {error && <Feedback message={error} level='error' />}
                 </form>
             </div>
         </section>

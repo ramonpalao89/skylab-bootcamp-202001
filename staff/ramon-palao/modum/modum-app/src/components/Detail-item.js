@@ -1,21 +1,31 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { retrieveAlbumDetail } from '../logic'
+import { retrieveAlbumDetail, retrieveAllSongs } from '../logic'
 import './Detail-item.sass'
 import Feedback from './Feedback'
 
 export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error }) => {
+
     const [album, setAlbum] = useState([])
+    const [songsArtist, setSongsArtist] = useState([])
 
     useEffect(() => {
         (async () => {
 
             const album = await retrieveAlbumDetail(idAlbum)
-            debugger
+
+            const { artists } = album
+
             setAlbum(album)
+
+            const songsArtist = await retrieveAllSongs(artists[0].id)
+
+            setSongsArtist(songsArtist)
+
 
         })()
 
-    }, [])
+    }, [songsArtist])
+
 
     const { artists, songs, name, genre, year, portrait, id } = album
 
@@ -29,12 +39,12 @@ export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error })
                 <img className="play-album__pic" src={portrait} />
             </section>
             <section className="play-album-songs">
-                {songs && songs.map(song => <p><i className={`fas fa-star${song.isFav ? ' favourite' : ''} `} title='Add to Playlist' onClickCapture={event => {
+                {songsArtist && songsArtist.map(song => <p><i className={`far fa-star${song.isFav ? ' favourite' : ''} `} title='Add to Playlist' onClickCapture={event => {
                     event.stopPropagation()
-                    addToPlaylist(song.id)
+                    addToPlaylist(song._id)
                 }}></i> <i className="fas fa-play-circle" onClick={event => {
                     event.preventDefault()
-                    onTrackedSong(song.id)
+                    onTrackedSong(song._id)
                 }}></i>{song.name}</p>)}
             </section>
             <section>

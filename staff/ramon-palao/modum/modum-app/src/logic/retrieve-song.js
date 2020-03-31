@@ -22,8 +22,7 @@ export default (function (idSong) {
         const { status } = res
 
         if (status === 200){
-            const file = await `${API_URL}/track/${sub}/${idSong}`
-
+            const file = `${API_URL}/track/${sub}/${idSong}`
             return file
         }
 

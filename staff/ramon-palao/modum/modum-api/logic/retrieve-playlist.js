@@ -22,8 +22,8 @@ module.exports = id => {
                 
                 const album = await Album.find({songs: playlist[i].song}).populate('artists', 'name').lean()
                 
-                // album[0].artists[0].id = album[0].artists[0]._id.toString()
-                // delete album[0].artists[0]._id
+                album[0].artists[0].id = album[0].artists[0]._id.toString()
+                delete album[0].artists[0]._id
                 
                 const element = {}
                 element.song = song

@@ -17,24 +17,30 @@ export default ({ onLogin, onGoToRegister, error }) => {
                 <h1>MODUM</h1>
                 <p>You are what you listen to</p>
             </div>
-            <form onSubmit={event => {
-                event.preventDefault()
-
-                const email = event.target.email.value
-                const password = event.target.password.value
-
-                onLogin(email, password)
-            }}>
-                <h1>Login</h1>
-                <input type="text" name="email" placeholder="Enter your email" ref={inputText} />
-                <input type="password" name="password" placeholder="Enter your password" />
-                <button type="submit">LOGIN</button>
-                <a href="" onClick={event => {
+            <div className='login__form'>
+                <form onSubmit={event => {
                     event.preventDefault()
-                    onGoToRegister()
-                }}>Don't you have an account? Go to Register</a>
-            </form>
-            {error && <Feedback message={error} level="error" />}
+
+                    const email = event.target.email.value
+                    const password = event.target.password.value
+
+                    onLogin(email, password)
+                }}>
+                    <h1>Login</h1>
+                    <div className='login__form-inputs'>
+                        <input className='login__form-email' type="text" name="email" placeholder="Enter your email" ref={inputText} />
+                        <input className='login__form-password' type="password" name="password" placeholder="Enter your password" />
+                    </div>
+                    <div className='login__form-buttons'>
+                        <button className='login__form-submit' type="submit">LOGIN</button>
+                        <a className='login__form-anchor' href="" onClick={event => {
+                            event.preventDefault()
+                            onGoToRegister()
+                        }}>Don't you have an account? Go to Register</a>
+                    </div>
+                </form>
+                {error && <Feedback message={error} level="error" />}
+            </div>
         </div>
     </div>
 }

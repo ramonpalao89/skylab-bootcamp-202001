@@ -11,21 +11,21 @@ module.exports = idAlbum => {
 
             if (!album) throw new NotFoundError(`album with id ${idAlbum} does not exist`)
             
-            // album.songs.forEach(item => {
-            //     item.id = item._id.toString()
+            album.songs.forEach(item => {
+                item.id = item._id.toString()
 
-            //     delete item._id
-            // })
+                delete item._id
+            })
 
-            // album.artists.forEach(item => {
-            //     item.id = item._id.toString()
+            album.artists.forEach(item => {
+                item.id = item._id.toString()
 
-            //     delete item._id
-            // })
+                delete item._id
+            })
 
-            // album.id = album._id.toString()
-            // delete album._id
-            // delete album.__v
+            album.id = album._id.toString()
+            delete album._id
+            delete album.__v
 
             return album
         })

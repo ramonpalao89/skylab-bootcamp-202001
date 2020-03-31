@@ -27,5 +27,6 @@ module.exports = {
     retrievePortrait: require('./retrieve-portrait'),
     retrievePurchased: require('./retrieve-purchased'),
     retrieveAllAlbums: require('./retrieve-all-albums'),
-    deleteCartItem: require('./delete-cart-item')
+    deleteCartItem: require('./delete-cart-item'),
+    retrieveAllSongs: require('./retrieve-all-songs')
 }

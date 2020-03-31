@@ -7,6 +7,8 @@ const API_URL = process.env.REACT_APP_API_URL
 export default (function (id) {
     validate.string(id, 'id')
 
+    const albumDetail = []
+
     const [, payload,] = this.token.split('.')
     const conversion = atob(payload)
     const subObject = JSON.parse(conversion)

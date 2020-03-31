@@ -181,6 +181,7 @@ export default withRouter(function ({ history }) {
     (async () => {
       try {
         const file = await retrieveSong(idSong)
+    
         setFile(file)
 
       } catch ({ message }) {

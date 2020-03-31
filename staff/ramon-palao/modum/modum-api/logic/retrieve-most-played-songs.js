@@ -20,10 +20,10 @@ module.exports = id => {
 
                 for (let i = 0; i < 5; i++) playedSongs.push(mostPlayedSongs[i])
 
-                // playedSongs.forEach(item => {
-                //     item.id = item._id.toString()
-                //     delete item._id
-                // })
+                playedSongs.forEach(item => {
+                    item.id = item._id.toString()
+                    delete item._id
+                })
             }
 
 

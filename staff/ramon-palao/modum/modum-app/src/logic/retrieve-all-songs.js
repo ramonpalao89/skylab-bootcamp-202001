@@ -3,11 +3,9 @@ const { NotFoundError } = require('modum-errors')
 
 const API_URL = process.env.REACT_APP_API_URL
 
-export default (function (year) {
-    validate.string(year, 'year')
-    let albums
+export default (function (idArtist) {
 
-    return fetch(`${API_URL}/album/year/${year}`, {
+    return fetch(`${API_URL}/all-songs/${idArtist}`, {
         method: 'GET',
         headers: { 'Content-Type': 'application/json' }
     })
@@ -28,15 +26,9 @@ export default (function (year) {
             }
 
             if (status === 200) {
-                const albumsYear = response.json()
-                albums = albumsYear
-                return albums
-            }
-        })
-        .then(albums => {
+                const songs = response.json()
 
-            albums.forEach((album) => album.portrait = `${API_URL}/portrait/${album.id}`)
-            
-            return albums
+                return songs
+            }
         })
 })

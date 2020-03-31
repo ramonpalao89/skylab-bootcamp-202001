@@ -27,7 +27,7 @@ export default ({bestSellings, onAddToCart, error, message}) => {
                     <button class="best-selling__button" onClick={event => {
                         event.preventDefault()
                         handleOpenModule()
-                    }}>BUY IT</button>
+                    }}><i className='fas fa-shopping-cart'></i></button>
                 </section>
             </section><br />
         </section>

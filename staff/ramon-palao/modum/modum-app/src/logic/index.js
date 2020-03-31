@@ -24,6 +24,7 @@ import retrievePlaylist from './retrieve-playlist'
 import searchArtist from './search-artist'
 import retrieveGenreHome from './retrieve-genre-home'
 import deleteCartItem from './delete-cart-item'
+import retrieveAllSongs from './retrieve-all-songs'
 
 export {
     registerUser,
@@ -51,5 +52,6 @@ export {
     retrievePlaylist,
     searchArtist,
     retrieveGenreHome,
-    deleteCartItem
+    deleteCartItem,
+    retrieveAllSongs
 }

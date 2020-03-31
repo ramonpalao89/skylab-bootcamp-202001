@@ -8,7 +8,7 @@ const { random } = Math
 const updatePlaylist = require('./update-playlist')
 
 describe('updatePlaylist', () => {
-    
+
     before(() =>
         mongoose.connect(TEST_MONGODB_URL, { useNewUrlParser: true, useUnifiedTopology: true })
             .then(() => Promise.all([User.deleteMany(), Album.deleteMany(), Playlist.deleteMany()]))
@@ -35,7 +35,7 @@ describe('updatePlaylist', () => {
     })
 
     describe('when user already exists', () => {
-        
+
 
 
         beforeEach(() =>
@@ -51,14 +51,14 @@ describe('updatePlaylist', () => {
                     return Song.create({ name, artists, file, isfav: true })
 
                         .then((_song) => {
-                           
+
 
                             idSong = _song.id
                             return new Playlist({ song: idSong })
 
                         })
                         .then((list) => {
-                           
+
 
                             playlist.push(list)
                             user.save()
@@ -69,7 +69,7 @@ describe('updatePlaylist', () => {
 
         )
 
-        it('should succeed updating playlist', () => {debugger
+        it('should succeed updating playlist', () => {
 
             // User.create({ name, surname, email, password })
             //     .then(user => { idUser = user.id })
@@ -87,11 +87,12 @@ describe('updatePlaylist', () => {
                     expect(playlist).to.be.an.instanceOf(Object)
                     expect(playlist.length).to.equal(1)
                     expect((playlist[0].id)).to.exist
+                    expect(playlist[0].song).to.equal(idSong)
                 })
         })
 
         it('should fail on incorrect song id', () => {
-           
+
 
             const wrongIdSong = `8756uyj7iuku`
 
@@ -99,7 +100,7 @@ describe('updatePlaylist', () => {
 
                 .then(() => { throw new Error('should not reach this point') })
                 .catch(error => {
-                   
+
                     expect(error).to.be.an.instanceOf(NotFoundError)
                     expect(error).not.to.be.undefined
                     expect(error.message).to.equal(`song with id ${wrongIdSong} does not exist`)
@@ -112,7 +113,7 @@ describe('updatePlaylist', () => {
 
     describe('when user does not exist', () => {
 
-        
+
 
         beforeEach(() =>
             User.create({ name, surname, email, password })
@@ -126,7 +127,7 @@ describe('updatePlaylist', () => {
                     return Song.create({ name, artists, file, isFav: true })
 
                         .then((_song) => {
-                            
+
 
                             idSong = _song.id
                             return new Playlist({ song: idSong })
@@ -147,7 +148,7 @@ describe('updatePlaylist', () => {
 
 
         it('should fail on incorrect user id', () => {
-           
+
 
             const wrongIdUser = '8798ijujhu78'
 
@@ -159,6 +160,24 @@ describe('updatePlaylist', () => {
                     expect(error).not.to.be.undefined
                     expect(error.message).to.equal(`user with id ${wrongIdUser} does not exist`)
                 })
+        })
+
+        it('should fail on non-string user id', () => {
+            let wrongIdUser = 1
+            
+            expect(() =>
+                updatePlaylist(wrongIdUser, idSong)
+            ).to.Throw(TypeError, `idUser ${wrongIdUser} is not a string`)
+
+            wrongIdUser = true
+            expect(() =>
+                updatePlaylist(wrongIdUser, idSong)
+            ).to.Throw(TypeError, `idUser ${wrongIdUser} is not a string`)
+
+            wrongIdUser = undefined
+            expect(() =>
+                updatePlaylist(wrongIdUser, idSong)
+            ).to.Throw(TypeError, `idUser ${wrongIdUser} is not a string`)
         })
 
         after(() => Promise.all([User.deleteMany(), Album.deleteMany(), Song.deleteMany(), Playlist.deleteMany()]).then(() => mongoose.disconnect()))

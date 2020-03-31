@@ -28,7 +28,8 @@ const {
     retrievePortrait,
     retrievePurchased,
     retrieveAllAlbums,
-    deleteCartItem
+    deleteCartItem,
+    retrieveAllSongs
 } = require('./handlers')
 
 const { jwtVerifierMidWare } = require('../mid-wares')
@@ -94,6 +95,8 @@ router.get('/portrait/:idAlbum', retrievePortrait)
 router.get('/purchased-albums', jwtVerifierMidWare, retrievePurchased)
 
 router.get('/all-albums', retrieveAllAlbums)
+
+router.get('/all-songs/:idArtist', retrieveAllSongs)
 
 router.delete('/delete-item/:idAlbum', jwtVerifierMidWare, deleteCartItem)
 

@@ -13,8 +13,10 @@ module.exports = (idUser, idAlbum) => {
         let { cart } = user
 
         for (let i = 0; i < cart.length; i++) {
-
-            cart[i].album.toString() === idAlbum ? cart.splice(cart[i], 1) : ''
+            
+            if(cart[i].album.toString() === idAlbum){
+                cart.splice(cart[i], 1)
+            }
             
         }
 
