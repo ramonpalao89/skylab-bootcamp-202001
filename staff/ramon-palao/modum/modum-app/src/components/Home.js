@@ -5,7 +5,7 @@ import Feedback from './Feedback'
 import Item from './Item'
 import './Results-item.sass'
 
-export default () => {
+export default ({onAddToCart}) => {
 
     const [set, setState] = useContext(Context)
     const [albums, setAlbums] = useState([])
@@ -35,7 +35,7 @@ export default () => {
     return <div className='landing__pop'>
         {error && <Feedback message={error} level="error" />}
 
-        {albums.map((album, index) => <Item key={index} albums={album} />)}
+        {albums.map((album, index) => <Item key={index} albums={album} onAddToCart={onAddToCart} />)}
 
     </div>
 }

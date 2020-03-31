@@ -29,8 +29,10 @@ export default ({ onGoToDetail }) => {
         {error && <Feedback message={error} level='error' />}
         {purchasedAlbums.forEach(item => item.format === 'digital' ? digitalPurchased.push(item) : '')}
         <h1 class="my-albums-title">My Albums</h1>
+        <section>
         <section className='my-albums__display'>
             {digitalPurchased.map((album, index) => <MyAlbums key={index} digitalPurchased={album} onGoToDetail={onGoToDetail} />)}
+        </section>
         </section>
     </div>
 }
