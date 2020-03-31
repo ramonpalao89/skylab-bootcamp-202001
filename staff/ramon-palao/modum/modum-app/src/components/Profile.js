@@ -66,7 +66,7 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
     return <section className="profile-detail">
         <section className="profile-detail__user">
             <h1 className="profile-detail__name">{user.name} {user.surname}</h1>
-            <img src="" className="profile-detail__avatar" />
+            <img className="profile-detail__avatar" />
             <form className="profile-detail__form" onSubmit={event => {
                 event.preventDefault()
 
@@ -83,11 +83,11 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                 onSubmit(newUser)
 
             }}>
-                <input type="text" name="name" defaultValue={user.name} placeholder="Enter your name" /><br />
-                <input type="text" name="surname" defaultValue={user.surname} placeholder="Enter your surname" /><br />
-                <input type="text" name="email" defaultValue={user.email} placeholder="Enter your email" /><br />
-                <input type="text" name="city" defaultValue={user.city} placeholder="Enter your city" /><br />
-                <input type="text" name="birth" defaultValue={user.birth} placeholder="Enter your date of birth (dd/mm/yyyy)" /><br />
+                <input type="text" name="name" defaultValue={user.name} placeholder="Enter your name" autoComplete='off' /><br />
+                <input type="text" name="surname" defaultValue={user.surname} placeholder="Enter your surname" autoComplete='off' /><br />
+                <input type="text" name="email" defaultValue={user.email} placeholder="Enter your email" autoComplete='off' /><br />
+                <input type="text" name="city" defaultValue={user.city} placeholder="Enter your city" autoComplete='off' /><br />
+                <input type="text" name="birth" defaultValue={user.birth} placeholder="Enter your date of birth (dd/mm/yyyy)" autoComplete='off' /><br />
                 <p>Do you want to change your password??</p><br />
                 <input type="password" name="password" placeholder="Enter your old password" /><br />
                 <input type="password" name="newPassword" placeholder="Enter your new password" /><br />
@@ -163,11 +163,11 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                     onShipping(customerName, address, city, country, phoneNumber)
                 }}>
                     <div className='inputs-container'>
-                        <input type="text" name="customerName" placeholder="Enter your full name" />
-                        <input type="text" name="address" placeholder="Enter your street address" />
-                        <input type="text" name="city" placeholder="Enter your city" />
-                        <input type="text" name="country" placeholder="Enter your country" />
-                        <input type="text" name="phoneNumber" placeholder="Enter your phone number" />
+                        <input type="text" name="customerName" placeholder="Enter your full name" autoComplete='off' />
+                        <input type="text" name="address" placeholder="Enter your street address" autoComplete='off' />
+                        <input type="text" name="city" placeholder="Enter your city" autoComplete='off' />
+                        <input type="text" name="country" placeholder="Enter your country" autoComplete='off' />
+                        <input type="text" name="phoneNumber" placeholder="Enter your phone number" autoComplete='off' />
                     </div>
                     <button type='submit' className='btn-submit'>Accept</button>
                     {message && <Feedback message={message} level='info' />}
@@ -209,11 +209,11 @@ export default ({ onSubmit, user, error, message, onShipping, onShippingDetails,
                     onSaveCard(issuer, name, number, expiration, cvv)
                 }}>
                     <div className='inputs-container'>
-                        <input type="text" name="issuer" placeholder="Issuer (Mastercard, Visa, ...)" />
-                        <input type="text" name="name" placeholder="Cardholder Name" />
-                        <input type="text" name="number" placeholder="Card Number" />
-                        <input type="text" name="expiration" placeholder="Expiration date (yy - mm)" />
-                        <input type="password" name="cvv" placeholder="CVV (3 digits)" />
+                        <input type="text" name="issuer" placeholder="Issuer (Mastercard, Visa, ...)" autoComplete='off' />
+                        <input type="text" name="name" placeholder="Cardholder Name" autoComplete='off' />
+                        <input type="text" name="number" placeholder="Card Number" autoComplete='off' />
+                        <input type="text" name="expiration" placeholder="Expiration date (yy - mm)" autoComplete='off' />
+                        <input type="password" name="cvv" placeholder="CVV (3 digits)" autoComplete='off' />
                     </div>
                     <button type='submit' className='btn-submit'>Accept</button>
                     {message && <Feedback message={message} level='info' />}

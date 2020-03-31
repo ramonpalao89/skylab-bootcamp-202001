@@ -26,12 +26,12 @@ export default ({ onRegister, onGoToLogin, error, onMount }) => {
                     <h1>Sign-Up</h1>
                     <div className="register__form-inputs">
                         <div className="register__form-names">
-                            <input className="register__form-name" type="text" name="name" placeholder="Enter your name" />
-                            <input className="register__form-surname" type="text" name="surname" placeholder="Enter your surname" />
+                            <input className="register__form-name" type="text" name="name" placeholder="Enter your name" autoComplete='off' />
+                            <input className="register__form-surname" type="text" name="surname" placeholder="Enter your surname" autoComplete='off' />
                         </div>
                         <div className="register__form-credentials">
-                            <input className="register__form-email" type="text" name="email" placeholder="Enter your email address" />
-                            <input className="register__form-password" type="password" name="password" placeholder="Enter your password" />
+                            <input className="register__form-email" type="text" name="email" placeholder="Enter your email address" autoComplete='off' />
+                            <input className="register__form-password" type="password" name="password" placeholder="Enter your password" autoComplete='off' />
                         </div>
                     </div>
                     <div className="register__form-buttons">

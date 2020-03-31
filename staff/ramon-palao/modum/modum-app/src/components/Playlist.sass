@@ -5,11 +5,14 @@
     width: 33%
 
 .playlist__display-pic
-    margin-left: 10%
+    margin-left: 25%
     width: 15%
 
 .playlist__name
     font-size: 4rem
+
+.playlist__detail
+    margin-bottom: 1%
 
 .playlist__display-name
     align-self: center
@@ -24,15 +27,34 @@
     margin-right: 4%
     margin-left: 4%
 
-.playlist__group
+.playlist-container
     display: flex
     flex-direction: column
+    align-content: center
+
+.playlist__group
+    width: 100%
+    margin-right: 5%
+    display: flex
+    flex-direction: column
+    align-self: center
 
 .playlist__songs
+    width: 90%
     display: flex
-    justify-content: space-evenly
+    justify-content: space-between
     font-size: 22px
     margin-top: 1%
+    margin: 0 auto
+
+.playlist__container-song
+    display: flex
+    justify-content: center
+    width: 23%
+    margin: 0 auto
+
+.playlist__text
+    text-align: left
 
 .playlist__title
     margin-left: 14%
@@ -45,3 +67,12 @@
 
 .playlist__time
     margin-left: 4%
+
+.playlist__track-name
+    display: flex
+    flex-direction: column
+
+.playlist__audio
+    display: flex
+    justify-content: center
+    margin-top: 3%

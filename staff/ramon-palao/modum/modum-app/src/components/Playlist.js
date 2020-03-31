@@ -4,32 +4,25 @@ import './Playlist.sass'
 export default ({songsPlaylist, onTrackedSong}) => {
     const { song, name, artists } = songsPlaylist
 
-    return <div>
+    return <section class="playlist__group">
+                <section class="playlist__songs">
+                    <section className='playlist__container-song'>
+                        <i className="fas fa-play-circle" onClick={event => {
+                            event.preventDefault()
+                            onTrackedSong(song.id)
+                        }}></i>
+                    </section>
+                    <section className='playlist__container-song'>
+                        <p className = "playlist__text">{song.name}</p>
+                    </section>
 
-        <section class="playlist__group">
-            <section class="playlist__songs">
-                <section>
-                    <i class="fas fa-play-circle" onClick={event => {
-                        event.preventDefault()
-                        onTrackedSong(song.id)
-                    }}></i>
+                    <section className='playlist__container-song'>
+                        <p>{artists[0].name}</p>
+                    </section>
+                    
+                    <section className='playlist__container-song'>
+                        <p>{name}</p>
+                    </section>
                 </section>
-                <section>
-                    <p>{song.name}</p>
-                </section>
-                <section>
-                    <p>{artists[0].name}</p>
-                </section>
-                <section>
-                    <p>{name}</p>
-                </section>
-                <section>
-                    <p>03:00</p>
-                </section>
-                {/* <section>
-                {<audio src={song.file} controls autoPlay='true'></audio>}
-                </section> */}
-            </section>
         </section>
-    </div>
 }

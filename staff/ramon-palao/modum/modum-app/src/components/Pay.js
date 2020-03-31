@@ -134,10 +134,10 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
             </section>
         </section>
         <form class="card__form" ref={cardForm}>
-            <input type="text" name="cardholder" placeholder="CARDHOLDER NAME" class="card__input" onChange={handleInputChange} />
-            <input type="text" name="number" placeholder="CARD NUMBER" class="card__input" onChange={handleInputChange} />
-            <input type="text" name="date" placeholder="EXPIRED DATE" class="card__input" onChange={handleInputChange} />
-            <input type="password" name="ccv" placeholder="CCV NUMBER" class="card__input" onChange={handleInputChange} />
+            <input type="text" name="cardholder" placeholder="CARDHOLDER NAME" class="card__input" autoComplete='off' onChange={handleInputChange} />
+            <input type="text" name="number" placeholder="CARD NUMBER" class="card__input" autoComplete='off' onChange={handleInputChange} />
+            <input type="text" name="date" placeholder="EXPIRED DATE" class="card__input" autoComplete='off' onChange={handleInputChange} />
+            <input type="password" name="ccv" placeholder="CCV NUMBER" class="card__input" autoComplete='off' onChange={handleInputChange} />
         <div className='dot-container' ref={loading}>
             <span></span>
             <span></span>
@@ -170,11 +170,11 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
                     onShipping(customerName, address, city, country, phoneNumber)
                 }}>
                     <div className='inputs-container'>
-                        <input type="text" name="customerName" placeholder="Enter your full name" />
-                        <input type="text" name="address" placeholder="Enter your street address" />
-                        <input type="text" name="city" placeholder="Enter your city" />
-                        <input type="text" name="country" placeholder="Enter your country" />
-                        <input type="text" name="phoneNumber" placeholder="Enter your phone number" />
+                        <input type="text" name="customerName" placeholder="Enter your full name" autoComplete='off' />
+                        <input type="text" name="address" placeholder="Enter your street address" autoComplete='off' />
+                        <input type="text" name="city" placeholder="Enter your city" autoComplete='off' />
+                        <input type="text" name="country" placeholder="Enter your country" autoComplete='off' />
+                        <input type="text" name="phoneNumber" placeholder="Enter your phone number" autoComplete='off' />
                     </div>
                     <button type='submit' className='btn-submit'>Accept</button>
                     {message && <Feedback message={message} level='info' />}

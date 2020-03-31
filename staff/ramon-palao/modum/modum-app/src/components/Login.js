@@ -28,8 +28,8 @@ export default ({ onLogin, onGoToRegister, error }) => {
                 }}>
                     <h1>Login</h1>
                     <div className='login__form-inputs'>
-                        <input className='login__form-email' type="text" name="email" placeholder="Enter your email" ref={inputText} />
-                        <input className='login__form-password' type="password" name="password" placeholder="Enter your password" />
+                        <input className='login__form-email' type="text" name="email" placeholder="Enter your email" ref={inputText} autoComplete='off' />
+                        <input className='login__form-password' type="password" name="password" placeholder="Enter your password" autoComplete='off' />
                     </div>
                     <div className='login__form-buttons'>
                         <button className='login__form-submit' type="submit">LOGIN</button>

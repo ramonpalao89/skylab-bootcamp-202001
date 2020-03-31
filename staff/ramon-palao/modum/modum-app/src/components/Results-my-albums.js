@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import MyAlbums from './My-albums'
 import { retrievePurchasedAlbums } from '../logic'
 import Feedback from './Feedback'
+import './My-albums.sass'
 
 export default ({ onGoToDetail }) => {
     const [purchasedAlbums, setPurchased] = useState([])
@@ -25,9 +26,11 @@ export default ({ onGoToDetail }) => {
     }, [])
 
     return <div>
-        {error && <Feedback message={error} level='error'/>}
+        {error && <Feedback message={error} level='error' />}
         {purchasedAlbums.forEach(item => item.format === 'digital' ? digitalPurchased.push(item) : '')}
         <h1 class="my-albums-title">My Albums</h1>
-        {digitalPurchased.map((album, index) => <MyAlbums key={index} digitalPurchased={album} onGoToDetail={onGoToDetail} />)}
+        <section className='my-albums__display'>
+            {digitalPurchased.map((album, index) => <MyAlbums key={index} digitalPurchased={album} onGoToDetail={onGoToDetail} />)}
+        </section>
     </div>
 }

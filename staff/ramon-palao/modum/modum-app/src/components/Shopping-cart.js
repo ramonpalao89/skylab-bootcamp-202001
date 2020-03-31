@@ -3,11 +3,10 @@ import './Shopping-cart.sass'
 
 export default ({ cartItems, onToDelete }) => {
     const {format, priceDigital, priceVinyl, portrait, name, year, id} = cartItems
-    debugger
 
     return <div>
         <section class="buy">
-            <section>
+            {/* <section> */}
                 <section class="buy__display">
                     <a href='' onClick={event => {
                         event.preventDefault()
@@ -22,7 +21,7 @@ export default ({ cartItems, onToDelete }) => {
                         <p>Price: {priceDigital ? priceDigital : priceVinyl} €</p>
                     </section>
                 </section><br />
-            </section>
+            {/* </section> */}
         </section>
     </div>
 }

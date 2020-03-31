@@ -29,7 +29,7 @@ export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error })
 
     const { artists, songs, name, genre, year, portrait, id } = album
 
-    return <section>
+    return <section className='play-album__background'>
         <section className="play-album-titles">
             <h2 className="play-album-name">{artists && artists[0].name}</h2><br />
             <h2 className="play-album-artist">{name} ({year})</h2><br />
