@@ -32,7 +32,7 @@ export default ({bestSellings, onAddToCart, error, message}) => {
             </section><br />
         </section>
         <section className="overlay" ref={showAlbum}>
-            <div className="popup">
+            <div className="popup__album">
                 <a href='#' onClick={event => {
                     event.preventDefault()
                     handleCloseModule()

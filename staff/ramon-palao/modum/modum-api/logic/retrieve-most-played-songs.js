@@ -18,18 +18,13 @@ module.exports = id => {
 
             if (mostPlayedSongs.length) {
 
-                mostPlayedSongs.forEach(item => playedSongs.push(item))
-
-                // for (let i = 0; i < 5; i++) playedSongs.push(mostPlayedSongs[i])
+                mostPlayedSongs.forEach(item => playedSongs.length < 5 ? playedSongs.push(item) : '')
 
                 playedSongs.forEach(item => {
                     item.id = item._id.toString()
                     delete item._id
                 })
             }
-
-
-            // if (!playedSongs.length) throw new NotFoundError(`user with id ${id} has not played any song yet`)
 
             return playedSongs
         })

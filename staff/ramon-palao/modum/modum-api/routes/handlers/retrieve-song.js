@@ -10,17 +10,21 @@ module.exports = (req, res) => {
     try {
         retrieveSong(id, idSong)
             .then(file => {
-                res.status(200)
-                res.set('content-type', 'audio/mp3')
-                res.set('accept-ranges', 'bytes')
+                if (file.length) {
+                    res.status(200)
+                    res.set('content-type', 'audio/mp3')
+                    res.set('accept-ranges', 'bytes')
 
-                let readStream = fs.createReadStream(path.join(__dirname, `../../data/songs/${file}`))
+                    let readStream = fs.createReadStream(path.join(__dirname, `../../data/songs/${file}`))
 
-                readStream.on('close', () => {
-                    res.end()
-                })
+                    readStream.on('close', () => {
+                        res.end()
+                    })
 
-                readStream.pipe(res)
+                    readStream.pipe(res)
+                } else {
+                    res.status(401)
+                }
             })
             .catch(error => {
                 let status = 400

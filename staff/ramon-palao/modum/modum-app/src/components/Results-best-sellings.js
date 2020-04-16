@@ -4,7 +4,7 @@ import { retrieveBestSellings } from '../logic'
 import Feedback from './Feedback'
 import './Results-best-sellings.sass'
 
-export default ({ onAddToCart }) => {
+export default ({ onAddToCart, message }) => {
     const [bestSellings, setBestSellings] = useState([])
     const [error, setError] = useState([])
 
@@ -36,7 +36,7 @@ export default ({ onAddToCart }) => {
                 <h2 className='best-sellings__numbers'>#5</h2>
             </section>
             <section className='best-sellings__display'>
-                {bestSellings.map((album, index) => <BestSellings key={index} bestSellings={album} onAddToCart={onAddToCart} />)}
+                {bestSellings.map((album, index) => <BestSellings key={index} bestSellings={album} onAddToCart={onAddToCart} message={message} />)}
             </section>
         </section>
     </section>

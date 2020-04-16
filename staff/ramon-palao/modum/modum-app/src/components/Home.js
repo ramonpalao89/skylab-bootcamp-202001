@@ -1,14 +1,12 @@
-import React, { useEffect, useState, useContext } from 'react'
+import React, { useEffect, useState } from 'react'
 import { isLoggedIn, retrieveGenreHome } from '../logic'
-import { Context } from './ContextProvider'
-import Feedback from './Feedback'
 import Item from './Item'
 import './Results-item.sass'
 
-export default ({onAddToCart}) => {
+export default ({onAddToCart, message}) => {
 
-    const [set, setState] = useContext(Context)
     const [albums, setAlbums] = useState([])
+    const [error, setError] = useState(undefined)
 
     useEffect(() => {
         if (isLoggedIn()) {
@@ -20,7 +18,7 @@ export default ({onAddToCart}) => {
                     setAlbums(albums)
 
                 } catch (error) {
-                    setState({ error: error.message })
+                    setError(error)
 
                 }
             })()
@@ -29,13 +27,9 @@ export default ({onAddToCart}) => {
         }
     }, [])
 
-
-
-    const { error } = set
     return <div className='landing__pop'>
-        {error && <Feedback message={error} level="error" />}
 
-        {albums.map((album, index) => <Item key={index} albums={album} onAddToCart={onAddToCart} />)}
+        {albums.map((album, index) => <Item key={index} albums={album} onAddToCart={onAddToCart} message={message} error={error} />)}
 
     </div>
 }

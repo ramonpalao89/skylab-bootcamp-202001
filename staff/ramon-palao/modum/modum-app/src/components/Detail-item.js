@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
-import { retrieveAlbumDetail, retrieveAllSongs } from '../logic'
+import React, { useState, useEffect } from 'react'
+import { retrieveAlbumDetail, retrieveAllSongs, retrieveUser } from '../logic'
 import './Detail-item.sass'
-import Feedback from './Feedback'
 
-export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error }) => {
+export default ({ idAlbum, onTrackedSong, file, addToPlaylist }) => {
 
     const [album, setAlbum] = useState([])
     const [songsArtist, setSongsArtist] = useState([])
+    const [user, setUser] = useState([])
 
     useEffect(() => {
         (async () => {
@@ -21,6 +21,10 @@ export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error })
 
             setSongsArtist(songsArtist)
 
+            const user = await retrieveUser()
+
+            setUser(user)
+
 
         })()
 
@@ -28,6 +32,7 @@ export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error })
 
 
     const { artists, songs, name, genre, year, portrait, id } = album
+    const { playlist } = user
 
     return <section className='play-album__background'>
         <section className="play-album-titles">
@@ -39,7 +44,7 @@ export default ({ idAlbum, onTrackedSong, file, addToPlaylist, message, error })
                 <img className="play-album__pic" src={portrait} />
             </section>
             <section className="play-album-songs">
-                {songsArtist && songsArtist.map(song => <p><i className={`far fa-star${song.isFav ? ' favourite' : ''} `} title='Add to Playlist' onClickCapture={event => {
+                {songsArtist && playlist && songsArtist.map(song => <p><i className={`far fa-star${playlist.some(item => item.song === song._id) ? ' favourite' : ''} `} title='Add to Playlist' onClickCapture={event => {
                     event.stopPropagation()
                     addToPlaylist(song._id)
                 }}></i> <i className="fas fa-play-circle" onClick={event => {

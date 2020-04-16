@@ -34,7 +34,7 @@ export default (function () {
         })
         .then(albums => {
 
-            albums.forEach((album) => album.portrait = `${API_URL}/portrait/${album._id}`)
+            albums.forEach((album) => album.portrait = `${API_URL}/portrait/${album.id}`)
             return albums
         })
         .then(albums => {

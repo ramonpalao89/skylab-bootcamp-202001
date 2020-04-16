@@ -49,7 +49,7 @@ export default ({ albums, onAddToCart, message, error }) => {
             </section>
         </section>
         <section className="overlay" ref={showAlbum}>
-            <div className="popup">
+            <div className="popup__album">
                 <a href='#' onClick={event => {
                     event.preventDefault()
                     handleCloseModule()
@@ -62,7 +62,6 @@ export default ({ albums, onAddToCart, message, error }) => {
                 <button onClick={event => {
                     event.preventDefault()
                     onAddToCart(id, 'vinyl')
-
                 }}><i className='fas fa-shopping-cart'></i></button>
                 <section className='' ref={digital}>
                     <span>Digital Version: {priceDigital} €</span>

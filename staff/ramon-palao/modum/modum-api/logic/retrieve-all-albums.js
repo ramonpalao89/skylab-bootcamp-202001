@@ -7,12 +7,13 @@ module.exports = () => {
     return Album.find().populate('artists', 'name')
         .lean()
         .then(albums => {
+            debugger
 
-            // albums.artists.forEach(item => {
-            //     item.id = item._id.toString()
+            albums.forEach(item => {
+                item.id = item._id.toString()
 
-            //     delete item._id
-            // })
+                delete item._id
+            })
 
             // albums.id = albums._id.toString()
             // delete albums._id
