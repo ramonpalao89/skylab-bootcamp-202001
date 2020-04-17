@@ -4,8 +4,8 @@ import './Playlist.sass'
 export default ({songsPlaylist, onTrackedSong}) => {
     const { song, name, artists } = songsPlaylist
 
-    return <section class="playlist__group">
-                <section class="playlist__songs">
+    return <section className="playlist__group">
+                <section className="playlist__songs">
                     <section className='playlist__container-song'>
                         <i className="fas fa-play-circle" onClick={event => {
                             event.preventDefault()

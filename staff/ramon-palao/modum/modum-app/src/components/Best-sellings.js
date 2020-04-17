@@ -16,15 +16,15 @@ export default ({bestSellings, onAddToCart, error, message}) => {
 
 
     return <section>
-        <section class="best-selling">
-            <section class="best-selling__display">
-                <img src={portrait} class="best-selling__pic" />
-                <section class="best-selling__info">
-                    <p class="best-selling__artist">{artists[0].name}</p>
-                    <p class="best-selling__album">{name} ({year})</p>
+        <section className="best-selling">
+            <section className="best-selling__display">
+                <img src={portrait} className="best-selling__pic" />
+                <section className="best-selling__info">
+                    <p className="best-selling__artist">{artists[0].name}</p>
+                    <p className="best-selling__album">{name} ({year})</p>
                 </section>
-                <section class="best-selling__buy">
-                    <button class="best-selling__button" onClick={event => {
+                <section className="best-selling__buy">
+                    <button className="best-selling__button" onClick={event => {
                         event.preventDefault()
                         handleOpenModule()
                     }}><i className='fas fa-shopping-cart'></i></button>

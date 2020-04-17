@@ -44,7 +44,7 @@ export default ({ idAlbum, onTrackedSong, file, addToPlaylist }) => {
                 <img className="play-album__pic" src={portrait} />
             </section>
             <section className="play-album-songs">
-                {songsArtist && playlist && songsArtist.map(song => <p><i className={`far fa-star${playlist.some(item => item.song === song._id) ? ' favourite' : ''} `} title='Add to Playlist' onClickCapture={event => {
+                {songsArtist && playlist && songsArtist.map(song => <p><i className={`fas fa-star${playlist.some(item => item.song === song._id) ? ' favourite' : ''} `} title='Add to Playlist' onClickCapture={event => {
                     event.stopPropagation()
                     addToPlaylist(song._id)
                 }}></i> <i className="fas fa-play-circle" onClick={event => {

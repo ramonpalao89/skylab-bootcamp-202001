@@ -66,7 +66,7 @@ export default () => {
             {songsPlaylist.map((song, index) => <Playlist key={index} songsPlaylist={song} onTrackedSong={handleRetrieveSong} />)}
         </section>
         <section className='playlist__audio'>
-            <audio src={file} controls autoPlay='true'></audio>
+            <audio src={file} controls autoPlay={true}></audio>
         </section>
     </div>
 }

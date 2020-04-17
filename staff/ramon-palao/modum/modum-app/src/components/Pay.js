@@ -49,7 +49,6 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
     }, [])
 
     const handleInputChange = (event) => {
-        console.log(event.target.value)
         setData({
             ...data,
             [event.target.name] : event.target.value,
@@ -110,44 +109,44 @@ export default ({ cartItems, totalPay, onShipping, message, onPurchased }) => {
     }
 
     return <div className='card-background'>
-        <h1 class="card__title"><i class="far fa-credit-card"></i> Complete your purchase:</h1>
+        <h1 className="card__title"><i className="far fa-credit-card"></i> Complete your purchase:</h1>
         <h3>TOTAL TO PAY: {totalPay} €</h3>
         <a href='' onClick={event => {
             event.preventDefault()
             handleRetrieveCards()
         }}>Would you like to use any of your credit cards?</a>
         {newMessage && <Feedback message={newMessage} level='error' />}
-        <section class="card__display">
-            <section class="card__border">
-                <section class="card__logo">
-                    <i class="fab fa-cc-visa"></i>
+        <section className="card__display">
+            <section className="card__border">
+                <section className="card__logo">
+                    <i className="fab fa-cc-visa"></i>
                 </section>
-                <section class="card__details">
-                    <section class="card__numbers-display">
-                        <h3 class="card__numbers">{data.number}</h3>
+                <section className="card__details">
+                    <section className="card__numbers-display">
+                        <h3 className="card__numbers">{data.number}</h3>
                     </section>
-                    <section class="card__date-display">
-                        <p class="card__date">{data.date}</p>
+                    <section className="card__date-display">
+                        <p className="card__date">{data.date}</p>
                     </section>
-                    <h3 class="card__name">{data.cardholder}</h3>
+                    <h3 className="card__name">{data.cardholder}</h3>
                 </section>
             </section>
         </section>
-        <form class="card__form" ref={cardForm}>
-            <input type="text" name="cardholder" placeholder="CARDHOLDER NAME" class="card__input" autoComplete='off' onChange={handleInputChange} />
-            <input type="text" name="number" placeholder="CARD NUMBER" class="card__input" autoComplete='off' onChange={handleInputChange} />
-            <input type="text" name="date" placeholder="EXPIRED DATE" class="card__input" autoComplete='off' onChange={handleInputChange} />
-            <input type="password" name="ccv" placeholder="CCV NUMBER" class="card__input" autoComplete='off' onChange={handleInputChange} />
+        <form className="card__form" ref={cardForm}>
+            <input type="text" name="cardholder" placeholder="CARDHOLDER NAME" className="card__input" autoComplete='off' onChange={handleInputChange} />
+            <input type="text" name="number" placeholder="CARD NUMBER" className="card__input" autoComplete='off' onChange={handleInputChange} />
+            <input type="text" name="date" placeholder="EXPIRED DATE" className="card__input" autoComplete='off' onChange={handleInputChange} />
+            <input type="password" name="ccv" placeholder="CCV NUMBER" className="card__input" autoComplete='off' onChange={handleInputChange} />
         <div className='dot-container' ref={loading}>
             <span></span>
             <span></span>
             <span></span>
         </div>
-        <section class="card__button-display">
-            <button type="submit" class="card__button" onClick={event => {
+        <section className="card__button-display">
+            <button type="submit" className="card__button" onClick={event => {
                 event.preventDefault()
                 handleShowLoading()
-            }}><i class="far fa-credit-card"></i> PAY NOW</button>
+            }}><i className="far fa-credit-card"></i> PAY NOW</button>
         </section>
         </form>
         <section className="overlay" ref={postShipping}>

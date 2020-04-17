@@ -114,7 +114,6 @@ export default ({ user, genreButtonClick, yearButtonClick, bestSellingsButtonCli
                 onSearch(query)
             }}>
                 <input className='header-search' ref={search} type='text' name='query' placeholder='  Search by Artist' autoComplete='off' />
-                {/* <i className='fas fa-search'></i> */}
             </form>
         </section>
     </div>

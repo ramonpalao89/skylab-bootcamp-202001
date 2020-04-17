@@ -35,18 +35,18 @@ export default ({ onGoToPay, onToDelete }) => {
     return <section className="buy-background">
         {error && <Feedback message={error} level='error' />}
 
-        <h1 class="buy__title"><i class="fas fa-shopping-cart"></i> My Shopping List:</h1><br />
+        <h1 className="buy__title"><i className="fas fa-shopping-cart"></i> My Shopping List:</h1><br />
         {!cartItems.length && <h2>No products added to your Shopping List</h2>}
 
         {cartItems.map((item, index) => <ShoppingCart key={index} cartItems={item} onToDelete={onToDelete} />)}
 
-        <section class="buy__total">
-            <h3 class="buy__total-price">Total ({cartItems.length} products) : {totalPay} €</h3>
-            <section class="buy__total-card">
-                <button class="buy__total__pay" onClick={event => {
+        <section className="buy__total">
+            <h3 className="buy__total-price">Total ({cartItems.length} products) : {totalPay} €</h3>
+            <section className="buy__total-card">
+                <button className="buy__total__pay" onClick={event => {
                     event.preventDefault()
                     onGoToPay(totalPay, cartItems)
-                }}><i class="far fa-credit-card"></i> PAY NOW</button>
+                }}><i className="far fa-credit-card"></i> PAY NOW</button>
             </section>
         </section>
     </section>
